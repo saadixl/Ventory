@@ -39,12 +39,12 @@ export default function CustomizedTables(props) {
       categoryId,
       subCategoryId,
       location,
-      createdTimestamp,
+      //createdTimestamp,
       lastUsedTimestamp,
-      description,
+      //description,
       price,
       quantity,
-      brandiId,
+      //brandiId,
     } = row;
     return (
       <StyledTableRow key={name}>
