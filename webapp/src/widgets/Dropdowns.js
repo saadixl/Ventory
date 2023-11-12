@@ -32,6 +32,28 @@ const locations = {
   BEDROOMCLOSET: "Bedroom closet",
 };
 
+const brands = {
+  "-": "Select a brand",
+  APPLE: "Apple",
+  SONY: "Sony",
+  OTHERS: "Others",
+};
+
+export function BrandDropdown(props) {
+  const brandOptions = Object.keys(brands).map((brandKey) => {
+    return (
+      <MenuItem key={brandKey} value={brandKey}>
+        {brands[brandKey]}
+      </MenuItem>
+    );
+  });
+  return (
+    <TextField select label="Brand" defaultValue="-">
+      {brandOptions}
+    </TextField>
+  );
+}
+
 export function LocationDropdown(props) {
   const locationOptions = Object.keys(locations).map((locKey) => {
     return (

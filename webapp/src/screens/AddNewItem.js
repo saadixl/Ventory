@@ -7,6 +7,7 @@ import Datepicker from "../widgets/Datepicker";
 import {
   UnifiedCategoryDropdown,
   LocationDropdown,
+  BrandDropdown,
 } from "../widgets/Dropdowns";
 
 function AddNewItem() {
@@ -39,7 +40,7 @@ function AddNewItem() {
             autoComplete="off"
           >
             <TextField id="outlined-basic" label="Name" variant="outlined" />
-            <TextField id="outlined-basic" label="Brand" variant="outlined" />
+            <BrandDropdown />
           </Box>
           <Box
             component="form"
