@@ -3,35 +3,22 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
-
 import Datepicker from "../widgets/Datepicker";
 import {
-  UnifiedCategoryDropdown
-} from "../widgets/Dropdowns"
-
-const currencies = [
-  {
-    value: "USD",
-    label: "$",
-  },
-  {
-    value: "EUR",
-    label: "€",
-  },
-  {
-    value: "BTC",
-    label: "฿",
-  },
-  {
-    value: "JPY",
-    label: "¥",
-  },
-];
+  UnifiedCategoryDropdown,
+  LocationDropdown,
+} from "../widgets/Dropdowns";
 
 function AddNewItem() {
-  const handleUnifiedCategoryChange = (selectedCategory, selectedSubCategory) => {
-    console.log("selectedCategory, selectedSubCategory", selectedCategory, selectedSubCategory);
+  const handleUnifiedCategoryChange = (
+    selectedCategory,
+    selectedSubCategory,
+  ) => {
+    console.log(
+      "selectedCategory, selectedSubCategory",
+      selectedCategory,
+      selectedSubCategory,
+    );
   };
 
   return (
@@ -103,18 +90,7 @@ function AddNewItem() {
             noValidate
             autoComplete="off"
           >
-            <TextField
-              id="outlined-select-currency"
-              select
-              label="Location"
-              defaultValue="EUR"
-            >
-              {currencies.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
+            <LocationDropdown />
             <Box className="ventory-datepicker">
               <Datepicker className="ventory-datepicker" label="Purchased at" />
             </Box>
@@ -130,7 +106,9 @@ function AddNewItem() {
             noValidate
             autoComplete="off"
           >
-            <Button color="success" variant="outlined">Submit</Button>
+            <Button color="success" variant="outlined">
+              Submit
+            </Button>
           </Box>
         </Paper>
       </Grid>
