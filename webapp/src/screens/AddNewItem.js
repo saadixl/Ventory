@@ -5,6 +5,9 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 
 import Datepicker from "../widgets/Datepicker";
+import {
+  UnifiedCategoryDropdown
+} from "../widgets/Dropdowns"
 
 const currencies = [
   {
@@ -26,6 +29,10 @@ const currencies = [
 ];
 
 function AddNewItem() {
+  const handleUnifiedCategoryChange = (selectedCategory, selectedSubCategory) => {
+    console.log("selectedCategory, selectedSubCategory", selectedCategory, selectedSubCategory);
+  };
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={8} lg={9}>
@@ -85,19 +92,8 @@ function AddNewItem() {
             noValidate
             autoComplete="off"
           >
-            <TextField
-              id="outlined-select-currency"
-              select
-              label="Category"
-              defaultValue="EUR"
-            >
-              {currencies.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
+            <UnifiedCategoryDropdown onChange={handleUnifiedCategoryChange} />
+            {/* <TextField
               id="outlined-select-currency"
               select
               label="Subcategory"
@@ -108,7 +104,7 @@ function AddNewItem() {
                   {option.label}
                 </MenuItem>
               ))}
-            </TextField>
+            </TextField> */}
           </Box>
           <Box
             component="form"
