@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
@@ -93,18 +94,6 @@ function AddNewItem() {
             autoComplete="off"
           >
             <UnifiedCategoryDropdown onChange={handleUnifiedCategoryChange} />
-            {/* <TextField
-              id="outlined-select-currency"
-              select
-              label="Subcategory"
-              defaultValue="EUR"
-            >
-              {currencies.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField> */}
           </Box>
           <Box
             component="form"
@@ -132,6 +121,16 @@ function AddNewItem() {
             <Box className="ventory-datepicker">
               <Datepicker label="Last used at" />
             </Box>
+          </Box>
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "30ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <Button color="success" variant="outlined">Submit</Button>
           </Box>
         </Paper>
       </Grid>
