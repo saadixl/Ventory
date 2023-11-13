@@ -21,3 +21,7 @@ code {
 .ventory-datepicker .MuiTextField-root {
   width: 30ch;
 }
+
+.add-item-container form.MuiBox-root {
+  margin-bottom: 20px;
+}

@@ -46,12 +46,14 @@ function AddNewItem() {
   };
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} className="add-item-container">
       <Grid item xs={12} md={8} lg={9}>
         <Paper
           sx={{
             display: "flex",
             flexDirection: "column",
+            background: "transparent",
+            boxShadow: "none",
           }}
         >
           <Box
@@ -67,6 +69,7 @@ function AddNewItem() {
               id="outlined-basic"
               label="Name"
               variant="outlined"
+              size="small"
             />
             <BrandDropdown
               onChange={(value) => handleFieldChange(value, "brandId")}
@@ -86,6 +89,7 @@ function AddNewItem() {
               id="outlined-basic"
               label="Description"
               variant="outlined"
+              size="small"
               onChange={(e) => handleFieldChange(e.target.value, "description")}
             />
           </Box>
@@ -98,6 +102,7 @@ function AddNewItem() {
             autoComplete="off"
           >
             <TextField
+              size="small"
               id="outlined-basic"
               label="Quantity"
               variant="outlined"
@@ -105,6 +110,7 @@ function AddNewItem() {
               onChange={(e) => handleFieldChange(e.target.value, "quantity")}
             />
             <TextField
+              size="small"
               onChange={(e) => handleFieldChange(e.target.value, "price")}
               id="outlined-basic"
               label="Price"

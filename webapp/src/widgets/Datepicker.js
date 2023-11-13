@@ -8,7 +8,11 @@ export default function BasicDatePicker(props) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={["DatePicker"]}>
-        <DatePicker onChange={props.onChange} label={props.label} />
+        <DatePicker
+          slotProps={{ textField: { size: "small" } }}
+          onChange={props.onChange}
+          label={props.label}
+        />
       </DemoContainer>
     </LocalizationProvider>
   );

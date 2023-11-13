@@ -49,6 +49,7 @@ export function BrandDropdown(props) {
   });
   return (
     <TextField
+      size="small"
       onChange={(e) => {
         props.onChange(e.target.value);
       }}
@@ -71,6 +72,7 @@ export function LocationDropdown(props) {
   });
   return (
     <TextField
+      size="small"
       onChange={(e) => {
         props.onChange(e.target.value);
       }}
@@ -95,6 +97,7 @@ function CategoryDropdown(props) {
   });
   return (
     <TextField
+      size="small"
       select
       label="Category"
       defaultValue="-"
@@ -119,6 +122,7 @@ function SubCategoryDropdown(props) {
   });
   return (
     <TextField
+      size="small"
       select
       label="Sub-category"
       defaultValue="-"

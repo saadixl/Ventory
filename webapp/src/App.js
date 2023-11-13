@@ -14,7 +14,7 @@ import Dashboard from "./screens/Dashboard";
 import AddNewItem from "./screens/AddNewItem";
 import InventorySettings from "./screens/InventorySettings";
 import AccountSettings from "./screens/AccountSettings";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const defaultTheme = createTheme({
