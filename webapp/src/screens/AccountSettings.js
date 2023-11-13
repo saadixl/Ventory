@@ -7,10 +7,15 @@ function AccountSettings() {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={8} lg={9}>
-        <Button startIcon={<GoogleIcon />} size="large">
+        <Button startIcon={<GoogleIcon />} size="large" variant="contained">
           Login with Google
         </Button>
-        <Button startIcon={<LogoutIcon />} size="large">
+        <Button
+          startIcon={<LogoutIcon />}
+          size="large"
+          variant="contained"
+          color="error"
+        >
           Logout
         </Button>
       </Grid>

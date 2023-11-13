@@ -168,7 +168,7 @@ function AddNewItem() {
             <Button
               onClick={handleSubmitClick}
               color="success"
-              variant="outlined"
+              variant="contained"
             >
               Submit
             </Button>
