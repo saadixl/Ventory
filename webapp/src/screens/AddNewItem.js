@@ -10,6 +10,7 @@ import {
   LocationDropdown,
   BrandDropdown,
 } from "../widgets/Dropdowns";
+import { addInventoryItem } from "../data/hooks";
 
 function AddNewItem() {
   const [formData, setFormData] = useState({});
@@ -41,6 +42,7 @@ function AddNewItem() {
 
   const handleSubmitClick = () => {
     console.log("formData", formData);
+    addInventoryItem(formData);
   };
 
   return (
