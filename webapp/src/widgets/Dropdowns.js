@@ -48,7 +48,14 @@ export function BrandDropdown(props) {
     );
   });
   return (
-    <TextField select label="Brand" defaultValue="-">
+    <TextField
+      onChange={(e) => {
+        props.onChange(e.target.value);
+      }}
+      select
+      label="Brand"
+      defaultValue="-"
+    >
       {brandOptions}
     </TextField>
   );
@@ -63,7 +70,14 @@ export function LocationDropdown(props) {
     );
   });
   return (
-    <TextField select label="Location" defaultValue="-">
+    <TextField
+      onChange={(e) => {
+        props.onChange(e.target.value);
+      }}
+      select
+      label="Location"
+      defaultValue="-"
+    >
       {locationOptions}
     </TextField>
   );

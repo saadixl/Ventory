@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
@@ -11,15 +12,35 @@ import {
 } from "../widgets/Dropdowns";
 
 function AddNewItem() {
+  const [formData, setFormData] = useState({});
   const handleUnifiedCategoryChange = (
     selectedCategory,
     selectedSubCategory,
   ) => {
-    console.log(
-      "selectedCategory, selectedSubCategory",
-      selectedCategory,
-      selectedSubCategory,
-    );
+    setFormData({
+      ...formData,
+      categoryId: selectedCategory,
+      subCategoryId: selectedSubCategory,
+    });
+  };
+
+  const handleFieldChange = (value, key) => {
+    setFormData({
+      ...formData,
+      [key]: value,
+    });
+  };
+
+  const handleDatePickerChange = (e, key) => {
+    const timestamp = Date.now(e.$d);
+    setFormData({
+      ...formData,
+      [key]: timestamp,
+    });
+  };
+
+  const handleSubmitClick = () => {
+    console.log("formData", formData);
   };
 
   return (
@@ -39,8 +60,15 @@ function AddNewItem() {
             noValidate
             autoComplete="off"
           >
-            <TextField id="outlined-basic" label="Name" variant="outlined" />
-            <BrandDropdown />
+            <TextField
+              onChange={(e) => handleFieldChange(e.target.value, "name")}
+              id="outlined-basic"
+              label="Name"
+              variant="outlined"
+            />
+            <BrandDropdown
+              onChange={(value) => handleFieldChange(value, "brandId")}
+            />
           </Box>
           <Box
             component="form"
@@ -56,6 +84,7 @@ function AddNewItem() {
               id="outlined-basic"
               label="Description"
               variant="outlined"
+              onChange={(e) => handleFieldChange(e.target.value, "description")}
             />
           </Box>
           <Box
@@ -70,8 +99,16 @@ function AddNewItem() {
               id="outlined-basic"
               label="Quantity"
               variant="outlined"
+              type="number"
+              onChange={(e) => handleFieldChange(e.target.value, "quantity")}
             />
-            <TextField id="outlined-basic" label="Price" variant="outlined" />
+            <TextField
+              onChange={(e) => handleFieldChange(e.target.value, "price")}
+              id="outlined-basic"
+              label="Price"
+              variant="outlined"
+              type="number"
+            />
           </Box>
           <Box
             component="form"
@@ -91,12 +128,25 @@ function AddNewItem() {
             noValidate
             autoComplete="off"
           >
-            <LocationDropdown />
+            <LocationDropdown
+              onChange={(value) => handleFieldChange(value, "locationId")}
+            />
             <Box className="ventory-datepicker">
-              <Datepicker className="ventory-datepicker" label="Purchased at" />
+              <Datepicker
+                onChange={(e) => {
+                  handleDatePickerChange(e, "createdTimestamp");
+                }}
+                className="ventory-datepicker"
+                label="Created at"
+              />
             </Box>
             <Box className="ventory-datepicker">
-              <Datepicker label="Last used at" />
+              <Datepicker
+                onChange={(e) => {
+                  handleDatePickerChange(e, "lastUsedTimestamp");
+                }}
+                label="Last used at"
+              />
             </Box>
           </Box>
           <Box
@@ -107,7 +157,11 @@ function AddNewItem() {
             noValidate
             autoComplete="off"
           >
-            <Button color="success" variant="outlined">
+            <Button
+              onClick={handleSubmitClick}
+              color="success"
+              variant="outlined"
+            >
               Submit
             </Button>
           </Box>

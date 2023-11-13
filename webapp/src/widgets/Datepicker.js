@@ -8,7 +8,7 @@ export default function BasicDatePicker(props) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={["DatePicker"]}>
-        <DatePicker label={props.label} />
+        <DatePicker onChange={props.onChange} label={props.label} />
       </DemoContainer>
     </LocalizationProvider>
   );
