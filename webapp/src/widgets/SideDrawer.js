@@ -43,33 +43,30 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const NavItems = (props) => {
-  const setActiveScreen = (key) => {
-    props.setActiveScreen(key);
-  };
   return (
     <React.Fragment>
-      <ListItemButton onClick={() => setActiveScreen("dashboard")}>
+      <ListItemButton to="/">
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
       </ListItemButton>
 
-      <ListItemButton onClick={() => setActiveScreen("addnewitem")}>
+      <ListItemButton to="/add-new-item">
         <ListItemIcon>
           <AddBoxIcon />
         </ListItemIcon>
         <ListItemText primary="Add new item" />
       </ListItemButton>
 
-      <ListItemButton onClick={() => setActiveScreen("inventorysettings")}>
+      <ListItemButton to="/inventory-settings">
         <ListItemIcon>
           <TuneIcon />
         </ListItemIcon>
         <ListItemText primary="Inventory settings" />
       </ListItemButton>
 
-      <ListItemButton onClick={() => setActiveScreen("accountsettings")}>
+      <ListItemButton to="/account-settings">
         <ListItemIcon>
           <ManageAccountsIcon />
         </ListItemIcon>

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
@@ -9,13 +10,13 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
+import "react-toastify/dist/ReactToastify.css";
 import SideDrawer from "./widgets/SideDrawer";
 import Dashboard from "./screens/Dashboard";
 import AddNewItem from "./screens/AddNewItem";
 import InventorySettings from "./screens/InventorySettings";
 import AccountSettings from "./screens/AccountSettings";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { getPageName } from "./utils";
 
 const defaultTheme = createTheme({
@@ -51,16 +52,24 @@ function App() {
     setOpen(!open);
   };
 
-  let activeScreenRender;
-  if (activeScreen === "dashboard") {
-    activeScreenRender = <Dashboard />;
-  } else if (activeScreen === "addnewitem") {
-    activeScreenRender = <AddNewItem />;
-  } else if (activeScreen === "inventorysettings") {
-    activeScreenRender = <InventorySettings />;
-  } else if (activeScreen === "accountsettings") {
-    activeScreenRender = <AccountSettings />;
-  }
+  const routes = [
+    {
+      path: "/",
+      component: Dashboard,
+    },
+    {
+      path: "/add-new-item",
+      component: AddNewItem,
+    },
+    {
+      path: "/inventory-settings",
+      component: InventorySettings,
+    },
+    {
+      path: "/account-settings",
+      component: AccountSettings,
+    },
+  ];
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -114,7 +123,17 @@ function App() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            {activeScreenRender}
+            <Router>
+              <Routes>
+                {routes.map((route) => (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={<route.component />}
+                  />
+                ))}
+              </Routes>
+            </Router>
           </Container>
         </Box>
         <ToastContainer />
