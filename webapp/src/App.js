@@ -16,6 +16,7 @@ import InventorySettings from "./screens/InventorySettings";
 import AccountSettings from "./screens/AccountSettings";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getPageName } from "./utils";
 
 const defaultTheme = createTheme({
   palette: {
@@ -90,7 +91,7 @@ function App() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Add a new item
+              {getPageName(activeScreen)}
             </Typography>
           </Toolbar>
         </AppBar>

@@ -18,3 +18,23 @@ export function showAlert(message, type) {
     theme: "dark",
   });
 }
+
+export function getPageName(key) {
+  let name = "Dashboard";
+  switch (key) {
+    case "dashboard":
+      break;
+    case "addnewitem":
+      name = "Add new item";
+      break;
+    case "inventorysettings":
+      name = "Inventory settings";
+      break;
+    case "accountsettings":
+      name = "Account settings";
+      break;
+    default:
+      break;
+  }
+  return name;
+}
