@@ -11,7 +11,7 @@ import {
   BrandDropdown,
 } from "../widgets/Dropdowns";
 import { addInventoryItem } from "../services/api";
-import BasicLayout from "../layouts/BasicLayout";
+import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
 
 function AddNewItem() {
   const [formData, setFormData] = useState({});
@@ -47,7 +47,7 @@ function AddNewItem() {
   };
 
   return (
-    <BasicLayout screenName="Add new item" activeScreen="addnewitem">
+    <AuthenticatedLayout screenName="Add new item" activeScreen="addnewitem">
       <Grid container spacing={3} className="add-item-container">
         <Grid item xs={12} md={8} lg={9}>
           <Paper
@@ -176,7 +176,7 @@ function AddNewItem() {
           </Paper>
         </Grid>
       </Grid>
-    </BasicLayout>
+    </AuthenticatedLayout>
   );
 }
 

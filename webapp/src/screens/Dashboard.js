@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Table from "../widgets/Table";
 import RanoutCard from "../widgets/RanoutCard";
 import { getInventoryItems } from "../services/api";
-import BasicLayout from "../layouts/BasicLayout";
+import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
 
 function Dashboard() {
   const [inventoryItems, setInventoryItems] = useState([]);
@@ -29,7 +29,7 @@ function Dashboard() {
   );
 
   return (
-    <BasicLayout screenName="Dashboard" activeScreen="dashboard">
+    <AuthenticatedLayout screenName="Dashboard" activeScreen="dashboard">
       <Grid container spacing={3}>
         <Grid item xs={12} md={8} lg={9}>
           <Paper
@@ -53,7 +53,7 @@ function Dashboard() {
           </Paper>
         </Grid>
       </Grid>
-    </BasicLayout>
+    </AuthenticatedLayout>
   );
 }
 

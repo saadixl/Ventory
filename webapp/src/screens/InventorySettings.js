@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import CreatableSelect from "react-select/creatable";
-import BasicLayout from "../layouts/BasicLayout";
+import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
 
 const colourOptions = [
   { value: "ocean", label: "Ocean", color: "#00B8D9", isFixed: true },
@@ -18,7 +18,7 @@ const colourOptions = [
 
 function InventorySettings() {
   return (
-    <BasicLayout
+    <AuthenticatedLayout
       screenName="Inventory settings"
       activeScreen="inventorysettings"
     >
@@ -45,7 +45,7 @@ function InventorySettings() {
           </Paper>
         </Grid>
       </Grid>
-    </BasicLayout>
+    </AuthenticatedLayout>
   );
 }
 
