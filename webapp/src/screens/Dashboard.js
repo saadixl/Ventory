@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Table from "../widgets/Table";
 import RanoutCard from "../widgets/RanoutCard";
 import { getInventoryItems } from "../data/hooks";
+import BasicLayout from "../layouts/BasicLayout";
 
 function Dashboard() {
   const [inventoryItems, setInventoryItems] = useState([]);
@@ -27,29 +28,31 @@ function Dashboard() {
   );
 
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={12} md={8} lg={9}>
-        <Paper
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          {tableComp}
-        </Paper>
+    <BasicLayout screenName="Dashboard" activeScreen="dashboard">
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={8} lg={9}>
+          <Paper
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {tableComp}
+          </Paper>
+        </Grid>
+        {/* Recent Deposits */}
+        <Grid item xs={12} md={4} lg={3}>
+          <Paper
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <RanoutCard />
+          </Paper>
+        </Grid>
       </Grid>
-      {/* Recent Deposits */}
-      <Grid item xs={12} md={4} lg={3}>
-        <Paper
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <RanoutCard />
-        </Paper>
-      </Grid>
-    </Grid>
+    </BasicLayout>
   );
 }
 

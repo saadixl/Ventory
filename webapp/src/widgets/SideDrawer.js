@@ -43,9 +43,13 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const NavItems = (props) => {
+  const { activeScreen } = props;
   return (
     <React.Fragment>
-      <ListItemButton to="/">
+      <ListItemButton
+        className={activeScreen === "dashboard" ? "active-nav" : ""}
+        to="/"
+      >
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
@@ -77,7 +81,7 @@ const NavItems = (props) => {
 };
 
 export default function SideDrawer(props) {
-  const { open, setActiveScreen, toggleDrawer } = props;
+  const { open, activeScreen, toggleDrawer } = props;
   return (
     <Drawer variant="permanent" open={open}>
       <Toolbar
@@ -94,7 +98,7 @@ export default function SideDrawer(props) {
       </Toolbar>
       <Divider />
       <List component="nav">
-        <NavItems setActiveScreen={setActiveScreen} />
+        <NavItems activeScreen={activeScreen} />
       </List>
     </Drawer>
   );

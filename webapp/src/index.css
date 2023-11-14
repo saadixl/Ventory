@@ -25,3 +25,7 @@ code {
 .add-item-container form.MuiBox-root {
   margin-bottom: 20px;
 }
+
+.active-nav {
+  background: #0275d8 !important;
+}
