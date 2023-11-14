@@ -8,7 +8,7 @@ import {
   checkInItem,
   restockItem,
   unstockItem,
-} from "../data/hooks";
+} from "../services/api";
 
 const options = ["Edit", "Check-in", "Restock", "Out of stock", "Delete"];
 const ITEM_HEIGHT = 48;

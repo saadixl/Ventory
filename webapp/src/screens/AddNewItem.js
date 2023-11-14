@@ -10,7 +10,7 @@ import {
   LocationDropdown,
   BrandDropdown,
 } from "../widgets/Dropdowns";
-import { addInventoryItem } from "../data/hooks";
+import { addInventoryItem } from "../services/api";
 import BasicLayout from "../layouts/BasicLayout";
 
 function AddNewItem() {

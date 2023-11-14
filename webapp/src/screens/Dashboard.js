@@ -5,7 +5,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import Table from "../widgets/Table";
 import RanoutCard from "../widgets/RanoutCard";
-import { getInventoryItems } from "../data/hooks";
+import { getInventoryItems } from "../services/api";
 import BasicLayout from "../layouts/BasicLayout";
 
 function Dashboard() {
