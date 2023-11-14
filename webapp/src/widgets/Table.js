@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import moment from "moment";
+import ItemMenu from "../widgets/ItemMenu";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -15,7 +16,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
+    fontSize: 12,
   },
 }));
 
@@ -31,7 +32,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function CustomizedTables(props) {
   const { data } = props;
-  console.log("data", data);
 
   const renderTableRows = data.map((row) => {
     const {
@@ -60,6 +60,9 @@ export default function CustomizedTables(props) {
         <StyledTableCell align="right">
           {moment(lastUsedTimestamp).fromNow()}
         </StyledTableCell>
+        <StyledTableCell align="right">
+          <ItemMenu />
+        </StyledTableCell>
       </StyledTableRow>
     );
   });
@@ -77,6 +80,7 @@ export default function CustomizedTables(props) {
             <StyledTableCell align="right">Quantity</StyledTableCell>
             <StyledTableCell align="right">Location</StyledTableCell>
             <StyledTableCell align="right">Last used</StyledTableCell>
+            <StyledTableCell></StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>{renderTableRows}</TableBody>
