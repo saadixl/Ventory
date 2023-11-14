@@ -83,7 +83,7 @@ const NavItems = (props) => {
 export default function SideDrawer(props) {
   const { open, activeScreen, toggleDrawer } = props;
   return (
-    <Drawer variant="permanent" open={open}>
+    <Drawer className="ventory-drawer" variant="permanent" open={open}>
       <Toolbar
         sx={{
           display: "flex",

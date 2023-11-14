@@ -38,3 +38,9 @@ code {
 .out-of-stock td {
   color: #222 !important;
 }
+
+.ventory-table-head th,
+.ventory-drawer > div,
+.ventory-app-bar > div {
+  background-color: #0e1117 !important;
+}

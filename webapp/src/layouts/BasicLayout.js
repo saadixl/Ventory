@@ -47,7 +47,7 @@ export default function BasicLayout(props) {
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
+        <AppBar className="ventory-app-bar" position="absolute" open={open}>
           <Toolbar
             sx={{
               pr: "24px", // keep right padding when drawer closed
@@ -85,9 +85,7 @@ export default function BasicLayout(props) {
           component="main"
           sx={{
             backgroundColor: (theme) =>
-              theme.palette.mode === "light"
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
+              theme.palette.mode === "light" ? theme.palette.grey[100] : "#000",
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",
