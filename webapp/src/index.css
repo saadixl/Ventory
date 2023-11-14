@@ -29,3 +29,12 @@ code {
 .active-nav {
   background: #0275d8 !important;
 }
+
+.out-of-stock {
+  background-color: #6c757d !important;
+}
+
+.out-of-stock th,
+.out-of-stock td {
+  color: #222 !important;
+}

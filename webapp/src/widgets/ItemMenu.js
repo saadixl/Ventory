@@ -3,13 +3,18 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { deleteInventoryItem } from "../data/hooks";
+import {
+  deleteInventoryItem,
+  checkInItem,
+  restockItem,
+  unstockItem,
+} from "../data/hooks";
 
-const options = ["Check-in", "Restock", "Delete"];
+const options = ["Edit", "Check-in", "Restock", "Out of stock", "Delete"];
 const ITEM_HEIGHT = 48;
 
 export default function ItemMenu(props) {
-  const { id, setDirtyUpdate } = props;
+  const { id, setDirtyUpdate, quantity } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -17,13 +22,19 @@ export default function ItemMenu(props) {
   };
   const handleClose = async (i) => {
     console.log(id, "item number: ", i, options[i]);
-    if (i === 2) {
+    if (i === 1) {
+      await checkInItem(id);
+    } else if (i === 2) {
+      await restockItem(id, quantity);
+    } else if (i === 3) {
+      await unstockItem(id);
+    } else if (i === 4) {
       const confirm = window.confirm("Do you want to delete this item?");
       if (confirm) {
         await deleteInventoryItem(id);
-        setDirtyUpdate(Date.now());
       }
     }
+    setDirtyUpdate(Date.now());
     setAnchorEl(null);
   };
 

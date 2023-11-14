@@ -3,6 +3,7 @@ import {
   getDocs,
   addDoc,
   deleteDoc,
+  updateDoc,
   doc,
 } from "firebase/firestore";
 import { db } from "./firebase";
@@ -39,5 +40,47 @@ export async function deleteInventoryItem(id) {
   } catch (error) {
     console.error("Something went wrong while deleting item: ", error);
     showAlert("Something went wrong while deleting item.", "error");
+  }
+}
+
+export async function checkInItem(id, skip) {
+  try {
+    const itemRef = doc(db, "InventoryItems", id);
+    await updateDoc(itemRef, {
+      lastUsedTimestamp: Date.now(),
+    });
+    if (!skip) {
+      showAlert("Item checked-in successfully.");
+    }
+  } catch (error) {
+    console.error("Something went wrong while checking-in item: ", error);
+    showAlert("Something went wrong while checking-in item.", "error");
+  }
+}
+
+export async function restockItem(id, quantity) {
+  try {
+    const itemRef = doc(db, "InventoryItems", id);
+    updateDoc(itemRef, {
+      quantity: quantity + 1,
+    });
+    await checkInItem(id, true);
+    showAlert("Item restocked successfully.");
+  } catch (error) {
+    console.error("Something went wrong while restocking item: ", error);
+    showAlert("Something went wrong while restocking item.", "error");
+  }
+}
+
+export async function unstockItem(id) {
+  try {
+    const itemRef = doc(db, "InventoryItems", id);
+    await updateDoc(itemRef, {
+      quantity: 0,
+    });
+    showAlert("Item marked as out of stock.");
+  } catch (error) {
+    console.error("Something went wrong while unstocking item: ", error);
+    showAlert("Something went wrong while unstocking item.", "error");
   }
 }

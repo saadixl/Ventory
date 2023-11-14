@@ -21,9 +21,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
+  "&:nth-of-type(odd)": {},
   // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
@@ -42,12 +40,12 @@ export default function CustomizedTables(props) {
       lastUsedTimestamp,
       //description,
       price,
-      quantity,
+      quantity = 0,
       //brandiId,
       id,
     } = row;
     return (
-      <StyledTableRow key={name}>
+      <StyledTableRow className={quantity < 1 ? "out-of-stock" : ""} key={name}>
         <StyledTableCell component="th" scope="row">
           {name}
         </StyledTableCell>
@@ -61,7 +59,11 @@ export default function CustomizedTables(props) {
           {moment(lastUsedTimestamp).fromNow()}
         </StyledTableCell>
         <StyledTableCell align="right">
-          <ItemMenu setDirtyUpdate={setDirtyUpdate} id={id} />
+          <ItemMenu
+            quantity={quantity}
+            setDirtyUpdate={setDirtyUpdate}
+            id={id}
+          />
         </StyledTableCell>
       </StyledTableRow>
     );
