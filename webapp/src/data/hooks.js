@@ -1,4 +1,10 @@
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "./firebase";
 import { showAlert } from "../utils";
 
@@ -23,5 +29,15 @@ export async function addInventoryItem(newItem) {
   } catch (error) {
     console.error("Something went wrong while adding a new item: ", error);
     showAlert("Something went wrong while adding new item.", "error");
+  }
+}
+
+export async function deleteInventoryItem(id) {
+  try {
+    await deleteDoc(doc(db, "InventoryItems", id));
+    showAlert("Item deletion successful.");
+  } catch (error) {
+    console.error("Something went wrong while deleting item: ", error);
+    showAlert("Something went wrong while deleting item.", "error");
   }
 }

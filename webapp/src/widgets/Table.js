@@ -31,20 +31,20 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function CustomizedTables(props) {
-  const { data } = props;
-
+  const { data, setDirtyUpdate } = props;
   const renderTableRows = data.map((row) => {
     const {
       name,
       categoryId,
       subCategoryId,
-      location,
+      locationId,
       //createdTimestamp,
       lastUsedTimestamp,
       //description,
       price,
       quantity,
       //brandiId,
+      id,
     } = row;
     return (
       <StyledTableRow key={name}>
@@ -56,12 +56,12 @@ export default function CustomizedTables(props) {
         </StyledTableCell>
         <StyledTableCell align="right">{price}</StyledTableCell>
         <StyledTableCell align="right">{quantity}</StyledTableCell>
-        <StyledTableCell align="right">{location}</StyledTableCell>
+        <StyledTableCell align="right">{locationId}</StyledTableCell>
         <StyledTableCell align="right">
           {moment(lastUsedTimestamp).fromNow()}
         </StyledTableCell>
         <StyledTableCell align="right">
-          <ItemMenu />
+          <ItemMenu setDirtyUpdate={setDirtyUpdate} id={id} />
         </StyledTableCell>
       </StyledTableRow>
     );

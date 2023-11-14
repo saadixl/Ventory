@@ -10,6 +10,7 @@ import BasicLayout from "../layouts/BasicLayout";
 
 function Dashboard() {
   const [inventoryItems, setInventoryItems] = useState([]);
+  const [dirtyUpdate, setDirtyUpdate] = useState(Date.now());
 
   async function fetchInventoryItems() {
     setInventoryItems(await getInventoryItems());
@@ -17,14 +18,14 @@ function Dashboard() {
 
   useEffect(() => {
     fetchInventoryItems();
-  }, []);
+  }, [dirtyUpdate]);
 
   const tableComp = !inventoryItems.length ? (
     <Box sx={{ width: "100%", p: 1, paddingBottom: 3 }}>
       <p sx={{ p: 1 }}>Trying to load data</p> <LinearProgress />
     </Box>
   ) : (
-    <Table data={inventoryItems} />
+    <Table data={inventoryItems} setDirtyUpdate={setDirtyUpdate} />
   );
 
   return (

@@ -3,18 +3,27 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { deleteInventoryItem } from "../data/hooks";
 
 const options = ["Check-in", "Restock", "Delete"];
-
 const ITEM_HEIGHT = 48;
 
-export default function LongMenu() {
+export default function ItemMenu(props) {
+  const { id, setDirtyUpdate } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleClose = async (i) => {
+    console.log(id, "item number: ", i, options[i]);
+    if (i === 2) {
+      const confirm = window.confirm("Do you want to delete this item?");
+      if (confirm) {
+        await deleteInventoryItem(id);
+        setDirtyUpdate(Date.now());
+      }
+    }
     setAnchorEl(null);
   };
 
@@ -45,11 +54,11 @@ export default function LongMenu() {
           },
         }}
       >
-        {options.map((option) => (
+        {options.map((option, i) => (
           <MenuItem
             key={option}
             selected={option === "Pyxis"}
-            onClick={handleClose}
+            onClick={() => handleClose(i)}
             sx={{
               fontSize: 12,
             }}
