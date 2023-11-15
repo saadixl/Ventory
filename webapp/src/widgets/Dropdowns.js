@@ -11,6 +11,31 @@ const inventoryOptions = {
   LOCATIONS: "Locations",
 };
 
+function DropdownCore(props) {
+  const { list, label, onChange } = props;
+  const options = list.map((item) => {
+    const { label, value } = item;
+    return (
+      <MenuItem key={value} value={value}>
+        {label}
+      </MenuItem>
+    );
+  });
+  return (
+    <TextField
+      size="small"
+      onChange={(e) => {
+        onChange(e.target.value);
+      }}
+      select
+      label={label}
+      defaultValue="-"
+    >
+      {options}
+    </TextField>
+  );
+}
+
 export function BrandDropdown(props) {
   const [brandList, setBrandList] = useState([]);
 
@@ -25,26 +50,8 @@ export function BrandDropdown(props) {
     fetchBrands();
   }, []);
 
-  const brandOptions = brandList.map((brand) => {
-    const { label, value } = brand;
-    return (
-      <MenuItem key={value} value={value}>
-        {label}
-      </MenuItem>
-    );
-  });
   return (
-    <TextField
-      size="small"
-      onChange={(e) => {
-        props.onChange(e.target.value);
-      }}
-      select
-      label="Brand"
-      defaultValue="-"
-    >
-      {brandOptions}
-    </TextField>
+    <DropdownCore onChange={props.onChange} label="Brand" list={brandList} />
   );
 }
 
@@ -62,26 +69,12 @@ export function LocationDropdown(props) {
     fetchLocations();
   }, []);
 
-  const locationOptions = locationList.map((location) => {
-    const { label, value } = location;
-    return (
-      <MenuItem key={value} value={value}>
-        {label}
-      </MenuItem>
-    );
-  });
   return (
-    <TextField
-      size="small"
-      onChange={(e) => {
-        props.onChange(e.target.value);
-      }}
-      select
+    <DropdownCore
+      onChange={props.onChange}
       label="Location"
-      defaultValue="-"
-    >
-      {locationOptions}
-    </TextField>
+      list={locationList}
+    />
   );
 }
 
@@ -99,26 +92,12 @@ export function CategoryDropdown(props) {
     fetchCategories();
   }, []);
 
-  const categoryOptions = categoryList.map((category) => {
-    const { label, value } = category;
-    return (
-      <MenuItem key={value} value={value}>
-        {label}
-      </MenuItem>
-    );
-  });
   return (
-    <TextField
-      size="small"
-      onChange={(e) => {
-        props.onChange(e.target.value);
-      }}
-      select
-      label="Categories"
-      defaultValue="-"
-    >
-      {categoryOptions}
-    </TextField>
+    <DropdownCore
+      onChange={props.onChange}
+      label="Category"
+      list={categoryList}
+    />
   );
 }
 
@@ -136,25 +115,11 @@ export function SubCategoryDropdown(props) {
     fetchSubCategories();
   }, []);
 
-  const subCategoryOptions = subCategoryList.map((category) => {
-    const { label, value } = category;
-    return (
-      <MenuItem key={value} value={value}>
-        {label}
-      </MenuItem>
-    );
-  });
   return (
-    <TextField
-      size="small"
-      onChange={(e) => {
-        props.onChange(e.target.value);
-      }}
-      select
+    <DropdownCore
+      onChange={props.onChange}
       label="Sub-categories"
-      defaultValue="-"
-    >
-      {subCategoryOptions}
-    </TextField>
+      list={subCategoryList}
+    />
   );
 }
