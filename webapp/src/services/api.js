@@ -86,36 +86,48 @@ export async function unstockItem(id) {
   }
 }
 
-export async function getBrands() {
+export async function getInventoryOptions({ collectionName }) {
   try {
-    const querySnapshot = await getDocs(collection(db, "Brands"));
+    const querySnapshot = await getDocs(collection(db, collectionName));
     return querySnapshot.docs.map((doc) => ({ ...doc.data(), value: doc.id }));
   } catch (error) {
     return [];
   }
 }
 
-export async function addBrand(label) {
+export async function addInventoryOptions({ collectionName, label }) {
   try {
     const itemRef = doc(
       db,
-      "Brands",
+      collectionName,
       label.toUpperCase().trim().split(" ").join(""),
     );
     await setDoc(itemRef, { label });
-    showAlert(`Successfully added ${label} as brand.`);
+    showAlert(`Successfully added ${label} in ${collectionName}.`);
   } catch (error) {
-    console.error("Something went wrong while adding a new brand: ", error);
-    showAlert("Something went wrong while adding new brand.", "error");
+    console.error(
+      `Something went wrong while adding in ${collectionName}: `,
+      error,
+    );
+    showAlert(
+      `Something went wrong while adding in ${collectionName}.`,
+      "error",
+    );
   }
 }
 
-export async function removeBrand(id) {
+export async function deleteInventoryOptions({ collectionName, id }) {
   try {
-    await deleteDoc(doc(db, "Brands", id));
+    await deleteDoc(doc(db, collectionName, id));
     showAlert("Brand deletion successful.");
   } catch (error) {
-    console.error("Something went wrong while deleting brand: ", error);
-    showAlert("Something went wrong while deleting brand.", "error");
+    console.error(
+      `Something went wrong while deleting from ${collectionName}: `,
+      error,
+    );
+    showAlert(
+      `Something went wrong while deleting from ${collectionName}`,
+      "error",
+    );
   }
 }

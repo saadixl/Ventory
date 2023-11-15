@@ -3,7 +3,15 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import CreatableSelect from "react-select/creatable";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
-import { getBrands, addBrand, removeBrand } from "../services/api";
+import {
+  getInventoryOptions,
+  addInventoryOptions,
+  deleteInventoryOptions,
+} from "../services/api";
+
+const inventoryOptions = {
+  BRANDS: "Brands",
+};
 
 const colourOptions = [
   { value: "ocean", label: "Ocean" },
@@ -28,7 +36,9 @@ function InventorySettings() {
   const [brandOptions, setBrandOptions] = useState([]);
   const [dirtyBrandUpdate, setDirtyBrandUpdate] = useState(Date.now());
   async function fetchBrands() {
-    const brands = await getBrands();
+    const brands = await getInventoryOptions({
+      collectionName: inventoryOptions.BRANDS,
+    });
     setBrandOptions(brands);
   }
   useEffect(() => {
@@ -36,14 +46,20 @@ function InventorySettings() {
   }, [dirtyBrandUpdate]);
 
   const handleCreateBrand = async (newValue) => {
-    await addBrand(newValue);
+    await addInventoryOptions({
+      collectionName: inventoryOptions.BRANDS,
+      label: newValue,
+    });
     setDirtyBrandUpdate(Date.now());
   };
 
   const handleChangeBrand = async (newValue, actionMeta) => {
     if (actionMeta.action === "remove-value" && actionMeta.removedValue) {
       const id = actionMeta.removedValue.value;
-      await removeBrand(id);
+      await deleteInventoryOptions({
+        collectionName: inventoryOptions.BRANDS,
+        id,
+      });
       setDirtyBrandUpdate(Date.now());
     }
   };
