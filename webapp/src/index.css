@@ -48,3 +48,7 @@ code {
 .react-select__menu-list {
   background-color: #1e1e1e;
 }
+
+.react-select__input {
+  color: #fff !important;
+}

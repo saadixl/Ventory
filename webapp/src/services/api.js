@@ -1,6 +1,7 @@
 import {
   collection,
   getDocs,
+  setDoc,
   addDoc,
   deleteDoc,
   updateDoc,
@@ -82,5 +83,29 @@ export async function unstockItem(id) {
   } catch (error) {
     console.error("Something went wrong while unstocking item: ", error);
     showAlert("Something went wrong while unstocking item.", "error");
+  }
+}
+
+export async function getBrands() {
+  try {
+    const querySnapshot = await getDocs(collection(db, "Brands"));
+    return querySnapshot.docs.map((doc) => ({ ...doc.data(), value: doc.id }));
+  } catch (error) {
+    return [];
+  }
+}
+
+export async function addBrand(label) {
+  try {
+    const itemRef = doc(
+      db,
+      "Brands",
+      label.toUpperCase().trim().split(" ").join(""),
+    );
+    await setDoc(itemRef, { label });
+    showAlert(`Successfully added ${label} as brand.`);
+  } catch (error) {
+    console.error("Something went wrong while adding a new brand: ", error);
+    showAlert("Something went wrong while adding new brand.", "error");
   }
 }

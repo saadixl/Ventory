@@ -1,12 +1,14 @@
+import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import CreatableSelect from "react-select/creatable";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
+import { getBrands, addBrand } from "../services/api";
 
 const colourOptions = [
-  { value: "ocean", label: "Ocean", color: "#00B8D9", isFixed: true },
-  { value: "blue", label: "Blue", color: "#0052CC" },
-  { value: "purple", label: "Purple", color: "#5243AA" },
+  { value: "ocean", label: "Ocean" },
+  { value: "blue", label: "Blue" },
+  { value: "purple", label: "Purple" },
 ];
 
 const customSelectStyle = {
@@ -14,6 +16,7 @@ const customSelectStyle = {
     ...baseStyles,
     borderColor: state.isFocused ? "grey" : "#1E1E1E",
     backgroundColor: "#1E1E1E",
+    color: "#fff"
   }),
   option: (baseStyles, state) => ({
     ...baseStyles,
@@ -22,6 +25,21 @@ const customSelectStyle = {
 };
 
 function InventorySettings() {
+  const [brandOptions, setBrandOptions] = useState([]);
+  const [dirtyBrandUpdate, setDirtyBrandUpdate] = useState(Date.now());
+  async function fetchBrands() {
+    const brands = await getBrands();
+    setBrandOptions(brands);
+  }
+  useEffect(() => {
+    fetchBrands();
+  }, [dirtyBrandUpdate]);
+
+  const handleCreateBrand = async (newValue) => {
+    await addBrand(newValue);
+    setDirtyBrandUpdate(Date.now());
+  };
+
   return (
     <AuthenticatedLayout
       screenName="Inventory settings"
@@ -42,7 +60,9 @@ function InventorySettings() {
               styles={customSelectStyle}
               isMulti
               isClearable
-              options={colourOptions}
+              options={brandOptions}
+              value={brandOptions}
+              onCreateOption={handleCreateBrand}
             />
 
             <h3>Categories</h3>
