@@ -14,7 +14,10 @@ import {
   SubCategoryDropdown,
 } from "./Dropdowns";
 
-export default function Filter() {
+export default function Filter(props) {
+  const { filterOption, setFilterOption, clearFilter } = props;
+  const { keyword, brandId, categoryId, subCategoryId, locationId } =
+    filterOption;
   return (
     <Card className="ventory-filter" sx={{ minWidth: 275 }}>
       <CardContent>
@@ -30,18 +33,47 @@ export default function Filter() {
           autoComplete="off"
         >
           <TextField
-            onChange={(e) => {}}
+            onChange={(e) => {
+              setFilterOption({ ...filterOption, keyword: e.target.value });
+            }}
             id="outlined-basic"
             label="Search"
             variant="outlined"
             size="small"
+            value={keyword}
           />
-          <BrandDropdown onChange={() => {}} />
-          <LocationDropdown onChange={() => {}} />
-          <CategoryDropdown onChange={() => {}} />
-          <SubCategoryDropdown onChange={() => {}} />
+          <BrandDropdown
+            value={brandId}
+            showAll={true}
+            onChange={(brandId) => {
+              setFilterOption({ ...filterOption, brandId });
+            }}
+          />
+          <LocationDropdown
+            value={locationId}
+            showAll={true}
+            onChange={(locationId) => {
+              setFilterOption({ ...filterOption, locationId });
+            }}
+          />
+          <CategoryDropdown
+            value={categoryId}
+            showAll={true}
+            onChange={(categoryId) => {
+              setFilterOption({ ...filterOption, categoryId });
+            }}
+          />
+          <SubCategoryDropdown
+            value={subCategoryId}
+            showAll={true}
+            onChange={(subCategoryId) => {
+              setFilterOption({ ...filterOption, subCategoryId });
+            }}
+          />
           <TextField
-            onChange={(e) => {}}
+            onChange={(e) => {
+              setFilterOption({ ...filterOption, maxPrice: e.target.value });
+            }}
             type="number"
             id="outlined-basic"
             label="Max price"
@@ -49,7 +81,9 @@ export default function Filter() {
             size="small"
           />
           <TextField
-            onChange={(e) => {}}
+            onChange={(e) => {
+              setFilterOption({ ...filterOption, minPrice: e.target.value });
+            }}
             type="number"
             id="outlined-basic"
             label="Min price"
@@ -57,7 +91,9 @@ export default function Filter() {
             size="small"
           />
           <TextField
-            onChange={(e) => {}}
+            onChange={(e) => {
+              setFilterOption({ ...filterOption, maxQty: e.target.value });
+            }}
             type="number"
             id="outlined-basic"
             label="Max quantity"
@@ -65,7 +101,9 @@ export default function Filter() {
             size="small"
           />
           <TextField
-            onChange={(e) => {}}
+            onChange={(e) => {
+              setFilterOption({ ...filterOption, minQty: e.target.value });
+            }}
             type="number"
             id="outlined-basic"
             label="Min quantity"
@@ -75,7 +113,9 @@ export default function Filter() {
         </Box>
       </CardContent>
       <CardActions>
-        <Button size="small">Clear</Button>
+        <Button onClick={clearFilter} size="small">
+          Clear
+        </Button>
       </CardActions>
     </Card>
   );

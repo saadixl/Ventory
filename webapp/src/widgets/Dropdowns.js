@@ -12,8 +12,10 @@ const inventoryOptions = {
 };
 
 function DropdownCore(props) {
-  const { list, label, onChange } = props;
-  const options = list.map((item) => {
+  const { list, label, onChange, showAll, value } = props;
+  let joinedList = showAll ? [{ label: "ALL", value: "ALL" }] : [];
+  joinedList = [...joinedList, ...list];
+  const options = joinedList.map((item) => {
     const { label, value } = item;
     return (
       <MenuItem key={value} value={value}>
@@ -30,6 +32,7 @@ function DropdownCore(props) {
       select
       label={label}
       defaultValue="-"
+      value={value}
     >
       {options}
     </TextField>
@@ -51,7 +54,13 @@ export function BrandDropdown(props) {
   }, []);
 
   return (
-    <DropdownCore onChange={props.onChange} label="Brand" list={brandList} />
+    <DropdownCore
+      value={props.value}
+      showAll={props.showAll}
+      onChange={props.onChange}
+      label="Brand"
+      list={brandList}
+    />
   );
 }
 
@@ -71,6 +80,8 @@ export function LocationDropdown(props) {
 
   return (
     <DropdownCore
+      value={props.value}
+      showAll={props.showAll}
       onChange={props.onChange}
       label="Location"
       list={locationList}
@@ -94,6 +105,8 @@ export function CategoryDropdown(props) {
 
   return (
     <DropdownCore
+      value={props.value}
+      showAll={props.showAll}
       onChange={props.onChange}
       label="Category"
       list={categoryList}
@@ -117,6 +130,8 @@ export function SubCategoryDropdown(props) {
 
   return (
     <DropdownCore
+      value={props.value}
+      showAll={props.showAll}
       onChange={props.onChange}
       label="Sub-categories"
       list={subCategoryList}
