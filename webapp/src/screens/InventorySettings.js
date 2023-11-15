@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import CreatableSelect from "react-select/creatable";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
-import { getBrands, addBrand } from "../services/api";
+import { getBrands, addBrand, removeBrand } from "../services/api";
 
 const colourOptions = [
   { value: "ocean", label: "Ocean" },
@@ -16,7 +16,7 @@ const customSelectStyle = {
     ...baseStyles,
     borderColor: state.isFocused ? "grey" : "#1E1E1E",
     backgroundColor: "#1E1E1E",
-    color: "#fff"
+    color: "#fff",
   }),
   option: (baseStyles, state) => ({
     ...baseStyles,
@@ -38,6 +38,14 @@ function InventorySettings() {
   const handleCreateBrand = async (newValue) => {
     await addBrand(newValue);
     setDirtyBrandUpdate(Date.now());
+  };
+
+  const handleChangeBrand = async (newValue, actionMeta) => {
+    if (actionMeta.action === "remove-value" && actionMeta.removedValue) {
+      const id = actionMeta.removedValue.value;
+      await removeBrand(id);
+      setDirtyBrandUpdate(Date.now());
+    }
   };
 
   return (
@@ -62,6 +70,7 @@ function InventorySettings() {
               isClearable
               options={brandOptions}
               value={brandOptions}
+              onChange={handleChangeBrand}
               onCreateOption={handleCreateBrand}
             />
 

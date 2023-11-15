@@ -109,3 +109,13 @@ export async function addBrand(label) {
     showAlert("Something went wrong while adding new brand.", "error");
   }
 }
+
+export async function removeBrand(id) {
+  try {
+    await deleteDoc(doc(db, "Brands", id));
+    showAlert("Brand deletion successful.");
+  } catch (error) {
+    console.error("Something went wrong while deleting brand: ", error);
+    showAlert("Something went wrong while deleting brand.", "error");
+  }
+}
