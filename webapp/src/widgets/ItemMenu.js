@@ -21,7 +21,6 @@ export default function ItemMenu(props) {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = async (i) => {
-    console.log(id, "item number: ", i, options[i]);
     if (i === 1) {
       await checkInItem(id);
     } else if (i === 2) {

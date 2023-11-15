@@ -42,7 +42,6 @@ function AddNewItem() {
   };
 
   const handleSubmitClick = () => {
-    console.log("formData", formData);
     addInventoryItem(formData);
   };
 

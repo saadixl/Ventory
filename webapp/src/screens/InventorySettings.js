@@ -11,13 +11,10 @@ import {
 
 const inventoryOptions = {
   BRANDS: "Brands",
+  CATEGORIES: "Categories",
+  SUBCATEGORIES: "Subcategories",
+  LOCATIONS: "Locations",
 };
-
-const colourOptions = [
-  { value: "ocean", label: "Ocean" },
-  { value: "blue", label: "Blue" },
-  { value: "purple", label: "Purple" },
-];
 
 const customSelectStyle = {
   control: (baseStyles, state) => ({
@@ -34,33 +31,78 @@ const customSelectStyle = {
 
 function InventorySettings() {
   const [brandOptions, setBrandOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [subCategoryOptions, setSubCategoryOptions] = useState([]);
+  const [locationOptions, setLocationBrandOptions] = useState([]);
+
   const [dirtyBrandUpdate, setDirtyBrandUpdate] = useState(Date.now());
+  const [dirtyCategoryUpdate, setDirtyCategoryUpdate] = useState(Date.now());
+  const [dirtySubCategoryUpdate, setDirtySubCategoryUpdate] = useState(
+    Date.now(),
+  );
+  const [dirtyLocationUpdate, setDirtyLocationUpdate] = useState(Date.now());
+
   async function fetchBrands() {
     const brands = await getInventoryOptions({
       collectionName: inventoryOptions.BRANDS,
     });
     setBrandOptions(brands);
   }
+  async function fetchCategories() {
+    const categories = await getInventoryOptions({
+      collectionName: inventoryOptions.CATEGORIES,
+    });
+    setCategoryOptions(categories);
+  }
+  async function fetchSubCategories() {
+    const subCategories = await getInventoryOptions({
+      collectionName: inventoryOptions.SUBCATEGORIES,
+    });
+    setSubCategoryOptions(subCategories);
+  }
+  async function fetchLocations() {
+    const locations = await getInventoryOptions({
+      collectionName: inventoryOptions.LOCATIONS,
+    });
+    setLocationBrandOptions(locations);
+  }
   useEffect(() => {
     fetchBrands();
   }, [dirtyBrandUpdate]);
 
-  const handleCreateBrand = async (newValue) => {
+  useEffect(() => {
+    fetchCategories();
+  }, [dirtyCategoryUpdate]);
+
+  useEffect(() => {
+    fetchSubCategories();
+  }, [dirtySubCategoryUpdate]);
+
+  useEffect(() => {
+    fetchLocations();
+  }, [dirtyLocationUpdate]);
+
+  const handleCreate = async (newValue, collectionName, dirtyUpdate) => {
     await addInventoryOptions({
-      collectionName: inventoryOptions.BRANDS,
+      collectionName,
       label: newValue,
     });
-    setDirtyBrandUpdate(Date.now());
+    dirtyUpdate(Date.now());
   };
 
-  const handleChangeBrand = async (newValue, actionMeta) => {
+  const handleChange = async (
+    newValue,
+    actionMeta,
+    collectionName,
+    dirtyUpdate,
+  ) => {
     if (actionMeta.action === "remove-value" && actionMeta.removedValue) {
       const id = actionMeta.removedValue.value;
       await deleteInventoryOptions({
-        collectionName: inventoryOptions.BRANDS,
+        collectionName,
         id,
       });
-      setDirtyBrandUpdate(Date.now());
+      dirtyUpdate(Date.now());
     }
   };
 
@@ -86,8 +128,21 @@ function InventorySettings() {
               isClearable
               options={brandOptions}
               value={brandOptions}
-              onChange={handleChangeBrand}
-              onCreateOption={handleCreateBrand}
+              onChange={(newValue, actionMeta) => {
+                handleChange(
+                  newValue,
+                  actionMeta,
+                  inventoryOptions.BRANDS,
+                  setDirtyBrandUpdate,
+                );
+              }}
+              onCreateOption={(newValue) => {
+                handleCreate(
+                  newValue,
+                  inventoryOptions.BRANDS,
+                  setDirtyBrandUpdate,
+                );
+              }}
             />
 
             <h3>Categories</h3>
@@ -96,7 +151,23 @@ function InventorySettings() {
               styles={customSelectStyle}
               isMulti
               isClearable
-              options={colourOptions}
+              options={categoryOptions}
+              value={categoryOptions}
+              onChange={(newValue, actionMeta) => {
+                handleChange(
+                  newValue,
+                  actionMeta,
+                  inventoryOptions.CATEGORIES,
+                  setDirtyCategoryUpdate,
+                );
+              }}
+              onCreateOption={(newValue) => {
+                handleCreate(
+                  newValue,
+                  inventoryOptions.CATEGORIES,
+                  setDirtyCategoryUpdate,
+                );
+              }}
             />
 
             <h3>Sub-categories</h3>
@@ -105,7 +176,23 @@ function InventorySettings() {
               styles={customSelectStyle}
               isMulti
               isClearable
-              options={colourOptions}
+              options={subCategoryOptions}
+              value={subCategoryOptions}
+              onChange={(newValue, actionMeta) => {
+                handleChange(
+                  newValue,
+                  actionMeta,
+                  inventoryOptions.SUBCATEGORIES,
+                  setDirtySubCategoryUpdate,
+                );
+              }}
+              onCreateOption={(newValue) => {
+                handleCreate(
+                  newValue,
+                  inventoryOptions.SUBCATEGORIES,
+                  setDirtySubCategoryUpdate,
+                );
+              }}
             />
 
             <h3>Locations</h3>
@@ -114,7 +201,23 @@ function InventorySettings() {
               styles={customSelectStyle}
               isMulti
               isClearable
-              options={colourOptions}
+              options={locationOptions}
+              value={locationOptions}
+              onChange={(newValue, actionMeta) => {
+                handleChange(
+                  newValue,
+                  actionMeta,
+                  inventoryOptions.LOCATIONS,
+                  setDirtyLocationUpdate,
+                );
+              }}
+              onCreateOption={(newValue) => {
+                handleCreate(
+                  newValue,
+                  inventoryOptions.LOCATIONS,
+                  setDirtyLocationUpdate,
+                );
+              }}
             />
           </Paper>
         </Grid>
