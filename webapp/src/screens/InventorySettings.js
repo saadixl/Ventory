@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import CreatableSelect from "react-select/creatable";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
 import {
   getInventoryOptions,
   addInventoryOptions,
   deleteInventoryOptions,
 } from "../services/api";
+import { clearCache } from "../services/cache";
 
 const inventoryOptions = {
   BRANDS: "Brands",
@@ -220,6 +223,16 @@ function InventorySettings() {
               }}
             />
           </Paper>
+          <Button
+            className="clear-cache-btn"
+            onClick={clearCache}
+            startIcon={<AutorenewIcon />}
+            size="large"
+            variant="contained"
+            color="error"
+          >
+            Clear cache
+          </Button>
         </Grid>
       </Grid>
     </AuthenticatedLayout>

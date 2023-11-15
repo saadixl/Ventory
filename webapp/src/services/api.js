@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 import { showAlert } from "../utils";
+import { setCache, getCache, deleteCache } from "./cache";
 
 export async function getInventoryItems() {
   try {
@@ -88,8 +89,16 @@ export async function unstockItem(id) {
 
 export async function getInventoryOptions({ collectionName }) {
   try {
-    const querySnapshot = await getDocs(collection(db, collectionName));
-    return querySnapshot.docs.map((doc) => ({ ...doc.data(), value: doc.id }));
+    let result = getCache(collectionName);
+    if (!result) {
+      const querySnapshot = await getDocs(collection(db, collectionName));
+      result = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        value: doc.id,
+      }));
+      setCache(collectionName, result);
+    }
+    return result;
   } catch (error) {
     return [];
   }
@@ -103,6 +112,7 @@ export async function addInventoryOptions({ collectionName, label }) {
       label.toUpperCase().trim().split(" ").join(""),
     );
     await setDoc(itemRef, { label });
+    deleteCache(collectionName);
     showAlert(`Successfully added ${label} in ${collectionName}.`);
   } catch (error) {
     console.error(

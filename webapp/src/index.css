@@ -52,3 +52,7 @@ code {
 .react-select__input {
   color: #fff !important;
 }
+
+.clear-cache-btn {
+  margin-top: 30px !important;
+}
