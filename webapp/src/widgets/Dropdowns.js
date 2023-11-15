@@ -1,49 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 
-const categories = {
-  "-": {
-    title: "Select a category",
-    subCategories: {},
-  },
-  ELECTRONICS: {
-    title: "Electronics",
-    subCategories: {
-      PHONE: "Phone",
-      COMPUTER: "Computer",
-      TABLET: "Tablet",
-    },
-  },
-  CLOTHS: {
-    title: "Cloths",
-    subCategories: {
-      PANT: "Pant",
-      TSHIRT: "T-Shirt",
-      POLO: "Polo",
-    },
-  },
-};
+import { getInventoryOptions } from "../services/api";
 
-const locations = {
-  "-": "Select a location",
-  DESK: "Desk",
-  STUDYROOMCLOSET: "Studyroom closet",
-  BEDROOMCLOSET: "Bedroom closet",
-};
-
-const brands = {
-  "-": "Select a brand",
-  APPLE: "Apple",
-  SONY: "Sony",
-  OTHERS: "Others",
+const inventoryOptions = {
+  BRANDS: "Brands",
+  CATEGORIES: "Categories",
+  SUBCATEGORIES: "Subcategories",
+  LOCATIONS: "Locations",
 };
 
 export function BrandDropdown(props) {
-  const brandOptions = Object.keys(brands).map((brandKey) => {
+  const [brandList, setBrandList] = useState([]);
+
+  async function fetchBrands() {
+    const brands = await getInventoryOptions({
+      collectionName: inventoryOptions.BRANDS,
+    });
+    setBrandList(brands);
+  }
+
+  useEffect(() => {
+    fetchBrands();
+  }, []);
+
+  const brandOptions = brandList.map((brand) => {
+    const { label, value } = brand;
     return (
-      <MenuItem key={brandKey} value={brandKey}>
-        {brands[brandKey]}
+      <MenuItem key={value} value={value}>
+        {label}
       </MenuItem>
     );
   });
@@ -63,10 +49,24 @@ export function BrandDropdown(props) {
 }
 
 export function LocationDropdown(props) {
-  const locationOptions = Object.keys(locations).map((locKey) => {
+  const [locationList, setLocationList] = useState([]);
+
+  async function fetchLocations() {
+    const locations = await getInventoryOptions({
+      collectionName: inventoryOptions.LOCATIONS,
+    });
+    setLocationList(locations);
+  }
+
+  useEffect(() => {
+    fetchLocations();
+  }, []);
+
+  const locationOptions = locationList.map((location) => {
+    const { label, value } = location;
     return (
-      <MenuItem key={locKey} value={locKey}>
-        {locations[locKey]}
+      <MenuItem key={value} value={value}>
+        {label}
       </MenuItem>
     );
   });
@@ -85,74 +85,76 @@ export function LocationDropdown(props) {
   );
 }
 
-function CategoryDropdown(props) {
-  const categoryOptions = Object.keys(categories).map((catKey) => {
-    const catObj = categories[catKey];
-    const { title } = catObj;
+export function CategoryDropdown(props) {
+  const [categoryList, setCategoryList] = useState([]);
+
+  async function fetchCategories() {
+    const categories = await getInventoryOptions({
+      collectionName: inventoryOptions.CATEGORIES,
+    });
+    setCategoryList(categories);
+  }
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const categoryOptions = categoryList.map((category) => {
+    const { label, value } = category;
     return (
-      <MenuItem key={catKey} value={catKey}>
-        {title}
+      <MenuItem key={value} value={value}>
+        {label}
       </MenuItem>
     );
   });
   return (
     <TextField
       size="small"
-      select
-      label="Category"
-      defaultValue="-"
       onChange={(e) => {
         props.onChange(e.target.value);
-        props.onUnifiedCategoryChange(e.target.value);
       }}
+      select
+      label="Categories"
+      defaultValue="-"
     >
       {categoryOptions}
     </TextField>
   );
 }
 
-function SubCategoryDropdown(props) {
-  const categoryOptions = Object.keys(props.subCategories).map((subCatKey) => {
-    const subCatTitle = props.subCategories[subCatKey];
+export function SubCategoryDropdown(props) {
+  const [subCategoryList, setSubCategoryList] = useState([]);
+
+  async function fetchSubCategories() {
+    const subCategories = await getInventoryOptions({
+      collectionName: inventoryOptions.SUBCATEGORIES,
+    });
+    setSubCategoryList(subCategories);
+  }
+
+  useEffect(() => {
+    fetchSubCategories();
+  }, []);
+
+  const subCategoryOptions = subCategoryList.map((category) => {
+    const { label, value } = category;
     return (
-      <MenuItem key={subCatKey} value={subCatKey}>
-        {subCatTitle}
+      <MenuItem key={value} value={value}>
+        {label}
       </MenuItem>
     );
   });
   return (
     <TextField
       size="small"
-      select
-      label="Sub-category"
-      defaultValue="-"
       onChange={(e) => {
-        props.onUnifiedCategoryChange(props.selectedCategory, e.target.value);
+        props.onChange(e.target.value);
       }}
+      select
+      label="Sub-categories"
+      defaultValue="-"
     >
-      {categoryOptions}
+      {subCategoryOptions}
     </TextField>
-  );
-}
-
-export function UnifiedCategoryDropdown(props) {
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [subCategories, setSubCategories] = useState({});
-  const onCategoryChange = (category) => {
-    setSelectedCategory(category);
-    setSubCategories(categories[category].subCategories);
-  };
-  return (
-    <>
-      <CategoryDropdown
-        onUnifiedCategoryChange={props.onChange}
-        onChange={onCategoryChange}
-      />
-      <SubCategoryDropdown
-        selectedCategory={selectedCategory}
-        onUnifiedCategoryChange={props.onChange}
-        subCategories={subCategories}
-      />
-    </>
   );
 }

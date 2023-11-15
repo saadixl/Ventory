@@ -6,25 +6,16 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Datepicker from "../widgets/Datepicker";
 import {
-  UnifiedCategoryDropdown,
   LocationDropdown,
   BrandDropdown,
+  CategoryDropdown,
+  SubCategoryDropdown,
 } from "../widgets/Dropdowns";
 import { addInventoryItem } from "../services/api";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
 
 function AddNewItem() {
   const [formData, setFormData] = useState({});
-  const handleUnifiedCategoryChange = (
-    selectedCategory,
-    selectedSubCategory,
-  ) => {
-    setFormData({
-      ...formData,
-      categoryId: selectedCategory,
-      subCategoryId: selectedSubCategory,
-    });
-  };
 
   const handleFieldChange = (value, key) => {
     setFormData({
@@ -129,7 +120,12 @@ function AddNewItem() {
               noValidate
               autoComplete="off"
             >
-              <UnifiedCategoryDropdown onChange={handleUnifiedCategoryChange} />
+              <CategoryDropdown
+                onChange={(value) => handleFieldChange(value, "categoryId")}
+              />
+              <SubCategoryDropdown
+                onChange={(value) => handleFieldChange(value, "subCategoryId")}
+              />
             </Box>
             <Box
               component="form"
