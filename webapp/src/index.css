@@ -44,3 +44,7 @@ code {
 .ventory-app-bar > div {
   background-color: #0e1117 !important;
 }
+
+.react-select__menu-list {
+  background-color: #1e1e1e;
+}

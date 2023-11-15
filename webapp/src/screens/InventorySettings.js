@@ -5,16 +5,21 @@ import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
 
 const colourOptions = [
   { value: "ocean", label: "Ocean", color: "#00B8D9", isFixed: true },
-  { value: "blue", label: "Blue", color: "#0052CC", isDisabled: true },
+  { value: "blue", label: "Blue", color: "#0052CC" },
   { value: "purple", label: "Purple", color: "#5243AA" },
-  { value: "red", label: "Red", color: "#FF5630", isFixed: true },
-  { value: "orange", label: "Orange", color: "#FF8B00" },
-  { value: "yellow", label: "Yellow", color: "#FFC400" },
-  { value: "green", label: "Green", color: "#36B37E" },
-  { value: "forest", label: "Forest", color: "#00875A" },
-  { value: "slate", label: "Slate", color: "#253858" },
-  { value: "silver", label: "Silver", color: "#666666" },
 ];
+
+const customSelectStyle = {
+  control: (baseStyles, state) => ({
+    ...baseStyles,
+    borderColor: state.isFocused ? "grey" : "#1E1E1E",
+    backgroundColor: "#1E1E1E",
+  }),
+  option: (baseStyles, state) => ({
+    ...baseStyles,
+    backgroundColor: state.isFocused ? "grey" : "#1E1E1E",
+  }),
+};
 
 function InventorySettings() {
   return (
@@ -32,16 +37,40 @@ function InventorySettings() {
             }}
           >
             <h3>Brands</h3>
-            <CreatableSelect isMulti isClearable options={colourOptions} />
+            <CreatableSelect
+              classNamePrefix="react-select"
+              styles={customSelectStyle}
+              isMulti
+              isClearable
+              options={colourOptions}
+            />
 
             <h3>Categories</h3>
-            <CreatableSelect isMulti isClearable options={colourOptions} />
+            <CreatableSelect
+              classNamePrefix="react-select"
+              styles={customSelectStyle}
+              isMulti
+              isClearable
+              options={colourOptions}
+            />
 
             <h3>Sub-categories</h3>
-            <CreatableSelect isMulti isClearable options={colourOptions} />
+            <CreatableSelect
+              classNamePrefix="react-select"
+              styles={customSelectStyle}
+              isMulti
+              isClearable
+              options={colourOptions}
+            />
 
             <h3>Locations</h3>
-            <CreatableSelect isMulti isClearable options={colourOptions} />
+            <CreatableSelect
+              classNamePrefix="react-select"
+              styles={customSelectStyle}
+              isMulti
+              isClearable
+              options={colourOptions}
+            />
           </Paper>
         </Grid>
       </Grid>
