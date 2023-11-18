@@ -45,7 +45,7 @@ export default function CustomizedTables(props) {
       id,
     } = row;
     return (
-      <StyledTableRow className={quantity < 1 ? "out-of-stock" : ""}>
+      <StyledTableRow key={id} className={quantity < 1 ? "out-of-stock" : ""}>
         <StyledTableCell component="th" scope="row">
           {brandId}
         </StyledTableCell>

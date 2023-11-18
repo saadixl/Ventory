@@ -69,8 +69,7 @@ function Dashboard() {
         return false;
       }
       if (
-        !item.price ||
-        (filterOption.minPrice && item.price < filterOption.minPrice)
+        filterOption.minPrice && (!item.price || item.price < filterOption.minPrice)
       ) {
         return false;
       }
