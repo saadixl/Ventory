@@ -30,7 +30,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function CustomizedTables(props) {
   const { data, setDirtyUpdate } = props;
-  console.log("TAB DATA -- data", data);
   const renderTableRows = data.map((row) => {
     const {
       name,
@@ -46,13 +45,11 @@ export default function CustomizedTables(props) {
       id,
     } = row;
     return (
-      <StyledTableRow className={quantity < 1 ? "out-of-stock" : ""} key={name}>
+      <StyledTableRow className={quantity < 1 ? "out-of-stock" : ""}>
         <StyledTableCell component="th" scope="row">
           {brandId}
         </StyledTableCell>
-        <StyledTableCell component="th">
-          {name}
-        </StyledTableCell>
+        <StyledTableCell component="th">{name}</StyledTableCell>
         <StyledTableCell>
           {categoryId}/{subCategoryId}
         </StyledTableCell>
@@ -80,9 +77,7 @@ export default function CustomizedTables(props) {
           <TableRow>
             <StyledTableCell>Brand</StyledTableCell>
             <StyledTableCell>Item</StyledTableCell>
-            <StyledTableCell>
-              Category/Subcategory
-            </StyledTableCell>
+            <StyledTableCell>Category/Subcategory</StyledTableCell>
             <StyledTableCell align="right">Price</StyledTableCell>
             <StyledTableCell align="right">Quantity</StyledTableCell>
             <StyledTableCell align="right">Location</StyledTableCell>

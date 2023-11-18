@@ -68,7 +68,7 @@ function Dashboard() {
       if (filterOption.maxPrice && item.price > filterOption.maxPrice) {
         return false;
       }
-      if (filterOption.minPrice && item.price < filterOption.minPrice) {
+      if (filterOption.minPrice && item.price && item.price < filterOption.minPrice) {
         return false;
       }
       if (filterOption.maxQty && item.quantity > filterOption.maxQty) {
@@ -80,8 +80,6 @@ function Dashboard() {
       return true;
     });
   };
-
-  console.log("filterData(inventoryItems)", filterData(inventoryItems));
 
   const tableComp = !inventoryItems.length ? (
     <Box sx={{ width: "100%", p: 1, paddingBottom: 3 }}>
