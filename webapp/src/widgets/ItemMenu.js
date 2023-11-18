@@ -10,7 +10,14 @@ import {
   unstockItem,
 } from "../services/api";
 
-const options = ["Edit", "Check-in", "Restock", "Out of stock", "Delete"];
+const options = [
+  "Edit",
+  "Open DB document",
+  "Check-in",
+  "Restock",
+  "Out of stock",
+  "Delete",
+];
 const ITEM_HEIGHT = 48;
 
 export default function ItemMenu(props) {
@@ -22,12 +29,15 @@ export default function ItemMenu(props) {
   };
   const handleClose = async (i) => {
     if (i === 1) {
-      await checkInItem(id);
+      const firebaseUrl = `https://console.firebase.google.com/project/ventoryapp/firestore/data/~2FInventoryItems~2F${id}`;
+      window.open(firebaseUrl, "_blank");
     } else if (i === 2) {
-      await restockItem(id, quantity);
+      await checkInItem(id);
     } else if (i === 3) {
-      await unstockItem(id);
+      await restockItem(id, quantity);
     } else if (i === 4) {
+      await unstockItem(id);
+    } else if (i === 5) {
       const confirm = window.confirm("Do you want to delete this item?");
       if (confirm) {
         await deleteInventoryItem(id);
