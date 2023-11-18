@@ -2,6 +2,7 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
+import Typography from "@mui/material/Typography";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
@@ -38,7 +39,7 @@ export default function CustomizedTables(props) {
       locationId,
       createdTimestamp,
       lastUsedTimestamp,
-      //description,
+      description,
       price,
       quantity = 0,
       brandId,
@@ -49,7 +50,21 @@ export default function CustomizedTables(props) {
         <StyledTableCell component="th" scope="row">
           {brandId}
         </StyledTableCell>
-        <StyledTableCell component="th">{name}</StyledTableCell>
+        <StyledTableCell component="th">
+          <p>{name}</p>
+          <Typography
+            component="p"
+            noWrap
+            sx={{
+              fontSize: 12,
+              color: "#999",
+              maxWidth: 200,
+              textWrap: "balance",
+            }}
+          >
+            {description}
+          </Typography>
+        </StyledTableCell>
         <StyledTableCell>
           {categoryId}/{subCategoryId}
         </StyledTableCell>

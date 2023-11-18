@@ -69,7 +69,8 @@ function Dashboard() {
         return false;
       }
       if (
-        filterOption.minPrice && (!item.price || item.price < filterOption.minPrice)
+        filterOption.minPrice &&
+        (!item.price || item.price < filterOption.minPrice)
       ) {
         return false;
       }
@@ -106,18 +107,7 @@ function Dashboard() {
         <Grid item xs={12} md={3} lg={3}>
           <RanoutCard />
         </Grid> */}
-        <Grid item xs={12} md={8} lg={9}>
-          <Paper
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            {tableComp}
-          </Paper>
-        </Grid>
-        {/* Recent Deposits */}
-        <Grid item xs={12} md={4} lg={3}>
+        <Grid item xs={12} md={12} lg={12}>
           <Paper
             sx={{
               display: "flex",
@@ -134,6 +124,17 @@ function Dashboard() {
             />
           </Paper>
         </Grid>
+        <Grid item xs={12} md={12} lg={12}>
+          <Paper
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {tableComp}
+          </Paper>
+        </Grid>
+        {/* Recent Deposits */}
       </Grid>
     </AuthenticatedLayout>
   );

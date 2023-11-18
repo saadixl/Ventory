@@ -56,3 +56,7 @@ code {
 .clear-cache-btn {
   margin-top: 30px !important;
 }
+
+.ventory-filter > div {
+  padding: 3px !important;
+}
