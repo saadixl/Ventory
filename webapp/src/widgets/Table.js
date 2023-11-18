@@ -30,6 +30,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function CustomizedTables(props) {
   const { data, setDirtyUpdate } = props;
+  console.log("TAB DATA -- data", data);
   const renderTableRows = data.map((row) => {
     const {
       name,
@@ -41,15 +42,18 @@ export default function CustomizedTables(props) {
       //description,
       price,
       quantity = 0,
-      //brandiId,
+      brandId,
       id,
     } = row;
     return (
       <StyledTableRow className={quantity < 1 ? "out-of-stock" : ""} key={name}>
         <StyledTableCell component="th" scope="row">
+          {brandId}
+        </StyledTableCell>
+        <StyledTableCell component="th">
           {name}
         </StyledTableCell>
-        <StyledTableCell align="right">
+        <StyledTableCell>
           {categoryId}/{subCategoryId}
         </StyledTableCell>
         <StyledTableCell align="right">{price}</StyledTableCell>
@@ -74,8 +78,9 @@ export default function CustomizedTables(props) {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead className="ventory-table-head">
           <TableRow>
+            <StyledTableCell>Brand</StyledTableCell>
             <StyledTableCell>Item</StyledTableCell>
-            <StyledTableCell align="right">
+            <StyledTableCell>
               Category/Subcategory
             </StyledTableCell>
             <StyledTableCell align="right">Price</StyledTableCell>
