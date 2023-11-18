@@ -68,7 +68,10 @@ function Dashboard() {
       if (filterOption.maxPrice && item.price > filterOption.maxPrice) {
         return false;
       }
-      if (!item.price || (filterOption.minPrice && item.price < filterOption.minPrice)) {
+      if (
+        !item.price ||
+        (filterOption.minPrice && item.price < filterOption.minPrice)
+      ) {
         return false;
       }
       if (filterOption.maxQty && item.quantity > filterOption.maxQty) {

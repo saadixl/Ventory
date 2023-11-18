@@ -20,7 +20,7 @@ function AddNewItem() {
   const handleFieldChange = (value, key) => {
     setFormData({
       ...formData,
-      [key]: value,
+      [key]: !isNaN(value) ? parseFloat(value) : value,
     });
   };
 
