@@ -30,6 +30,7 @@ function Dashboard() {
 
   const filterData = (inventoryItems) => {
     return inventoryItems.filter((item) => {
+      const createdAtYear = new Date(item.createdTimestamp).getFullYear();
       if (
         filterOption.keyword &&
         item.name.toLowerCase().indexOf(filterOption.keyword.toLowerCase()) ===
@@ -78,6 +79,12 @@ function Dashboard() {
         return false;
       }
       if (filterOption.minQty && item.quantity < filterOption.minQty) {
+        return false;
+      }
+      if (filterOption.fromYear && createdAtYear < filterOption.fromYear) {
+        return false;
+      }
+      if (filterOption.toYear && createdAtYear > filterOption.toYear) {
         return false;
       }
       return true;

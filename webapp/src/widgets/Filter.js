@@ -21,7 +21,7 @@ export default function Filter(props) {
     <Card className="ventory-filter" sx={{ minWidth: 275 }}>
       <CardContent>
         <Grid container>
-          <Grid item xs={3} md={3} lg={3}>
+          <Grid item xs={2} md={2} lg={2}>
             <Box
               component="form"
               sx={{
@@ -54,7 +54,7 @@ export default function Filter(props) {
               />
             </Box>
           </Grid>
-          <Grid item xs={3} md={3} lg={3}>
+          <Grid item xs={2} md={2} lg={2}>
             <Box
               component="form"
               sx={{
@@ -81,6 +81,48 @@ export default function Filter(props) {
                 onChange={(subCategoryId) => {
                   setFilterOption({ ...filterOption, subCategoryId });
                 }}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={2} md={2} lg={2}>
+            <Box
+              component="form"
+              sx={{
+                "& > :not(style)": {
+                  m: 1,
+                  width: "100%",
+                  paddingLeft: "-10px",
+                  paddingRight: "10px",
+                },
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <TextField
+                onChange={(e) => {
+                  setFilterOption({
+                    ...filterOption,
+                    fromYear: e.target.value,
+                  });
+                }}
+                type="number"
+                id="outlined-basic"
+                label="From year"
+                variant="outlined"
+                size="small"
+              />
+              <TextField
+                onChange={(e) => {
+                  setFilterOption({
+                    ...filterOption,
+                    toYear: e.target.value,
+                  });
+                }}
+                type="number"
+                id="outlined-basic"
+                label="To year"
+                variant="outlined"
+                size="small"
               />
             </Box>
           </Grid>
