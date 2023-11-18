@@ -25,7 +25,7 @@ function AddNewItem() {
   };
 
   const handleDatePickerChange = (e, key) => {
-    const timestamp = Date.now(e.$d);
+    const timestamp = new Date(e.$d).getTime();
     setFormData({
       ...formData,
       [key]: timestamp,

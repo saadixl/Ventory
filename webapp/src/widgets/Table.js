@@ -36,7 +36,7 @@ export default function CustomizedTables(props) {
       categoryId,
       subCategoryId,
       locationId,
-      //createdTimestamp,
+      createdTimestamp,
       lastUsedTimestamp,
       //description,
       price,
@@ -56,6 +56,9 @@ export default function CustomizedTables(props) {
         <StyledTableCell align="right">{price}</StyledTableCell>
         <StyledTableCell align="right">{quantity}</StyledTableCell>
         <StyledTableCell align="right">{locationId}</StyledTableCell>
+        <StyledTableCell align="right">
+          {moment(createdTimestamp).fromNow()}
+        </StyledTableCell>
         <StyledTableCell align="right">
           {moment(lastUsedTimestamp).fromNow()}
         </StyledTableCell>
@@ -81,6 +84,7 @@ export default function CustomizedTables(props) {
             <StyledTableCell align="right">Price</StyledTableCell>
             <StyledTableCell align="right">Quantity</StyledTableCell>
             <StyledTableCell align="right">Location</StyledTableCell>
+            <StyledTableCell align="right">Bought at</StyledTableCell>
             <StyledTableCell align="right">Last used</StyledTableCell>
             <StyledTableCell></StyledTableCell>
           </TableRow>
