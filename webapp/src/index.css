@@ -39,10 +39,16 @@ code {
   color: #222 !important;
 }
 
-.ventory-table-head th,
-.ventory-drawer > div,
+.ventory-table-head th {
+  background-color: #111 !important;
+}
+
+.ventory-drawer > div {
+  background-color: #000 !important;
+}
+
 .ventory-app-bar > div {
-  background-color: #0e1117 !important;
+  background-color: #0d1019 !important;
 }
 
 .react-select__menu-list {

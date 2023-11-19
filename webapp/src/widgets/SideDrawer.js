@@ -56,21 +56,30 @@ const NavItems = (props) => {
         <ListItemText primary="Dashboard" />
       </ListItemButton>
 
-      <ListItemButton to="/add-new-item">
+      <ListItemButton
+        to="/add-new-item"
+        className={activeScreen === "addnewitem" ? "active-nav" : ""}
+      >
         <ListItemIcon>
           <AddBoxIcon />
         </ListItemIcon>
         <ListItemText primary="Add new item" />
       </ListItemButton>
 
-      <ListItemButton to="/inventory-settings">
+      <ListItemButton
+        to="/inventory-settings"
+        className={activeScreen === "inventorysettings" ? "active-nav" : ""}
+      >
         <ListItemIcon>
           <TuneIcon />
         </ListItemIcon>
         <ListItemText primary="Inventory settings" />
       </ListItemButton>
 
-      <ListItemButton to="/account-settings">
+      <ListItemButton
+        to="/account-settings"
+        className={activeScreen === "accountsettings" ? "active-nav" : ""}
+      >
         <ListItemIcon>
           <ManageAccountsIcon />
         </ListItemIcon>

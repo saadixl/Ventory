@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Datepicker from "../widgets/Datepicker";
@@ -14,6 +15,7 @@ import {
 } from "./Dropdowns";
 
 export default function EditForm(props) {
+  const navigate = useNavigate();
   const { action, data = {} } = props;
   const {
     brandId,
@@ -46,6 +48,10 @@ export default function EditForm(props) {
 
   const handleSubmitClick = () => {
     action(formData, id);
+  };
+
+  const handleBackClick = () => {
+    navigate("/");
   };
 
   return (
@@ -184,6 +190,9 @@ export default function EditForm(props) {
         >
           <Button onClick={handleSubmitClick} variant="contained">
             Submit
+          </Button>
+          <Button onClick={handleBackClick} variant="outlined">
+            Back to Dashboard
           </Button>
         </Box>
       </Paper>

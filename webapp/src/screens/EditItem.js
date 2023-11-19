@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 function EditItem() {
   const { state } = useLocation();
   return (
-    <AuthenticatedLayout screenName="Add new item" activeScreen="addnewitem">
+    <AuthenticatedLayout screenName="Edit item" activeScreen="dashboard">
       <Grid container spacing={3} className="add-item-container">
         <EditForm action={editItem} data={state} />
       </Grid>

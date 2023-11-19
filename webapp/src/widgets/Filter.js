@@ -226,7 +226,7 @@ export default function Filter(props) {
                   setFilterOption({ ...filterOption, locationId });
                 }}
               />
-              <Button onClick={clearFilter} size="small">
+              <Button onClick={clearFilter} size="large">
                 Clear
               </Button>
             </Box>
