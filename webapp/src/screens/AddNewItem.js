@@ -39,7 +39,7 @@ function AddNewItem() {
   return (
     <AuthenticatedLayout screenName="Add new item" activeScreen="addnewitem">
       <Grid container spacing={3} className="add-item-container">
-        <Grid item xs={12} md={8} lg={9}>
+        <Grid item xs={12} md={12} lg={12}>
           <Paper
             sx={{
               display: "flex",
