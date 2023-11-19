@@ -12,7 +12,7 @@ const inventoryOptions = {
 };
 
 function DropdownCore(props) {
-  const { list, label, onChange, showAll, value } = props;
+  const { list, label, onChange, showAll, value, defaultValue = "-" } = props;
   let joinedList = showAll ? [{ label: "ALL", value: "ALL" }] : [];
   joinedList = [...joinedList, ...list];
   const options = joinedList.map((item) => {
@@ -31,7 +31,7 @@ function DropdownCore(props) {
       }}
       select
       label={label}
-      defaultValue="-"
+      defaultValue={defaultValue}
       value={value}
     >
       {options}
@@ -55,7 +55,7 @@ export function BrandDropdown(props) {
 
   return (
     <DropdownCore
-      value={props.value}
+      defaultValue={props.defaultValue}
       showAll={props.showAll}
       onChange={props.onChange}
       label="Brand"
@@ -80,6 +80,7 @@ export function LocationDropdown(props) {
 
   return (
     <DropdownCore
+      defaultValue={props.defaultValue}
       value={props.value}
       showAll={props.showAll}
       onChange={props.onChange}
@@ -105,6 +106,7 @@ export function CategoryDropdown(props) {
 
   return (
     <DropdownCore
+      defaultValue={props.defaultValue}
       value={props.value}
       showAll={props.showAll}
       onChange={props.onChange}
@@ -130,6 +132,7 @@ export function SubCategoryDropdown(props) {
 
   return (
     <DropdownCore
+      defaultValue={props.defaultValue}
       value={props.value}
       showAll={props.showAll}
       onChange={props.onChange}

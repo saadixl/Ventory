@@ -60,6 +60,19 @@ export async function checkInItem(id, skip) {
   }
 }
 
+export async function editItem(update, id) {
+  try {
+    const itemRef = doc(db, "InventoryItems", id);
+    await updateDoc(itemRef, {
+      ...update,
+    });
+    showAlert("Item edited successfully.");
+  } catch (error) {
+    console.error("Something went wrong while editing item: ", error);
+    showAlert("Something went wrong while editing item.", "error");
+  }
+}
+
 export async function restockItem(id, quantity) {
   try {
     const itemRef = doc(db, "InventoryItems", id);

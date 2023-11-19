@@ -1,17 +1,18 @@
 import Grid from "@mui/material/Grid";
-
 import EditForm from "../widgets/EditForm";
-import { addInventoryItem } from "../services/api";
+import { editItem } from "../services/api";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
+import { useLocation } from "react-router-dom";
 
-function AddNewItem() {
+function EditItem() {
+  const { state } = useLocation();
   return (
     <AuthenticatedLayout screenName="Add new item" activeScreen="addnewitem">
       <Grid container spacing={3} className="add-item-container">
-        <EditForm action={addInventoryItem} />
+        <EditForm action={editItem} data={state} />
       </Grid>
     </AuthenticatedLayout>
   );
 }
 
-export default AddNewItem;
+export default EditItem;

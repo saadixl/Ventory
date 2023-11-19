@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -21,14 +22,17 @@ const options = [
 const ITEM_HEIGHT = 48;
 
 export default function ItemMenu(props) {
-  const { id, setDirtyUpdate, quantity } = props;
+  const navigate = useNavigate();
+  const { id, setDirtyUpdate, quantity, data } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = async (i) => {
-    if (i === 1) {
+    if (i === 0) {
+      navigate(`/edit-item/${id}`, { state: data });
+    } else if (i === 1) {
       const firebaseUrl = `https://console.firebase.google.com/project/ventoryapp/firestore/data/~2FInventoryItems~2F${id}`;
       window.open(firebaseUrl, "_blank");
     } else if (i === 2) {

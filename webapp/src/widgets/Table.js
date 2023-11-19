@@ -79,6 +79,7 @@ export default function CustomizedTables(props) {
         </StyledTableCell>
         <StyledTableCell align="right">
           <ItemMenu
+            data={row}
             quantity={quantity}
             setDirtyUpdate={setDirtyUpdate}
             id={id}

@@ -5,6 +5,7 @@ import Dashboard from "./screens/Dashboard";
 import AddNewItem from "./screens/AddNewItem";
 import InventorySettings from "./screens/InventorySettings";
 import AccountSettings from "./screens/AccountSettings";
+import EditItem from "./screens/EditItem";
 
 function App() {
   const routes = [
@@ -23,6 +24,10 @@ function App() {
     {
       path: "/account-settings",
       component: AccountSettings,
+    },
+    {
+      path: "/edit-item/:id",
+      component: EditItem,
     },
   ];
 
