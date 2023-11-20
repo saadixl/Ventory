@@ -4,7 +4,6 @@ import Paper from "@mui/material/Paper";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import Table from "../widgets/Table";
-// import RanoutCard from "../widgets/RanoutCard";
 import Filter from "../widgets/Filter";
 import { getInventoryItems } from "../services/api";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
@@ -102,18 +101,6 @@ function Dashboard() {
   return (
     <AuthenticatedLayout screenName="Dashboard" activeScreen="dashboard">
       <Grid container spacing={3}>
-        {/* <Grid item xs={12} md={3} lg={3}>
-          <RanoutCard />
-        </Grid>
-        <Grid item xs={12} md={3} lg={3}>
-          <RanoutCard />
-        </Grid>
-        <Grid item xs={12} md={3} lg={3}>
-          <RanoutCard />
-        </Grid>
-        <Grid item xs={12} md={3} lg={3}>
-          <RanoutCard />
-        </Grid> */}
         <Grid item xs={12} md={12} lg={12}>
           <Paper
             sx={{
