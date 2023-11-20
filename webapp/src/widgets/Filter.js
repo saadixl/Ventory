@@ -14,7 +14,10 @@ import {
 } from "./Dropdowns";
 
 export default function Filter(props) {
-  const { filterOption, setFilterOption, clearFilter } = props;
+  const { filterOption, setFilterOption, clearFilter, filterVisible } = props;
+  if (!filterVisible) {
+    return null;
+  }
   const { keyword, brandId, categoryId, subCategoryId, locationId } =
     filterOption;
   return (

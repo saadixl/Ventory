@@ -63,6 +63,23 @@ code {
   margin-top: 30px !important;
 }
 
+.ventory-filter {
+  margin-top: 20px;
+}
+
 .ventory-filter > div {
   padding: 3px !important;
+}
+
+.filter-toggle {
+  display: block;
+  cursor: pointer;
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.filter-wrapper {
+  padding-top: 5px !important;
 }

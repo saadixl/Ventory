@@ -7,6 +7,7 @@ import Table from "../widgets/Table";
 import Filter from "../widgets/Filter";
 import { getInventoryItems } from "../services/api";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
+import FilterToggle from "../widgets/FilterToggle";
 
 function Dashboard() {
   const initialFilterOption = {
@@ -18,6 +19,7 @@ function Dashboard() {
   const [inventoryItems, setInventoryItems] = useState([]);
   const [filterOption, setFilterOption] = useState(initialFilterOption);
   const [dirtyUpdate, setDirtyUpdate] = useState(Date.now());
+  const [filterVisible, setFilterVisible] = useState(false);
 
   async function fetchInventoryItems() {
     setInventoryItems(await getInventoryItems());
@@ -101,7 +103,7 @@ function Dashboard() {
   return (
     <AuthenticatedLayout screenName="Dashboard" activeScreen="dashboard">
       <Grid container spacing={3}>
-        <Grid item xs={12} md={12} lg={12}>
+        <Grid className="filter-wrapper" item xs={12} md={12} lg={12}>
           <Paper
             sx={{
               display: "flex",
@@ -109,7 +111,12 @@ function Dashboard() {
               background: "transparent",
             }}
           >
+            <FilterToggle
+              filterVisible={filterVisible}
+              setFilterVisible={setFilterVisible}
+            />
             <Filter
+              filterVisible={filterVisible}
               filterOption={filterOption}
               setFilterOption={setFilterOption}
               clearFilter={() => {
