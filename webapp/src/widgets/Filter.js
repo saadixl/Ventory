@@ -5,6 +5,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Sorter from "./Sorter";
 
 import {
   LocationDropdown,
@@ -18,7 +19,7 @@ export default function Filter(props) {
   if (!filterVisible) {
     return null;
   }
-  const { keyword, brandId, categoryId, subCategoryId, locationId } =
+  const { keyword, brandId, categoryId, subCategoryId, locationId, sortId } =
     filterOption;
   return (
     <Card className="ventory-filter" sx={{ minWidth: 275 }}>
@@ -229,6 +230,28 @@ export default function Filter(props) {
                   setFilterOption({ ...filterOption, locationId });
                 }}
               />
+              <Sorter
+                value={sortId}
+                onChange={(s) => {
+                  setFilterOption({ ...filterOption, sortId: s });
+                }}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={12} lg={12}>
+            <Box
+              component="form"
+              sx={{
+                "& > :not(style)": {
+                  m: 1,
+                  width: "100%",
+                  paddingLeft: "-10px",
+                  paddingRight: "10px",
+                },
+              }}
+              noValidate
+              autoComplete="off"
+            >
               <Button onClick={clearFilter} size="large">
                 Clear
               </Button>

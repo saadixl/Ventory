@@ -15,6 +15,7 @@ function Dashboard() {
     categoryId: "ALL",
     subCategoryId: "ALL",
     locationId: "ALL",
+    sortId: "default",
   };
   const [inventoryItems, setInventoryItems] = useState([]);
   const [filterOption, setFilterOption] = useState(initialFilterOption);
@@ -30,7 +31,7 @@ function Dashboard() {
   }, [dirtyUpdate]);
 
   const filterData = (inventoryItems) => {
-    return inventoryItems.filter((item) => {
+    const filteredData = inventoryItems.filter((item) => {
       const createdAtYear = new Date(item.createdTimestamp).getFullYear();
       if (
         filterOption.keyword &&
@@ -90,6 +91,35 @@ function Dashboard() {
       }
       return true;
     });
+
+    if (filterOption.sortId && filterOption.sortId !== "default") {
+      const { sortId } = filterOption;
+      let field, direction;
+      if (sortId === "qty-low-hi") {
+        field = "quantity";
+        direction = "asc";
+      } else if (sortId === "qty-hi-low") {
+        field = "quantity";
+        direction = "dsc";
+      } else if (sortId === "price-low-hi") {
+        field = "price";
+        direction = "asc";
+      } else if (sortId === "price-hi-low") {
+        field = "price";
+        direction = "dsc";
+      }
+      filteredData.sort((a, b) => {
+        if (direction === "dsc") {
+          if (a[field] > b[field]) return -1;
+          if (b[field] > a[field]) return 1;
+        } else {
+          if (a[field] > b[field]) return 1;
+          if (b[field] > a[field]) return -1;
+        }
+        return 0;
+      });
+    }
+    return filteredData;
   };
 
   const tableComp = !inventoryItems.length ? (

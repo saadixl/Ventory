@@ -56,6 +56,7 @@ export function BrandDropdown(props) {
   return (
     <DropdownCore
       defaultValue={props.defaultValue}
+      value={props.value}
       showAll={props.showAll}
       onChange={props.onChange}
       label="Brand"
