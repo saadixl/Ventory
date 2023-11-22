@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,6 +8,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 import DateTimeLabel from "./DateTimeLabel";
 import ItemMenu from "../widgets/ItemMenu";
 
@@ -30,6 +32,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function CustomizedTables(props) {
+  const [showPrice, setShowPrice] = useState(false);
+
+  const handleShowPrice = (e) => {
+    setShowPrice(e.target.checked);
+  };
+
   const { data, setDirtyUpdate } = props;
   const renderTableRows = data.map((row) => {
     const {
@@ -68,7 +76,9 @@ export default function CustomizedTables(props) {
         <StyledTableCell>
           {categoryId}/{subCategoryId}
         </StyledTableCell>
-        <StyledTableCell align="right">{price}</StyledTableCell>
+        <StyledTableCell align="center">
+          {showPrice ? price : <span className="muted">Hidden</span>}
+        </StyledTableCell>
         <StyledTableCell align="right">{quantity}</StyledTableCell>
         <StyledTableCell align="right">{locationId}</StyledTableCell>
         <StyledTableCell align="right">
@@ -97,7 +107,15 @@ export default function CustomizedTables(props) {
             <StyledTableCell>Brand</StyledTableCell>
             <StyledTableCell>Item</StyledTableCell>
             <StyledTableCell>Category/Subcategory</StyledTableCell>
-            <StyledTableCell align="right">Price</StyledTableCell>
+            <StyledTableCell align="right">
+              <FormControlLabel
+                control={
+                  <Switch checked={showPrice} onChange={handleShowPrice} />
+                }
+                label="Price"
+                labelPlacement="start"
+              />
+            </StyledTableCell>
             <StyledTableCell align="right">Quantity</StyledTableCell>
             <StyledTableCell align="right">Location</StyledTableCell>
             <StyledTableCell align="right">Bought at</StyledTableCell>
