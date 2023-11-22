@@ -19,7 +19,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 12,
+    fontSize: 16,
   },
 }));
 
@@ -62,12 +62,8 @@ export default function CustomizedTables(props) {
           <p>{name}</p>
           <Typography
             component="p"
-            noWrap
             sx={{
-              fontSize: 12,
               color: "#999",
-              maxWidth: 200,
-              textWrap: "balance",
             }}
           >
             {description}

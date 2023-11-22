@@ -92,7 +92,7 @@ export default function BasicLayout(props) {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Container maxWidth="100%" sx={{ mt: 4, mb: 4 }}>
             {props.children}
           </Container>
         </Box>
