@@ -28,6 +28,8 @@ export default function Sorter(props) {
           onChange={handleChange}
         >
           <MenuItem value="default">Default</MenuItem>
+          <MenuItem value="oldest-to-newest">Oldest to newest</MenuItem>
+          <MenuItem value="newest-to-oldest">Newest to oldest</MenuItem>
           <MenuItem value="qty-low-hi">Qty low to high</MenuItem>
           <MenuItem value="qty-hi-low">Qty high to low</MenuItem>
           <MenuItem value="price-low-hi">Price low to high</MenuItem>

@@ -107,6 +107,12 @@ function Dashboard() {
       } else if (sortId === "price-hi-low") {
         field = "price";
         direction = "dsc";
+      } else if (sortId === "oldest-to-newest") {
+        field = "createdTimestamp";
+        direction = "asc";
+      } else if (sortId === "newest-to-oldest") {
+        field = "createdTimestamp";
+        direction = "dsc";
       }
       filteredData.sort((a, b) => {
         if (direction === "dsc") {

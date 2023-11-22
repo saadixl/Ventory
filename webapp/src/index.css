@@ -83,3 +83,7 @@ code {
 .filter-wrapper {
   padding-top: 5px !important;
 }
+
+.datetime-humanized {
+  color: #999;
+}

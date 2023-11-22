@@ -8,7 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import moment from "moment";
+import DateTimeLabel from "./DateTimeLabel";
 import ItemMenu from "../widgets/ItemMenu";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -72,10 +72,10 @@ export default function CustomizedTables(props) {
         <StyledTableCell align="right">{quantity}</StyledTableCell>
         <StyledTableCell align="right">{locationId}</StyledTableCell>
         <StyledTableCell align="right">
-          {moment(createdTimestamp).fromNow()}
+          <DateTimeLabel timestamp={createdTimestamp} />
         </StyledTableCell>
         <StyledTableCell align="right">
-          {moment(lastUsedTimestamp).fromNow()}
+          <DateTimeLabel timestamp={lastUsedTimestamp} />
         </StyledTableCell>
         <StyledTableCell align="right">
           <ItemMenu
