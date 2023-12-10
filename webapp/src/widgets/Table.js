@@ -12,6 +12,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DateTimeLabel from "./DateTimeLabel";
 import ItemMenu from "../widgets/ItemMenu";
+import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -52,6 +53,7 @@ export default function CustomizedTables(props) {
       quantity = 0,
       brandId,
       id,
+      isGift,
     } = row;
     return (
       <StyledTableRow key={id} className={quantity < 1 ? "out-of-stock" : ""}>
@@ -73,6 +75,7 @@ export default function CustomizedTables(props) {
           {categoryId}/{subCategoryId}
         </StyledTableCell>
         <StyledTableCell align="center">
+          {isGift ? <CardGiftcardIcon /> : null}{" "}
           {showPrice ? price : <span className="muted">Hidden</span>}
         </StyledTableCell>
         <StyledTableCell align="right">{quantity}</StyledTableCell>

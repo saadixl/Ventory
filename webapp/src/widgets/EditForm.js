@@ -6,6 +6,8 @@ import Datepicker from "../widgets/Datepicker";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 
 import {
   LocationDropdown,
@@ -17,6 +19,7 @@ import {
 export default function EditForm(props) {
   const navigate = useNavigate();
   const { action, data = {} } = props;
+  const [formData, setFormData] = useState(data || {});
   const {
     brandId,
     categoryId,
@@ -29,13 +32,17 @@ export default function EditForm(props) {
     price,
     quantity,
     subCategoryId,
-  } = data;
-  const [formData, setFormData] = useState(data || {});
+    isGift,
+  } = formData;
+  console.log("formData", formData);
   const handleFieldChange = (value, key) => {
-    setFormData({
+    const newValue =
+      isNaN(value) || typeof value === "boolean" ? value : parseFloat(value);
+    const newFormData = {
       ...formData,
-      [key]: !isNaN(value) ? parseFloat(value) : value,
-    });
+      [key]: newValue,
+    };
+    setFormData(newFormData);
   };
 
   const handleDatePickerChange = (e, key) => {
@@ -107,7 +114,7 @@ export default function EditForm(props) {
         <Box
           component="form"
           sx={{
-            "& > :not(style)": { m: 1, width: "45ch" },
+            "& > :not(style)": { m: 1, width: "30ch" },
           }}
           noValidate
           autoComplete="off"
@@ -129,6 +136,16 @@ export default function EditForm(props) {
             label="Price"
             variant="outlined"
             type="number"
+          />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isGift || formData.isGift}
+                onChange={(e) => handleFieldChange(e.target.checked, "isGift")}
+              />
+            }
+            label="Is gift"
+            labelPlacement="end"
           />
         </Box>
         <Box
