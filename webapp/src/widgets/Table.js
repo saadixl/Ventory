@@ -13,6 +13,8 @@ import Switch from "@mui/material/Switch";
 import DateTimeLabel from "./DateTimeLabel";
 import ItemMenu from "../widgets/ItemMenu";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -20,7 +22,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 16,
+    fontSize: 12,
   },
 }));
 
@@ -60,30 +62,35 @@ export default function CustomizedTables(props) {
         <StyledTableCell component="th" scope="row">
           {brandId}
         </StyledTableCell>
-        <StyledTableCell component="th">
+        <StyledTableCell width="20%" component="th">
           <p>{name}</p>
           <Typography
             component="p"
             sx={{
               color: "#999",
+              fontSize: 12,
             }}
           >
             {description}
           </Typography>
         </StyledTableCell>
         <StyledTableCell>
-          {categoryId}/{subCategoryId}
+          {categoryId}
+          <br />
+          <span className="muted">{subCategoryId}</span>
         </StyledTableCell>
         <StyledTableCell align="center">
-          {isGift ? <CardGiftcardIcon /> : null}{" "}
-          {showPrice ? price : <span className="muted">Hidden</span>}
+          {isGift ? <CheckCircleIcon sx={{ color: "green" }} /> : null}
+        </StyledTableCell>
+        <StyledTableCell align="center">
+          {showPrice ? price : <VisibilityOffIcon />}
         </StyledTableCell>
         <StyledTableCell align="right">{quantity}</StyledTableCell>
         <StyledTableCell align="right">{locationId}</StyledTableCell>
-        <StyledTableCell align="right">
+        <StyledTableCell width="20%" align="right">
           <DateTimeLabel timestamp={createdTimestamp} />
         </StyledTableCell>
-        <StyledTableCell align="right">
+        <StyledTableCell width="20%" align="right">
           <DateTimeLabel timestamp={lastUsedTimestamp} />
         </StyledTableCell>
         <StyledTableCell align="right">
@@ -105,7 +112,12 @@ export default function CustomizedTables(props) {
           <TableRow>
             <StyledTableCell>Brand</StyledTableCell>
             <StyledTableCell>Item</StyledTableCell>
-            <StyledTableCell>Category/Subcategory</StyledTableCell>
+            <StyledTableCell>
+              Category
+              <br />
+              <span className="muted">Subcategory</span>
+            </StyledTableCell>
+            <StyledTableCell>Gift</StyledTableCell>
             <StyledTableCell align="right">
               <FormControlLabel
                 control={
