@@ -12,7 +12,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DateTimeLabel from "./DateTimeLabel";
 import ItemMenu from "../widgets/ItemMenu";
-import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
