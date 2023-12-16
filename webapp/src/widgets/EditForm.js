@@ -141,6 +141,7 @@ export default function EditForm(props) {
           noValidate
           autoComplete="off"
         >
+          <p className="tags-label">Tags</p>
           <TagsDropdown
             defaultValue={tags}
             onChange={(value) => handleFieldChange(value, "tags")}
