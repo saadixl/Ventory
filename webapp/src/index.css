@@ -87,3 +87,9 @@ code {
 .muted {
   color: #999;
 }
+
+.config-text {
+  margin-bottom: 10px;
+  display: block;
+  color: #e2f4ad;
+}

@@ -33,6 +33,7 @@ export default function EditForm(props) {
     quantity,
     subCategoryId,
     isGift,
+    config,
   } = formData;
   console.log("formData", formData);
   const handleFieldChange = (value, key) => {
@@ -90,6 +91,25 @@ export default function EditForm(props) {
           <BrandDropdown
             defaultValue={brandId}
             onChange={(value) => handleFieldChange(value, "brandId")}
+          />
+        </Box>
+        <Box
+          component="form"
+          sx={{
+            "& > :not(style)": { m: 1, width: "92ch" },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField
+            defaultValue={config}
+            multiline
+            rows={1}
+            id="outlined-basic"
+            label="Config"
+            variant="outlined"
+            size="small"
+            onChange={(e) => handleFieldChange(e.target.value, "config")}
           />
         </Box>
         <Box

@@ -55,7 +55,11 @@ export default function CustomizedTables(props) {
       brandId,
       id,
       isGift,
+      config,
     } = row;
+    const configComp = config ? (
+      <span className="config-text">{config}</span>
+    ) : null;
     return (
       <StyledTableRow key={id} className={quantity < 1 ? "out-of-stock" : ""}>
         <StyledTableCell component="th" scope="row">
@@ -70,6 +74,7 @@ export default function CustomizedTables(props) {
               fontSize: 12,
             }}
           >
+            {configComp}
             {description}
           </Typography>
         </StyledTableCell>
