@@ -17,6 +17,7 @@ const inventoryOptions = {
   CATEGORIES: "Categories",
   SUBCATEGORIES: "Subcategories",
   LOCATIONS: "Locations",
+  TAGS: "Tags",
 };
 
 const customSelectStyle = {
@@ -36,7 +37,8 @@ function InventorySettings() {
   const [brandOptions, setBrandOptions] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [subCategoryOptions, setSubCategoryOptions] = useState([]);
-  const [locationOptions, setLocationBrandOptions] = useState([]);
+  const [locationOptions, setLocationOptions] = useState([]);
+  const [tagOptions, setTagOptions] = useState([]);
 
   const [dirtyBrandUpdate, setDirtyBrandUpdate] = useState(Date.now());
   const [dirtyCategoryUpdate, setDirtyCategoryUpdate] = useState(Date.now());
@@ -44,6 +46,7 @@ function InventorySettings() {
     Date.now(),
   );
   const [dirtyLocationUpdate, setDirtyLocationUpdate] = useState(Date.now());
+  const [dirtyTagsUpdate, setDirtyTagsUpdate] = useState(Date.now());
 
   async function fetchBrands() {
     const brands = await getInventoryOptions({
@@ -67,7 +70,13 @@ function InventorySettings() {
     const locations = await getInventoryOptions({
       collectionName: inventoryOptions.LOCATIONS,
     });
-    setLocationBrandOptions(locations);
+    setLocationOptions(locations);
+  }
+  async function fetchTags() {
+    const tags = await getInventoryOptions({
+      collectionName: inventoryOptions.TAGS,
+    });
+    setTagOptions(tags);
   }
   useEffect(() => {
     fetchBrands();
@@ -84,6 +93,10 @@ function InventorySettings() {
   useEffect(() => {
     fetchLocations();
   }, [dirtyLocationUpdate]);
+
+  useEffect(() => {
+    fetchTags();
+  }, [dirtyTagsUpdate]);
 
   const handleCreate = async (newValue, collectionName, dirtyUpdate) => {
     await addInventoryOptions({
@@ -219,6 +232,30 @@ function InventorySettings() {
                   newValue,
                   inventoryOptions.LOCATIONS,
                   setDirtyLocationUpdate,
+                );
+              }}
+            />
+            <h3>Tags</h3>
+            <CreatableSelect
+              classNamePrefix="react-select"
+              styles={customSelectStyle}
+              isMulti
+              isClearable
+              options={tagOptions}
+              value={tagOptions}
+              onChange={(newValue, actionMeta) => {
+                handleChange(
+                  newValue,
+                  actionMeta,
+                  inventoryOptions.TAGS,
+                  setDirtyTagsUpdate,
+                );
+              }}
+              onCreateOption={(newValue) => {
+                handleCreate(
+                  newValue,
+                  inventoryOptions.TAGS,
+                  setDirtyTagsUpdate,
                 );
               }}
             />

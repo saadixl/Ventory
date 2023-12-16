@@ -1,14 +1,29 @@
 import { useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
+import Select from "react-select";
 
 import { getInventoryOptions } from "../services/api";
+
+const customSelectStyle = {
+  control: (baseStyles, state) => ({
+    ...baseStyles,
+    borderColor: state.isFocused ? "grey" : "#1E1E1E",
+    backgroundColor: "#1E1E1E",
+    color: "#fff",
+  }),
+  option: (baseStyles, state) => ({
+    ...baseStyles,
+    backgroundColor: state.isFocused ? "grey" : "#1E1E1E",
+  }),
+};
 
 const inventoryOptions = {
   BRANDS: "Brands",
   CATEGORIES: "Categories",
   SUBCATEGORIES: "Subcategories",
   LOCATIONS: "Locations",
+  TAGS: "Tags",
 };
 
 function DropdownCore(props) {
@@ -139,6 +154,36 @@ export function SubCategoryDropdown(props) {
       onChange={props.onChange}
       label="Sub-categories"
       list={subCategoryList}
+    />
+  );
+}
+
+export function TagsDropdown(props) {
+  const [tagList, setTagList] = useState([]);
+
+  async function fetchTags() {
+    const tags = await getInventoryOptions({
+      collectionName: inventoryOptions.TAGS,
+    });
+    setTagList(tags);
+  }
+
+  useEffect(() => {
+    fetchTags();
+  }, []);
+
+  return (
+    <Select
+      styles={customSelectStyle}
+      defaultValue={props.defaultValue}
+      isMulti
+      name="Tags"
+      options={tagList}
+      className="basic-multi-select"
+      classNamePrefix="select"
+      onChange={(newTag) => {
+        props.onChange(newTag);
+      }}
     />
   );
 }

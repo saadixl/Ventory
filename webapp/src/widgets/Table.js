@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
+import Chip from "@mui/material/Chip";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import Typography from "@mui/material/Typography";
@@ -56,9 +57,18 @@ export default function CustomizedTables(props) {
       id,
       isGift,
       config,
+      tags,
     } = row;
     const configComp = config ? (
       <span className="config-text">{config}</span>
+    ) : null;
+    console.log("tags -> ", tags);
+    const tagsComp = tags ? (
+      <div className="tags-on-table">
+        {tags.map((tag) => {
+          return <Chip label={tag.label} color="warning" size="small" />;
+        })}
+      </div>
     ) : null;
     return (
       <StyledTableRow key={id} className={quantity < 1 ? "out-of-stock" : ""}>
@@ -76,6 +86,7 @@ export default function CustomizedTables(props) {
           >
             {configComp}
             {description}
+            {tagsComp}
           </Typography>
         </StyledTableCell>
         <StyledTableCell>

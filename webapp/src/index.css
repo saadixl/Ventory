@@ -93,3 +93,17 @@ code {
   display: block;
   color: #e2f4ad;
 }
+
+.tags-on-table {
+  margin-top: 10px;
+}
+
+.tags-on-table .MuiChip-root {
+  font-size: 12px;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.tags-on-table .MuiChip-root .MuiChip-label {
+  padding: 0 5px;
+}

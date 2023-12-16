@@ -14,6 +14,7 @@ import {
   BrandDropdown,
   CategoryDropdown,
   SubCategoryDropdown,
+  TagsDropdown,
 } from "./Dropdowns";
 
 export default function EditForm(props) {
@@ -34,8 +35,9 @@ export default function EditForm(props) {
     subCategoryId,
     isGift,
     config,
+    tags,
   } = formData;
-  console.log("formData", formData);
+
   const handleFieldChange = (value, key) => {
     const newValue =
       isNaN(value) || typeof value === "boolean" ? value : parseFloat(value);
@@ -129,6 +131,19 @@ export default function EditForm(props) {
             variant="outlined"
             size="small"
             onChange={(e) => handleFieldChange(e.target.value, "description")}
+          />
+        </Box>
+        <Box
+          component="form"
+          sx={{
+            "& > :not(style)": { m: 1, width: "92ch" },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <TagsDropdown
+            defaultValue={tags}
+            onChange={(value) => handleFieldChange(value, "tags")}
           />
         </Box>
         <Box
