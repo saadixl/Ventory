@@ -17,10 +17,16 @@ function Dashboard() {
     locationId: "ALL",
     sortId: "default",
   };
+  const cachedFilterOptions = localStorage.getItem("filterOption")
+    ? JSON.parse(localStorage.getItem("filterOption"))
+    : initialFilterOption;
+
   const [inventoryItems, setInventoryItems] = useState([]);
-  const [filterOption, setFilterOption] = useState(initialFilterOption);
+  const [filterOption, setFilterOption] = useState(cachedFilterOptions);
   const [dirtyUpdate, setDirtyUpdate] = useState(Date.now());
-  const [filterVisible, setFilterVisible] = useState(false);
+  const [filterVisible, setFilterVisible] = useState(
+    false || localStorage.getItem("filterVisible"),
+  );
 
   async function fetchInventoryItems() {
     setInventoryItems(await getInventoryItems());
@@ -157,6 +163,7 @@ function Dashboard() {
               setFilterOption={setFilterOption}
               clearFilter={() => {
                 setFilterOption(initialFilterOption);
+                localStorage.removeItem("filterOption");
               }}
             />
           </Paper>

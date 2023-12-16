@@ -21,6 +21,12 @@ export default function Filter(props) {
   }
   const { keyword, brandId, categoryId, subCategoryId, locationId, sortId } =
     filterOption;
+
+  const updateFilterOptions = (newFilterOption) => {
+    setFilterOption(newFilterOption);
+    localStorage.setItem("filterOption", JSON.stringify(newFilterOption));
+  };
+
   return (
     <Card className="ventory-filter" sx={{ minWidth: 275 }}>
       <CardContent>
@@ -41,7 +47,10 @@ export default function Filter(props) {
             >
               <TextField
                 onChange={(e) => {
-                  setFilterOption({ ...filterOption, keyword: e.target.value });
+                  updateFilterOptions({
+                    ...filterOption,
+                    keyword: e.target.value,
+                  });
                 }}
                 id="outlined-basic"
                 label="Search"
@@ -53,7 +62,7 @@ export default function Filter(props) {
                 value={brandId}
                 showAll={true}
                 onChange={(brandId) => {
-                  setFilterOption({ ...filterOption, brandId });
+                  updateFilterOptions({ ...filterOption, brandId });
                 }}
               />
             </Box>
@@ -76,14 +85,14 @@ export default function Filter(props) {
                 value={categoryId}
                 showAll={true}
                 onChange={(categoryId) => {
-                  setFilterOption({ ...filterOption, categoryId });
+                  updateFilterOptions({ ...filterOption, categoryId });
                 }}
               />
               <SubCategoryDropdown
                 value={subCategoryId}
                 showAll={true}
                 onChange={(subCategoryId) => {
-                  setFilterOption({ ...filterOption, subCategoryId });
+                  updateFilterOptions({ ...filterOption, subCategoryId });
                 }}
               />
             </Box>
@@ -104,7 +113,7 @@ export default function Filter(props) {
             >
               <TextField
                 onChange={(e) => {
-                  setFilterOption({
+                  updateFilterOptions({
                     ...filterOption,
                     fromYear: e.target.value,
                   });
@@ -117,7 +126,7 @@ export default function Filter(props) {
               />
               <TextField
                 onChange={(e) => {
-                  setFilterOption({
+                  updateFilterOptions({
                     ...filterOption,
                     toYear: e.target.value,
                   });
@@ -146,7 +155,7 @@ export default function Filter(props) {
             >
               <TextField
                 onChange={(e) => {
-                  setFilterOption({
+                  updateFilterOptions({
                     ...filterOption,
                     maxPrice: e.target.value,
                   });
@@ -159,7 +168,7 @@ export default function Filter(props) {
               />
               <TextField
                 onChange={(e) => {
-                  setFilterOption({
+                  updateFilterOptions({
                     ...filterOption,
                     minPrice: e.target.value,
                   });
@@ -188,7 +197,10 @@ export default function Filter(props) {
             >
               <TextField
                 onChange={(e) => {
-                  setFilterOption({ ...filterOption, maxQty: e.target.value });
+                  updateFilterOptions({
+                    ...filterOption,
+                    maxQty: e.target.value,
+                  });
                 }}
                 type="number"
                 id="outlined-basic"
@@ -199,7 +211,10 @@ export default function Filter(props) {
 
               <TextField
                 onChange={(e) => {
-                  setFilterOption({ ...filterOption, minQty: e.target.value });
+                  updateFilterOptions({
+                    ...filterOption,
+                    minQty: e.target.value,
+                  });
                 }}
                 type="number"
                 id="outlined-basic"
@@ -227,13 +242,13 @@ export default function Filter(props) {
                 value={locationId}
                 showAll={true}
                 onChange={(locationId) => {
-                  setFilterOption({ ...filterOption, locationId });
+                  updateFilterOptions({ ...filterOption, locationId });
                 }}
               />
               <Sorter
                 value={sortId}
                 onChange={(s) => {
-                  setFilterOption({ ...filterOption, sortId: s });
+                  updateFilterOptions({ ...filterOption, sortId: s });
                 }}
               />
             </Box>

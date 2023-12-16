@@ -7,6 +7,11 @@ export default function FilterToggle(props) {
     <Box
       className="filter-toggle"
       onClick={() => {
+        if (!filterVisible) {
+          localStorage.setItem("filterVisible", filterVisible);
+        } else {
+          localStorage.removeItem("filterVisible");
+        }
         setFilterVisible(!filterVisible);
       }}
     >
