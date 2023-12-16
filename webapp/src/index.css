@@ -108,3 +108,7 @@ code {
 .tags-on-table .MuiChip-root .MuiChip-label {
   padding: 0 5px;
 }
+
+.select__menu {
+  z-index: 99999 !important;
+}
