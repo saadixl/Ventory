@@ -101,6 +101,7 @@ code {
 .tags-on-table .MuiChip-root {
   font-size: 12px;
   margin-right: 5px;
+  margin-bottom: 5px;
   border-radius: 5px;
 }
 
