@@ -62,11 +62,10 @@ export default function CustomizedTables(props) {
     const configComp = config ? (
       <span className="config-text">{config}</span>
     ) : null;
-    console.log("tags -> ", tags);
     const tagsComp = tags ? (
       <div className="tags-on-table">
         {tags.map((tag) => {
-          return <Chip label={tag.label} color="warning" size="small" />;
+          return <Chip label={tag.label} color="primary" size="small" />;
         })}
       </div>
     ) : null;
