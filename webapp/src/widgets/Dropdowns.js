@@ -9,7 +9,7 @@ const customSelectStyle = {
   control: (baseStyles, state) => ({
     ...baseStyles,
     borderColor: state.isFocused ? "grey" : "#1E1E1E",
-    backgroundColor: "#1E1E1E",
+    backgroundColor: "#000",
     color: "#fff",
   }),
   option: (baseStyles, state) => ({

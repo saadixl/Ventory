@@ -236,16 +236,26 @@ export default function EditForm(props) {
         <Box
           component="form"
           sx={{
-            "& > :not(style)": { m: 1, width: "30ch" },
+            "& > :not(style)": { m: 1, width: "15ch" },
           }}
           noValidate
           autoComplete="off"
         >
-          <Button onClick={handleSubmitClick} variant="contained">
+          <Button
+            onClick={handleSubmitClick}
+            variant="contained"
+            size="small"
+            color="primary"
+          >
             Submit
           </Button>
-          <Button onClick={handleBackClick} variant="outlined">
-            Back to Dashboard
+          <Button
+            onClick={handleBackClick}
+            variant="outlined"
+            size="small"
+            color="primary"
+          >
+            Back
           </Button>
         </Box>
       </Paper>

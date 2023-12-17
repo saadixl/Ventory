@@ -259,15 +259,17 @@ export default function Filter(props) {
               sx={{
                 "& > :not(style)": {
                   m: 1,
-                  width: "100%",
-                  paddingLeft: "-10px",
-                  paddingRight: "10px",
                 },
               }}
               noValidate
               autoComplete="off"
             >
-              <Button onClick={clearFilter} size="large">
+              <Button
+                onClick={clearFilter}
+                size="small"
+                variant="contained"
+                color="primary"
+              >
                 Clear
               </Button>
             </Box>

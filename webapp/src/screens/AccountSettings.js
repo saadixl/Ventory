@@ -32,9 +32,9 @@ function AccountSettings() {
         <Button
           onClick={signOut}
           startIcon={<LogoutIcon />}
-          size="large"
-          variant="contained"
-          color="error"
+          size="small"
+          variant="outlined"
+          color="primary"
         >
           Logout
         </Button>
@@ -43,7 +43,7 @@ function AccountSettings() {
       <Button
         onClick={signInWithGoogle}
         startIcon={<GoogleIcon />}
-        size="large"
+        size="small"
         variant="contained"
       >
         Login with Google

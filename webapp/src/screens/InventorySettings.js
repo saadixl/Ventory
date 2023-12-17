@@ -264,9 +264,9 @@ function InventorySettings() {
             className="clear-cache-btn"
             onClick={clearCache}
             startIcon={<AutorenewIcon />}
-            size="large"
-            variant="contained"
-            color="error"
+            size="small"
+            variant="outlined"
+            color="primary"
           >
             Clear cache
           </Button>

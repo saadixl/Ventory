@@ -95,7 +95,7 @@ export default function CustomizedTables(props) {
           <span className="muted">{subCategoryId}</span>
         </StyledTableCell>
         <StyledTableCell align="center">
-          {isGift ? <CheckCircleIcon sx={{ color: "green" }} /> : null}
+          {isGift ? <CheckCircleIcon sx={{ color: "#0175D8" }} /> : null}
         </StyledTableCell>
         <StyledTableCell align="center">
           {showPrice ? price : <VisibilityOffIcon />}
