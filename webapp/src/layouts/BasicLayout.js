@@ -40,6 +40,7 @@ const defaultTheme = createTheme({
   },
   typography: {
     fontFamily: [
+      '"Inter"',
       "-apple-system",
       "BlinkMacSystemFont",
       '"Segoe UI"',
@@ -49,29 +50,69 @@ const defaultTheme = createTheme({
       "sans-serif",
     ].join(","),
     h1: {
+      fontFamily: '"Inter Tight", "Inter", sans-serif',
       fontWeight: 700,
-      letterSpacing: "-0.02em",
+      letterSpacing: "-0.03em",
+      lineHeight: 1.2,
     },
     h2: {
+      fontFamily: '"Inter Tight", "Inter", sans-serif',
       fontWeight: 700,
       letterSpacing: "-0.02em",
+      lineHeight: 1.3,
     },
     h3: {
+      fontFamily: '"Inter Tight", "Inter", sans-serif',
       fontWeight: 600,
       letterSpacing: "-0.01em",
+      lineHeight: 1.3,
     },
     h4: {
+      fontFamily: '"Inter Tight", "Inter", sans-serif',
       fontWeight: 600,
+      letterSpacing: "-0.01em",
+      lineHeight: 1.4,
     },
     h5: {
+      fontFamily: '"Inter Tight", "Inter", sans-serif',
       fontWeight: 600,
+      letterSpacing: "-0.005em",
+      lineHeight: 1.4,
     },
     h6: {
+      fontFamily: '"Inter Tight", "Inter", sans-serif',
       fontWeight: 600,
+      letterSpacing: "-0.005em",
+      lineHeight: 1.5,
+    },
+    body1: {
+      fontFamily: '"Inter", sans-serif',
+      fontWeight: 400,
+      lineHeight: 1.6,
+      letterSpacing: "-0.01em",
+    },
+    body2: {
+      fontFamily: '"Inter", sans-serif',
+      fontWeight: 400,
+      lineHeight: 1.5,
+      letterSpacing: "-0.005em",
     },
     button: {
+      fontFamily: '"Inter", sans-serif',
       textTransform: "none",
       fontWeight: 500,
+      letterSpacing: "-0.01em",
+    },
+    caption: {
+      fontFamily: '"Inter", sans-serif',
+      fontWeight: 400,
+      letterSpacing: "0.01em",
+    },
+    overline: {
+      fontFamily: '"Inter", sans-serif',
+      fontWeight: 600,
+      letterSpacing: "0.05em",
+      textTransform: "uppercase",
     },
   },
   shape: {
