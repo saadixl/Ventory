@@ -11,6 +11,7 @@ import FilterToggle from "../widgets/FilterToggle";
 
 function Dashboard() {
   const initialFilterOption = {
+    keyword: "",
     brandId: "ALL",
     categoryId: "ALL",
     subCategoryId: "ALL",
@@ -18,7 +19,7 @@ function Dashboard() {
     sortId: "default",
   };
   const cachedFilterOptions = localStorage.getItem("filterOption")
-    ? JSON.parse(localStorage.getItem("filterOption"))
+    ? { ...initialFilterOption, ...JSON.parse(localStorage.getItem("filterOption")) }
     : initialFilterOption;
 
   const [inventoryItems, setInventoryItems] = useState([]);
@@ -41,8 +42,8 @@ function Dashboard() {
       const createdAtYear = new Date(item.createdTimestamp).getFullYear();
       if (
         filterOption.keyword &&
-        item.name.toLowerCase().indexOf(filterOption.keyword.toLowerCase()) ===
-          -1
+        filterOption.keyword.trim() !== "" &&
+        !item.name.toLowerCase().includes(filterOption.keyword.toLowerCase().trim())
       ) {
         return false;
       }

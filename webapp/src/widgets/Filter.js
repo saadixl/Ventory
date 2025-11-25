@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useCallback } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -26,18 +27,59 @@ import {
   SubCategoryDropdown,
 } from "./Dropdowns";
 
+const FilterSection = ({ title, icon, children, ...props }) => (
+  <Card
+    sx={{
+      height: "100%",
+      background: "rgba(10, 15, 26, 0.6)",
+      border: "1px solid rgba(148, 163, 184, 0.08)",
+      borderRadius: 2,
+      transition: "all 0.2s ease-in-out",
+      "&:hover": {
+        borderColor: "rgba(99, 102, 241, 0.3)",
+        boxShadow: "0 4px 12px rgba(99, 102, 241, 0.1)",
+      },
+    }}
+    {...props}
+  >
+    <CardContent sx={{ p: 2, "&:last-child": { pb: 2 } }}>
+      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+        {icon}
+        <Typography
+          variant="subtitle2"
+          sx={{
+            ml: 1,
+            fontWeight: 600,
+            color: "text.primary",
+            textTransform: "uppercase",
+            letterSpacing: "0.5px",
+            fontSize: "0.75rem",
+          }}
+        >
+          {title}
+        </Typography>
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+        {children}
+      </Box>
+    </CardContent>
+  </Card>
+);
+
 export default function Filter(props) {
   const { filterOption, setFilterOption, clearFilter, filterVisible } = props;
+  
+  const updateFilterOptions = useCallback((newFilterOption) => {
+    setFilterOption(newFilterOption);
+    localStorage.setItem("filterOption", JSON.stringify(newFilterOption));
+  }, [setFilterOption]);
+
   if (!filterVisible) {
     return null;
   }
+  
   const { keyword, brandId, categoryId, subCategoryId, locationId, sortId, fromYear, toYear, minPrice, maxPrice, minQty, maxQty } =
     filterOption;
-
-  const updateFilterOptions = (newFilterOption) => {
-    setFilterOption(newFilterOption);
-    localStorage.setItem("filterOption", JSON.stringify(newFilterOption));
-  };
 
   // Count active filters
   const activeFiltersCount = [
@@ -54,45 +96,6 @@ export default function Filter(props) {
     maxQty,
     sortId !== "default" && sortId,
   ].filter(Boolean).length;
-
-  const FilterSection = ({ title, icon, children, ...props }) => (
-    <Card
-      sx={{
-        height: "100%",
-        background: "rgba(10, 15, 26, 0.6)",
-        border: "1px solid rgba(148, 163, 184, 0.08)",
-        borderRadius: 2,
-        transition: "all 0.2s ease-in-out",
-        "&:hover": {
-          borderColor: "rgba(99, 102, 241, 0.3)",
-          boxShadow: "0 4px 12px rgba(99, 102, 241, 0.1)",
-        },
-      }}
-      {...props}
-    >
-      <CardContent sx={{ p: 2, "&:last-child": { pb: 2 } }}>
-        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-          {icon}
-          <Typography
-            variant="subtitle2"
-            sx={{
-              ml: 1,
-              fontWeight: 600,
-              color: "text.primary",
-              textTransform: "uppercase",
-              letterSpacing: "0.5px",
-              fontSize: "0.75rem",
-            }}
-          >
-            {title}
-          </Typography>
-        </Box>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-          {children}
-        </Box>
-      </CardContent>
-    </Card>
-  );
 
   return (
     <Box className="ventory-filter" sx={{ mt: 2 }}>
