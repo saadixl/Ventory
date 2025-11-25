@@ -25,10 +25,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     textTransform: "uppercase",
     letterSpacing: "0.05em",
     borderBottom: "2px solid rgba(99, 102, 241, 0.2)",
+    padding: theme.spacing(1.5, 2),
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
     borderBottom: "1px solid rgba(148, 163, 184, 0.08)",
+    padding: theme.spacing(1.5, 2),
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
 }));
 
@@ -98,7 +102,13 @@ export default function CustomizedTables(props) {
             {brandId}
           </Typography>
         </StyledTableCell>
-        <StyledTableCell width="20%" component="th">
+        <StyledTableCell 
+          component="th"
+          sx={{ 
+            wordWrap: "break-word",
+            overflowWrap: "break-word",
+          }}
+        >
           <Typography variant="body2" sx={{ fontWeight: 500, mb: 0.5 }}>
             {name}
           </Typography>
@@ -108,6 +118,7 @@ export default function CustomizedTables(props) {
               color: "text.secondary",
               fontSize: 12,
               lineHeight: 1.5,
+              wordWrap: "break-word",
             }}
           >
             {configComp}
@@ -149,10 +160,10 @@ export default function CustomizedTables(props) {
         <StyledTableCell align="right">
           <Typography variant="body2">{locationId}</Typography>
         </StyledTableCell>
-        <StyledTableCell width="20%" align="right">
+        <StyledTableCell align="right">
           <DateTimeLabel timestamp={createdTimestamp} />
         </StyledTableCell>
-        <StyledTableCell width="20%" align="right">
+        <StyledTableCell align="right">
           <DateTimeLabel timestamp={lastUsedTimestamp} />
         </StyledTableCell>
         <StyledTableCell align="right">
@@ -172,12 +183,31 @@ export default function CustomizedTables(props) {
       component={Paper}
       sx={{
         borderRadius: 3,
-        overflow: "hidden",
+        overflowX: "auto",
+        overflowY: "hidden",
         boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
         border: "1px solid rgba(148, 163, 184, 0.12)",
       }}
     >
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table 
+        sx={{ 
+          minWidth: 1200,
+          width: "100%",
+        }} 
+        aria-label="customized table"
+      >
+        <colgroup>
+          <col style={{ width: "10%" }} />
+          <col style={{ width: "22%" }} />
+          <col style={{ width: "12%" }} />
+          <col style={{ width: "6%" }} />
+          <col style={{ width: "10%" }} />
+          <col style={{ width: "8%" }} />
+          <col style={{ width: "10%" }} />
+          <col style={{ width: "11%" }} />
+          <col style={{ width: "11%" }} />
+          <col style={{ width: "2%" }} />
+        </colgroup>
         <TableHead className="ventory-table-head">
           <TableRow>
             <StyledTableCell>Brand</StyledTableCell>
@@ -187,7 +217,7 @@ export default function CustomizedTables(props) {
               <br />
               <span className="muted">Subcategory</span>
             </StyledTableCell>
-            <StyledTableCell>Gift</StyledTableCell>
+            <StyledTableCell sx={{ textAlign: "center" }}>Gift</StyledTableCell>
             <StyledTableCell align="right">
               <FormControlLabel
                 control={
@@ -213,7 +243,7 @@ export default function CustomizedTables(props) {
             <StyledTableCell align="right">Location</StyledTableCell>
             <StyledTableCell align="right">Bought at</StyledTableCell>
             <StyledTableCell align="right">Last used</StyledTableCell>
-            <StyledTableCell></StyledTableCell>
+            <StyledTableCell align="right"></StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>{renderTableRows}</TableBody>
