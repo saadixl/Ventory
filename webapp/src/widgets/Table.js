@@ -18,7 +18,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#1e293b",
+    backgroundColor: "#0a0f1a",
     color: "#f1f5f9",
     fontWeight: 600,
     fontSize: "0.875rem",

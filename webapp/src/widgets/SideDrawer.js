@@ -26,9 +26,9 @@ const Drawer = styled(MuiDrawer, {
     position: "relative",
     whiteSpace: "nowrap",
     width: drawerWidth,
-    backgroundColor: "#1e293b",
-    borderRight: "1px solid rgba(148, 163, 184, 0.12)",
-    backgroundImage: "linear-gradient(180deg, rgba(99, 102, 241, 0.05) 0%, transparent 100%)",
+    backgroundColor: "#0a0f1a",
+    borderRight: "1px solid rgba(148, 163, 184, 0.08)",
+    backgroundImage: "linear-gradient(180deg, rgba(99, 102, 241, 0.03) 0%, transparent 100%)",
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,

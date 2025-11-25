@@ -59,8 +59,8 @@ export default function Filter(props) {
     <Card
       sx={{
         height: "100%",
-        background: "rgba(30, 41, 59, 0.4)",
-        border: "1px solid rgba(148, 163, 184, 0.12)",
+        background: "rgba(10, 15, 26, 0.6)",
+        border: "1px solid rgba(148, 163, 184, 0.08)",
         borderRadius: 2,
         transition: "all 0.2s ease-in-out",
         "&:hover": {

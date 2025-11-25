@@ -70,9 +70,9 @@ export default function EditForm(props) {
         sx={{
           display: "flex",
           flexDirection: "column",
-          background: "rgba(30, 41, 59, 0.6)",
+          background: "rgba(10, 15, 26, 0.7)",
           backdropFilter: "blur(8px)",
-          border: "1px solid rgba(148, 163, 184, 0.12)",
+          border: "1px solid rgba(148, 163, 184, 0.08)",
           borderRadius: 3,
           p: 3,
           boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",

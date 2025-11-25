@@ -29,14 +29,14 @@ const defaultTheme = createTheme({
       dark: "#7c3aed",
     },
     background: {
-      default: "#0f172a",
-      paper: "#1e293b",
+      default: "#020617",
+      paper: "#0a0f1a",
     },
     text: {
       primary: "#f1f5f9",
-      secondary: "#cbd5e1",
+      secondary: "#94a3b8",
     },
-    divider: "rgba(148, 163, 184, 0.12)",
+    divider: "rgba(148, 163, 184, 0.08)",
   },
   typography: {
     fontFamily: [
@@ -202,9 +202,9 @@ export default function BasicLayout(props) {
     shouldForwardProp: (prop) => prop !== "open",
   })(({ theme, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "rgba(30, 41, 59, 0.8)",
+    backgroundColor: "rgba(10, 15, 26, 0.9)",
     backdropFilter: "blur(12px)",
-    borderBottom: "1px solid rgba(148, 163, 184, 0.12)",
+    borderBottom: "1px solid rgba(148, 163, 184, 0.08)",
     boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
@@ -262,11 +262,11 @@ export default function BasicLayout(props) {
           component="main"
           sx={{
             backgroundColor: (theme) =>
-              theme.palette.mode === "light" ? theme.palette.grey[50] : "#0f172a",
+              theme.palette.mode === "light" ? theme.palette.grey[50] : "#020617",
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",
-            backgroundImage: "radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.05) 0px, transparent 50%)",
+            backgroundImage: "radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.03) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.03) 0px, transparent 50%)",
           }}
         >
           <Toolbar />
