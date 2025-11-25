@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -7,16 +6,13 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import SearchIcon from "@mui/icons-material/Search";
 import CategoryIcon from "@mui/icons-material/Category";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import SortIcon from "@mui/icons-material/Sort";
 import ClearIcon from "@mui/icons-material/Clear";
 import Sorter from "./Sorter";
 
@@ -72,7 +68,8 @@ export default function Filter(props) {
   const updateFilterOptions = useCallback((newFilterOption) => {
     setFilterOption(newFilterOption);
     localStorage.setItem("filterOption", JSON.stringify(newFilterOption));
-  }, [setFilterOption]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!filterVisible) {
     return null;
