@@ -150,7 +150,11 @@ function Dashboard() {
             sx={{
               display: "flex",
               flexDirection: "column",
-              background: "transparent",
+              background: "rgba(30, 41, 59, 0.6)",
+              backdropFilter: "blur(8px)",
+              border: "1px solid rgba(148, 163, 184, 0.12)",
+              borderRadius: 3,
+              p: 2,
             }}
           >
             <FilterToggle
@@ -173,12 +177,14 @@ function Dashboard() {
             sx={{
               display: "flex",
               flexDirection: "column",
+              borderRadius: 3,
+              overflow: "hidden",
+              border: "1px solid rgba(148, 163, 184, 0.12)",
             }}
           >
             {tableComp}
           </Paper>
         </Grid>
-        {/* Recent Deposits */}
       </Grid>
     </AuthenticatedLayout>
   );

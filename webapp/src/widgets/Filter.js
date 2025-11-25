@@ -28,8 +28,16 @@ export default function Filter(props) {
   };
 
   return (
-    <Card className="ventory-filter" sx={{ minWidth: 275 }}>
-      <CardContent>
+    <Card 
+      className="ventory-filter" 
+      sx={{ 
+        minWidth: 275,
+        background: "transparent",
+        boxShadow: "none",
+        border: "none",
+      }}
+    >
+      <CardContent sx={{ p: 2, "&:last-child": { pb: 2 } }}>
         <Grid container>
           <Grid item xs={2} md={2} lg={2}>
             <Box

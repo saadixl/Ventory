@@ -18,16 +18,29 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: "#1e293b",
+    color: "#f1f5f9",
+    fontWeight: 600,
+    fontSize: "0.875rem",
+    textTransform: "uppercase",
+    letterSpacing: "0.05em",
+    borderBottom: "2px solid rgba(99, 102, 241, 0.2)",
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 12,
+    fontSize: 14,
+    borderBottom: "1px solid rgba(148, 163, 184, 0.08)",
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {},
+  transition: "all 0.2s ease-in-out",
+  "&:hover": {
+    backgroundColor: "rgba(99, 102, 241, 0.05)",
+    transform: "scale(1.001)",
+  },
+  "&:nth-of-type(even)": {
+    backgroundColor: "rgba(148, 163, 184, 0.02)",
+  },
   // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
@@ -70,17 +83,31 @@ export default function CustomizedTables(props) {
       </div>
     ) : null;
     return (
-      <StyledTableRow key={id} className={quantity < 1 ? "out-of-stock" : ""}>
+      <StyledTableRow 
+        key={id} 
+        className={quantity < 1 ? "out-of-stock" : ""}
+        sx={{
+          ...(quantity < 1 && {
+            opacity: 0.6,
+            backgroundColor: "rgba(108, 117, 125, 0.1)",
+          }),
+        }}
+      >
         <StyledTableCell component="th" scope="row">
-          {brandId}
+          <Typography variant="body2" sx={{ fontWeight: 500 }}>
+            {brandId}
+          </Typography>
         </StyledTableCell>
         <StyledTableCell width="20%" component="th">
-          <p>{name}</p>
+          <Typography variant="body2" sx={{ fontWeight: 500, mb: 0.5 }}>
+            {name}
+          </Typography>
           <Typography
             component="p"
             sx={{
-              color: "#999",
+              color: "text.secondary",
               fontSize: 12,
+              lineHeight: 1.5,
             }}
           >
             {configComp}
@@ -89,18 +116,39 @@ export default function CustomizedTables(props) {
           </Typography>
         </StyledTableCell>
         <StyledTableCell>
-          {categoryId}
-          <br />
-          <span className="muted">{subCategoryId}</span>
+          <Typography variant="body2" sx={{ fontWeight: 500 }}>
+            {categoryId}
+          </Typography>
+          <Typography variant="caption" sx={{ color: "text.secondary" }}>
+            {subCategoryId}
+          </Typography>
         </StyledTableCell>
         <StyledTableCell align="center">
-          {isGift ? <CheckCircleIcon sx={{ color: "#0175D8" }} /> : null}
+          {isGift ? <CheckCircleIcon sx={{ color: "#6366f1" }} /> : null}
         </StyledTableCell>
         <StyledTableCell align="center">
-          {showPrice ? price : <VisibilityOffIcon />}
+          {showPrice ? (
+            <Typography variant="body2" sx={{ fontWeight: 500 }}>
+              ${price}
+            </Typography>
+          ) : (
+            <VisibilityOffIcon sx={{ color: "text.secondary", fontSize: 18 }} />
+          )}
         </StyledTableCell>
-        <StyledTableCell align="right">{quantity}</StyledTableCell>
-        <StyledTableCell align="right">{locationId}</StyledTableCell>
+        <StyledTableCell align="right">
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              fontWeight: 600,
+              color: quantity < 1 ? "error.main" : "primary.main",
+            }}
+          >
+            {quantity}
+          </Typography>
+        </StyledTableCell>
+        <StyledTableCell align="right">
+          <Typography variant="body2">{locationId}</Typography>
+        </StyledTableCell>
         <StyledTableCell width="20%" align="right">
           <DateTimeLabel timestamp={createdTimestamp} />
         </StyledTableCell>
@@ -120,7 +168,15 @@ export default function CustomizedTables(props) {
   });
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer 
+      component={Paper}
+      sx={{
+        borderRadius: 3,
+        overflow: "hidden",
+        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+        border: "1px solid rgba(148, 163, 184, 0.12)",
+      }}
+    >
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead className="ventory-table-head">
           <TableRow>
@@ -135,10 +191,22 @@ export default function CustomizedTables(props) {
             <StyledTableCell align="right">
               <FormControlLabel
                 control={
-                  <Switch checked={showPrice} onChange={handleShowPrice} />
+                  <Switch 
+                    checked={showPrice} 
+                    onChange={handleShowPrice}
+                    sx={{
+                      "& .MuiSwitch-switchBase.Mui-checked": {
+                        color: "#6366f1",
+                      },
+                      "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                        backgroundColor: "#6366f1",
+                      },
+                    }}
+                  />
                 }
                 label="Price"
                 labelPlacement="start"
+                sx={{ margin: 0 }}
               />
             </StyledTableCell>
             <StyledTableCell align="right">Quantity</StyledTableCell>

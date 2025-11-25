@@ -12,10 +12,142 @@ import { ToastContainer } from "react-toastify";
 import SideDrawer from "../widgets/SideDrawer";
 import "react-toastify/dist/ReactToastify.css";
 
-const drawerWidth = 240;
+const drawerWidth = 260;
+
 const defaultTheme = createTheme({
   palette: {
     mode: "dark",
+    primary: {
+      main: "#6366f1",
+      light: "#818cf8",
+      dark: "#4f46e5",
+      contrastText: "#ffffff",
+    },
+    secondary: {
+      main: "#8b5cf6",
+      light: "#a78bfa",
+      dark: "#7c3aed",
+    },
+    background: {
+      default: "#0f172a",
+      paper: "#1e293b",
+    },
+    text: {
+      primary: "#f1f5f9",
+      secondary: "#cbd5e1",
+    },
+    divider: "rgba(148, 163, 184, 0.12)",
+  },
+  typography: {
+    fontFamily: [
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+    ].join(","),
+    h1: {
+      fontWeight: 700,
+      letterSpacing: "-0.02em",
+    },
+    h2: {
+      fontWeight: 700,
+      letterSpacing: "-0.02em",
+    },
+    h3: {
+      fontWeight: 600,
+      letterSpacing: "-0.01em",
+    },
+    h4: {
+      fontWeight: 600,
+    },
+    h5: {
+      fontWeight: 600,
+    },
+    h6: {
+      fontWeight: 600,
+    },
+    button: {
+      textTransform: "none",
+      fontWeight: 500,
+    },
+  },
+  shape: {
+    borderRadius: 12,
+  },
+  shadows: [
+    "none",
+    "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+    "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+    "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+  ],
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          padding: "8px 20px",
+          boxShadow: "none",
+          "&:hover": {
+            boxShadow: "0 4px 12px rgba(99, 102, 241, 0.3)",
+          },
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage: "none",
+          borderRadius: 12,
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 16,
+          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-root": {
+            borderRadius: 8,
+            "&:hover fieldset": {
+              borderColor: "#6366f1",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#6366f1",
+            },
+          },
+        },
+      },
+    },
   },
 });
 
@@ -29,6 +161,10 @@ export default function BasicLayout(props) {
     shouldForwardProp: (prop) => prop !== "open",
   })(({ theme, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
+    backgroundColor: "rgba(30, 41, 59, 0.8)",
+    backdropFilter: "blur(12px)",
+    borderBottom: "1px solid rgba(148, 163, 184, 0.12)",
+    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -85,18 +221,33 @@ export default function BasicLayout(props) {
           component="main"
           sx={{
             backgroundColor: (theme) =>
-              theme.palette.mode === "light" ? theme.palette.grey[100] : "#000",
+              theme.palette.mode === "light" ? theme.palette.grey[50] : "#0f172a",
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",
+            backgroundImage: "radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.05) 0px, transparent 50%)",
           }}
         >
           <Toolbar />
-          <Container maxWidth="100%" sx={{ mt: 4, mb: 4 }}>
+          <Container maxWidth="100%" sx={{ mt: 4, mb: 4, px: { xs: 2, sm: 3, md: 4 } }}>
             {props.children}
           </Container>
         </Box>
-        <ToastContainer />
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          style={{
+            borderRadius: "12px",
+          }}
+        />
       </Box>
     </ThemeProvider>
   );

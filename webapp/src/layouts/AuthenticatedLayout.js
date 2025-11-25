@@ -24,7 +24,14 @@ export default function AuthenticatedLayout(props) {
     childComponents = isLoggedIn ? (
       props.children
     ) : (
-      <Alert severity="error">
+      <Alert 
+        severity="error"
+        sx={{
+          borderRadius: 2,
+          border: "1px solid rgba(239, 68, 68, 0.3)",
+          backgroundColor: "rgba(239, 68, 68, 0.1)",
+        }}
+      >
         You don't have permission to see this page.
       </Alert>
     );
