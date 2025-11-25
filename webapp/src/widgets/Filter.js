@@ -68,8 +68,7 @@ export default function Filter(props) {
   const updateFilterOptions = useCallback((newFilterOption) => {
     setFilterOption(newFilterOption);
     localStorage.setItem("filterOption", JSON.stringify(newFilterOption));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [setFilterOption]);
 
   if (!filterVisible) {
     return null;
