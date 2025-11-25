@@ -49,17 +49,18 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const StyledListItemButton = styled(ListItemButton, {
-  shouldForwardProp: (prop) => prop !== "active",
-})(({ theme, active }) => ({
-  margin: "4px 12px",
+  shouldForwardProp: (prop) => prop !== "active" && prop !== "open",
+})(({ theme, active, open }) => ({
+  margin: open ? "4px 12px" : "4px 8px",
   borderRadius: 10,
-  padding: "12px 16px",
+  padding: open ? "12px 16px" : "12px",
+  justifyContent: open ? "flex-start" : "center",
   transition: "all 0.2s ease-in-out",
   "&:hover": {
     backgroundColor: "rgba(99, 102, 241, 0.1)",
-    transform: "translateX(4px)",
+    transform: open ? "translateX(4px)" : "none",
   },
-  ...(active && {
+  ...(active && open && {
     backgroundColor: "rgba(99, 102, 241, 0.15)",
     borderLeft: "3px solid #6366f1",
     "& .MuiListItemIcon-root": {
@@ -70,18 +71,47 @@ const StyledListItemButton = styled(ListItemButton, {
       fontWeight: 600,
     },
   }),
+  ...(active && !open && {
+    backgroundColor: "transparent",
+    borderLeft: "none",
+    "& .MuiListItemIcon-root": {
+      color: "#6366f1 !important",
+    },
+    "& .MuiListItemIcon-root svg": {
+      color: "#6366f1 !important",
+    },
+    "& .MuiListItemText-primary": {
+      color: "inherit",
+      fontWeight: "normal",
+    },
+  }),
+  "& .MuiListItemIcon-root": {
+    minWidth: open ? 40 : "auto",
+    justifyContent: "center",
+    color: "inherit",
+  },
+  "& .MuiListItemText-root": {
+    display: open ? "block" : "none",
+  },
 }));
 
 const NavItems = (props) => {
-  const { activeScreen } = props;
+  const { activeScreen, open } = props;
+  const isActive = (screen) => activeScreen === screen;
+  
   return (
     <React.Fragment>
       <StyledListItemButton
         component={Link}
         to="/"
-        active={activeScreen === "dashboard"}
+        active={isActive("dashboard")}
+        open={open}
       >
-        <ListItemIcon>
+        <ListItemIcon
+          sx={{
+            color: !open && isActive("dashboard") ? "#6366f1" : "inherit",
+          }}
+        >
           <DashboardIcon />
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
@@ -90,9 +120,14 @@ const NavItems = (props) => {
       <StyledListItemButton
         component={Link}
         to="/add-new-item"
-        active={activeScreen === "addnewitem"}
+        active={isActive("addnewitem")}
+        open={open}
       >
-        <ListItemIcon>
+        <ListItemIcon
+          sx={{
+            color: !open && isActive("addnewitem") ? "#6366f1" : "inherit",
+          }}
+        >
           <AddBoxIcon />
         </ListItemIcon>
         <ListItemText primary="Add new item" />
@@ -101,9 +136,14 @@ const NavItems = (props) => {
       <StyledListItemButton
         component={Link}
         to="/inventory-settings"
-        active={activeScreen === "inventorysettings"}
+        active={isActive("inventorysettings")}
+        open={open}
       >
-        <ListItemIcon>
+        <ListItemIcon
+          sx={{
+            color: !open && isActive("inventorysettings") ? "#6366f1" : "inherit",
+          }}
+        >
           <TuneIcon />
         </ListItemIcon>
         <ListItemText primary="Inventory settings" />
@@ -112,9 +152,14 @@ const NavItems = (props) => {
       <StyledListItemButton
         component={Link}
         to="/account-settings"
-        active={activeScreen === "accountsettings"}
+        active={isActive("accountsettings")}
+        open={open}
       >
-        <ListItemIcon>
+        <ListItemIcon
+          sx={{
+            color: !open && isActive("accountsettings") ? "#6366f1" : "inherit",
+          }}
+        >
           <ManageAccountsIcon />
         </ListItemIcon>
         <ListItemText primary="Account settings" />
@@ -164,7 +209,7 @@ export default function SideDrawer(props) {
       </Toolbar>
       <Divider sx={{ borderColor: "rgba(148, 163, 184, 0.12)" }} />
       <List component="nav" sx={{ px: 1, pt: 2 }}>
-        <NavItems activeScreen={activeScreen} />
+        <NavItems activeScreen={activeScreen} open={open} />
       </List>
     </Drawer>
   );
