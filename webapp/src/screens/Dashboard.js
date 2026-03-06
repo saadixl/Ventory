@@ -21,6 +21,8 @@ const StatCard = ({ icon, label, value, color, loading }) => (
       alignItems: "center",
       gap: 2,
       p: 2,
+      width: "100%",
+      height: "100%",
       borderRadius: 2.5,
       background: "rgba(10, 15, 26, 0.6)",
       border: "1px solid rgba(148, 163, 184, 0.08)",
@@ -220,50 +222,46 @@ function Dashboard() {
   return (
     <AuthenticatedLayout screenName="Dashboard" activeScreen="dashboard">
       <Grid container spacing={3} className="animate-fade-in">
-        {/* Stats Row */}
-        <Grid item xs={12}>
-          <Grid container spacing={2}>
-            <Grid item xs={6} sm={3}>
-              <StatCard
-                icon={<InventoryIcon sx={{ fontSize: 20, color: "#6366f1" }} />}
-                label="Total Items"
-                value={totalItems}
-                color="#6366f1"
-                loading={loading}
-              />
-            </Grid>
-            <Grid item xs={6} sm={3}>
-              <StatCard
-                icon={<CategoryIcon sx={{ fontSize: 20, color: "#8b5cf6" }} />}
-                label="Categories"
-                value={uniqueCategories}
-                color="#8b5cf6"
-                loading={loading}
-              />
-            </Grid>
-            <Grid item xs={6} sm={3}>
-              <StatCard
-                icon={<WarningAmberIcon sx={{ fontSize: 20, color: "#f59e0b" }} />}
-                label="Out of Stock"
-                value={outOfStock}
-                color={outOfStock > 0 ? "#f59e0b" : "#10b981"}
-                loading={loading}
-              />
-            </Grid>
-            <Grid item xs={6} sm={3}>
-              <StatCard
-                icon={<AttachMoneyIcon sx={{ fontSize: 20, color: "#10b981" }} />}
-                label="Total Value"
-                value={`$${totalValue.toLocaleString()}`}
-                color="#10b981"
-                loading={loading}
-              />
-            </Grid>
-          </Grid>
+        {/* Stats Row – 4 cards as direct items so they occupy one row; filter is next item and wraps below */}
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard
+            icon={<InventoryIcon sx={{ fontSize: 20, color: "#6366f1" }} />}
+            label="Total Items"
+            value={totalItems}
+            color="#6366f1"
+            loading={loading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard
+            icon={<CategoryIcon sx={{ fontSize: 20, color: "#8b5cf6" }} />}
+            label="Categories"
+            value={uniqueCategories}
+            color="#8b5cf6"
+            loading={loading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard
+            icon={<WarningAmberIcon sx={{ fontSize: 20, color: "#f59e0b" }} />}
+            label="Out of Stock"
+            value={outOfStock}
+            color={outOfStock > 0 ? "#f59e0b" : "#10b981"}
+            loading={loading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard
+            icon={<AttachMoneyIcon sx={{ fontSize: 20, color: "#10b981" }} />}
+            label="Total Value"
+            value={`$${totalValue.toLocaleString()}`}
+            color="#10b981"
+            loading={loading}
+          />
         </Grid>
 
-        {/* Filter */}
-        <Grid className="filter-wrapper" item xs={12}>
+        {/* Filter – full width, always on its own row below the 4 cards */}
+        <Grid className="filter-wrapper" item xs={12} sx={{ flexBasis: "100%", width: "100%", maxWidth: "100%" }}>
           <Paper
             sx={{
               display: "flex",

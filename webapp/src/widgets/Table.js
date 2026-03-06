@@ -21,14 +21,16 @@ import PlaceIcon from "@mui/icons-material/Place";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "rgba(10, 15, 26, 0.95)",
-    color: "rgba(148, 163, 184, 0.8)",
+    backgroundColor: "rgba(15, 23, 42, 0.98)",
+    color: "rgba(148, 163, 184, 0.9)",
     fontWeight: 600,
-    fontSize: "0.68rem",
+    fontSize: "0.7rem",
     textTransform: "uppercase",
     letterSpacing: "0.08em",
-    borderBottom: "none",
-    padding: theme.spacing(1.5, 2),
+    borderBottom: "1px solid rgba(148, 163, 184, 0.12)",
+    padding: theme.spacing(2.25, 2),
+    verticalAlign: "middle",
+    lineHeight: 1.4,
     position: "sticky",
     top: 0,
     zIndex: 1,
@@ -41,26 +43,26 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    borderBottom: "none",
-    padding: theme.spacing(2, 2),
-    verticalAlign: "top",
+    borderBottom: "1px solid rgba(148, 163, 184, 0.08)",
+    padding: theme.spacing(1.75, 2),
+    verticalAlign: "middle",
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  transition: "all 0.2s ease",
+  transition: "background-color 0.15s ease, box-shadow 0.15s ease",
   position: "relative",
-  "& td, & th": {
-    borderBottom: "1px solid rgba(148, 163, 184, 0.06)",
+  "&:nth-of-type(even)": {
+    backgroundColor: "rgba(148, 163, 184, 0.02)",
   },
   "&:hover": {
-    backgroundColor: "rgba(99, 102, 241, 0.04)",
+    backgroundColor: "rgba(99, 102, 241, 0.06) !important",
     "& td:first-of-type, & th:first-of-type": {
       boxShadow: "inset 3px 0 0 0 #6366f1",
     },
   },
   "&:last-child td, &:last-child th": {
-    borderBottom: 0,
+    borderBottom: "none",
   },
 }));
 
@@ -168,7 +170,7 @@ export default function CustomizedTables(props) {
         {/* Item */}
         <StyledTableCell
           component="th"
-          sx={{ wordWrap: "break-word", overflowWrap: "break-word" }}
+          sx={{ wordWrap: "break-word", overflowWrap: "break-word", verticalAlign: "top" }}
         >
           <Typography
             variant="body2"
@@ -176,7 +178,7 @@ export default function CustomizedTables(props) {
           >
             {name}
           </Typography>
-          {config && (
+          {config != null && String(config).trim() !== "" && String(config) !== "NaN" && (
             <Box
               sx={{
                 mt: 0.5,
@@ -197,21 +199,21 @@ export default function CustomizedTables(props) {
                   lineHeight: 1.5,
                 }}
               >
-                {config}
+                {String(config)}
               </Typography>
             </Box>
           )}
-          {description && (
+          {description != null && String(description).trim() !== "" && String(description) !== "NaN" && (
             <Typography
               sx={{
-                color: "rgba(148, 163, 184, 0.7)",
+                color: "rgba(148, 163, 184, 0.75)",
                 fontSize: "0.75rem",
                 lineHeight: 1.5,
                 mt: 0.5,
                 wordWrap: "break-word",
               }}
             >
-              {description}
+              {String(description)}
             </Typography>
           )}
           {tags && tags.length > 0 && (
@@ -238,7 +240,7 @@ export default function CustomizedTables(props) {
         </StyledTableCell>
 
         {/* Category */}
-        <StyledTableCell>
+        <StyledTableCell sx={{ verticalAlign: "top" }}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
             <Typography
               variant="body2"
@@ -291,8 +293,14 @@ export default function CustomizedTables(props) {
                 color: "#10b981",
               }}
             >
-              <span style={{ opacity: 0.5, fontSize: "0.7rem" }}>$</span>
-              {price}
+              {typeof price === "number" && !Number.isNaN(price) ? (
+                <>
+                  <span style={{ opacity: 0.5, fontSize: "0.7rem" }}>$</span>
+                  {price}
+                </>
+              ) : (
+                <span style={{ color: "rgba(148, 163, 184, 0.4)", fontSize: "0.75rem" }}>—</span>
+              )}
             </Typography>
           ) : (
             <VisibilityOffIcon sx={{ color: "rgba(148, 163, 184, 0.3)", fontSize: 16 }} />
@@ -363,12 +371,12 @@ export default function CustomizedTables(props) {
         </StyledTableCell>
 
         {/* Bought at */}
-        <StyledTableCell align="right">
+        <StyledTableCell align="right" sx={{ verticalAlign: "top" }}>
           <DateTimeLabel timestamp={createdTimestamp} />
         </StyledTableCell>
 
         {/* Last used */}
-        <StyledTableCell align="right">
+        <StyledTableCell align="right" sx={{ verticalAlign: "top" }}>
           <DateTimeLabel timestamp={lastUsedTimestamp} />
         </StyledTableCell>
 
@@ -392,9 +400,9 @@ export default function CustomizedTables(props) {
         borderRadius: 3,
         overflowX: "auto",
         overflowY: "hidden",
-        boxShadow: "none",
-        border: "none",
-        background: "transparent",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.12)",
+        border: "1px solid rgba(148, 163, 184, 0.1)",
+        background: "rgba(15, 23, 42, 0.4)",
       }}
     >
       <Table
@@ -419,7 +427,7 @@ export default function CustomizedTables(props) {
           <col style={{ width: "3%" }} />
         </colgroup>
         <TableHead>
-          <TableRow>
+          <TableRow sx={{ "& th": { minHeight: 52, boxSizing: "border-box" } }}>
             <StyledTableCell>Brand</StyledTableCell>
             <StyledTableCell>Item</StyledTableCell>
             <StyledTableCell>Category</StyledTableCell>
