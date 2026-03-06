@@ -43,6 +43,42 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
+/* ========== Animations ========== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+  50% { box-shadow: 0 0 20px 2px rgba(99, 102, 241, 0.15); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.3s ease-out;
+}
+
+/* ========== Components ========== */
+
 .ventory-datepicker {
   display: inline-flex;
   margin-top: 0 !important;
@@ -87,6 +123,20 @@ h1, h2, h3, h4, h5, h6 {
   backdrop-filter: blur(12px) !important;
 }
 
+/* App bar gradient accent line */
+.ventory-app-bar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 40%, #a78bfa 60%, #6366f1 100%);
+  background-size: 200% auto;
+  animation: shimmer 4s linear infinite;
+  opacity: 0.6;
+}
+
 .react-select__menu-list {
   background-color: #0a0f1a;
   border-radius: 8px;
@@ -97,13 +147,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .react-select__control {
-  background-color: #0a0f1a !important;
+  background-color: rgba(10, 15, 26, 0.8) !important;
   border-color: rgba(148, 163, 184, 0.15) !important;
-  border-radius: 8px !important;
+  border-radius: 10px !important;
+  transition: all 0.2s ease !important;
 }
 
 .react-select__control:hover {
   border-color: #6366f1 !important;
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.1) !important;
 }
 
 .react-select__control--is-focused {
@@ -119,12 +171,30 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #6366f1 !important;
 }
 
+.react-select__multi-value {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%) !important;
+  border: 1px solid rgba(99, 102, 241, 0.3) !important;
+  border-radius: 6px !important;
+}
+
+.react-select__multi-value__label {
+  color: #c7d2fe !important;
+  font-weight: 500 !important;
+  font-size: 12px !important;
+}
+
+.react-select__multi-value__remove:hover {
+  background-color: rgba(239, 68, 68, 0.2) !important;
+  color: #ef4444 !important;
+}
+
 .clear-cache-btn {
   margin-top: 30px !important;
 }
 
 .ventory-filter {
   margin-top: 20px;
+  animation: fadeIn 0.3s ease-out;
 }
 
 .ventory-filter > div {
@@ -170,6 +240,12 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid rgba(99, 102, 241, 0.3);
   color: #c7d2fe;
   font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.tags-on-table .MuiChip-root:hover {
+  border-color: rgba(99, 102, 241, 0.5);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
 }
 
 .tags-on-table .MuiChip-root .MuiChip-label {
@@ -190,9 +266,10 @@ h1, h2, h3, h4, h5, h6 {
 /* Toast notifications styling */
 .Toastify__toast {
   border-radius: 12px !important;
-  background: #0a0f1a !important;
+  background: rgba(10, 15, 26, 0.95) !important;
   border: 1px solid rgba(148, 163, 184, 0.08) !important;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(12px) !important;
 }
 
 .Toastify__toast--success {
@@ -213,19 +290,25 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0f1a;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #475569;
-  border-radius: 4px;
+  background: rgba(71, 85, 105, 0.5);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+  background: rgba(100, 116, 139, 0.7);
+}
+
+/* Selection color */
+::selection {
+  background: rgba(99, 102, 241, 0.3);
+  color: #f1f5f9;
 }

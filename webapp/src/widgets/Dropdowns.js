@@ -8,13 +8,17 @@ import { getInventoryOptions } from "../services/api";
 const customSelectStyle = {
   control: (baseStyles, state) => ({
     ...baseStyles,
-    borderColor: state.isFocused ? "grey" : "#1E1E1E",
-    backgroundColor: "#000",
+    borderColor: state.isFocused ? "#6366f1" : "rgba(148, 163, 184, 0.15)",
+    backgroundColor: "rgba(10, 15, 26, 0.8)",
     color: "#fff",
+    borderRadius: 10,
+    "&:hover": {
+      borderColor: "#6366f1",
+    },
   }),
   option: (baseStyles, state) => ({
     ...baseStyles,
-    backgroundColor: state.isFocused ? "grey" : "#1E1E1E",
+    backgroundColor: state.isFocused ? "rgba(99, 102, 241, 0.1)" : "#0a0f1a",
   }),
 };
 
@@ -41,6 +45,7 @@ function DropdownCore(props) {
   return (
     <TextField
       size="small"
+      fullWidth
       onChange={(e) => {
         onChange(e.target.value);
       }}

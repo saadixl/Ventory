@@ -10,12 +10,12 @@ import TuneIcon from "@mui/icons-material/Tune";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Toolbar from "@mui/material/Toolbar";
 import MuiDrawer from "@mui/material/Drawer";
-import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import InventoryIcon from "@mui/icons-material/Inventory2";
 
 const drawerWidth = 260;
 
@@ -34,6 +34,8 @@ const Drawer = styled(MuiDrawer, {
       duration: theme.transitions.duration.enteringScreen,
     }),
     boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "column",
     ...(!open && {
       overflowX: "hidden",
       transition: theme.transitions.create("width", {
@@ -98,7 +100,7 @@ const StyledListItemButton = styled(ListItemButton, {
 const NavItems = (props) => {
   const { activeScreen, open } = props;
   const isActive = (screen) => activeScreen === screen;
-  
+
   return (
     <React.Fragment>
       <StyledListItemButton
@@ -182,20 +184,37 @@ export default function SideDrawer(props) {
         }}
       >
         {open && (
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: 700,
-              background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            Ventory
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+            <Box
+              sx={{
+                width: 32,
+                height: 32,
+                borderRadius: "10px",
+                background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0 4px 12px rgba(99, 102, 241, 0.3)",
+              }}
+            >
+              <InventoryIcon sx={{ fontSize: 18, color: "#fff" }} />
+            </Box>
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 700,
+                background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                fontSize: "1.15rem",
+              }}
+            >
+              Ventory
+            </Typography>
+          </Box>
         )}
-        <IconButton 
+        <IconButton
           onClick={toggleDrawer}
           sx={{
             color: "text.secondary",
@@ -207,10 +226,36 @@ export default function SideDrawer(props) {
           <ChevronLeftIcon />
         </IconButton>
       </Toolbar>
-      <Divider sx={{ borderColor: "rgba(148, 163, 184, 0.12)" }} />
-      <List component="nav" sx={{ px: 1, pt: 2 }}>
+      <Box
+        sx={{
+          height: "1px",
+          mx: 2,
+          background: "linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent)",
+        }}
+      />
+      <List component="nav" sx={{ px: 1, pt: 2, flex: 1 }}>
         <NavItems activeScreen={activeScreen} open={open} />
       </List>
+      {open && (
+        <Box
+          sx={{
+            px: 3,
+            py: 2,
+            borderTop: "1px solid rgba(148, 163, 184, 0.06)",
+          }}
+        >
+          <Typography
+            variant="caption"
+            sx={{
+              color: "rgba(148, 163, 184, 0.4)",
+              fontSize: "0.65rem",
+              letterSpacing: "0.05em",
+            }}
+          >
+            Personal Inventory Manager
+          </Typography>
+        </Box>
+      )}
     </Drawer>
   );
 }

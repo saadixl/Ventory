@@ -1,13 +1,67 @@
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Skeleton from "@mui/material/Skeleton";
+import InventoryIcon from "@mui/icons-material/Inventory2";
+import CategoryIcon from "@mui/icons-material/Category";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import Table from "../widgets/Table";
 import Filter from "../widgets/Filter";
 import { getInventoryItems } from "../services/api";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
 import FilterToggle from "../widgets/FilterToggle";
+
+const StatCard = ({ icon, label, value, color, loading }) => (
+  <Box
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      gap: 2,
+      p: 2,
+      borderRadius: 2.5,
+      background: "rgba(10, 15, 26, 0.6)",
+      border: "1px solid rgba(148, 163, 184, 0.08)",
+      transition: "all 0.2s ease",
+      "&:hover": {
+        borderColor: `${color}33`,
+        background: "rgba(10, 15, 26, 0.8)",
+      },
+    }}
+  >
+    <Box
+      sx={{
+        width: 40,
+        height: 40,
+        borderRadius: "12px",
+        background: `${color}15`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0,
+      }}
+    >
+      {icon}
+    </Box>
+    <Box>
+      <Typography
+        variant="caption"
+        sx={{ color: "text.secondary", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.05em" }}
+      >
+        {label}
+      </Typography>
+      {loading ? (
+        <Skeleton width={40} height={28} sx={{ bgcolor: "rgba(148, 163, 184, 0.1)" }} />
+      ) : (
+        <Typography variant="h6" sx={{ fontWeight: 700, color, lineHeight: 1.2 }}>
+          {value}
+        </Typography>
+      )}
+    </Box>
+  </Box>
+);
 
 function Dashboard() {
   const initialFilterOption = {
@@ -25,12 +79,16 @@ function Dashboard() {
   const [inventoryItems, setInventoryItems] = useState([]);
   const [filterOption, setFilterOption] = useState(cachedFilterOptions);
   const [dirtyUpdate, setDirtyUpdate] = useState(Date.now());
+  const [loading, setLoading] = useState(true);
   const [filterVisible, setFilterVisible] = useState(
     false || localStorage.getItem("filterVisible"),
   );
 
   async function fetchInventoryItems() {
-    setInventoryItems(await getInventoryItems());
+    setLoading(true);
+    const items = await getInventoryItems();
+    setInventoryItems(items);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -135,18 +193,77 @@ function Dashboard() {
     return filteredData;
   };
 
-  const tableComp = !inventoryItems.length ? (
-    <Box sx={{ width: "100%", p: 1, paddingBottom: 3 }}>
-      <p sx={{ p: 1 }}>Trying to load data</p> <LinearProgress />
+  const filteredItems = filterData(inventoryItems);
+  const totalItems = inventoryItems.length;
+  const uniqueCategories = new Set(inventoryItems.map((i) => i.categoryId)).size;
+  const outOfStock = inventoryItems.filter((i) => (i.quantity || 0) < 1).length;
+  const totalValue = inventoryItems.reduce((sum, i) => sum + (i.price || 0) * (i.quantity || 0), 0);
+
+  const tableComp = loading ? (
+    <Box sx={{ p: 3 }}>
+      {[...Array(5)].map((_, i) => (
+        <Skeleton
+          key={i}
+          height={52}
+          sx={{
+            bgcolor: "rgba(148, 163, 184, 0.06)",
+            borderRadius: 1,
+            mb: 1,
+          }}
+        />
+      ))}
     </Box>
   ) : (
-    <Table data={filterData(inventoryItems)} setDirtyUpdate={setDirtyUpdate} />
+    <Table data={filteredItems} setDirtyUpdate={setDirtyUpdate} />
   );
 
   return (
     <AuthenticatedLayout screenName="Dashboard" activeScreen="dashboard">
-      <Grid container spacing={3}>
-        <Grid className="filter-wrapper" item xs={12} md={12} lg={12}>
+      <Grid container spacing={3} className="animate-fade-in">
+        {/* Stats Row */}
+        <Grid item xs={12}>
+          <Grid container spacing={2}>
+            <Grid item xs={6} sm={3}>
+              <StatCard
+                icon={<InventoryIcon sx={{ fontSize: 20, color: "#6366f1" }} />}
+                label="Total Items"
+                value={totalItems}
+                color="#6366f1"
+                loading={loading}
+              />
+            </Grid>
+            <Grid item xs={6} sm={3}>
+              <StatCard
+                icon={<CategoryIcon sx={{ fontSize: 20, color: "#8b5cf6" }} />}
+                label="Categories"
+                value={uniqueCategories}
+                color="#8b5cf6"
+                loading={loading}
+              />
+            </Grid>
+            <Grid item xs={6} sm={3}>
+              <StatCard
+                icon={<WarningAmberIcon sx={{ fontSize: 20, color: "#f59e0b" }} />}
+                label="Out of Stock"
+                value={outOfStock}
+                color={outOfStock > 0 ? "#f59e0b" : "#10b981"}
+                loading={loading}
+              />
+            </Grid>
+            <Grid item xs={6} sm={3}>
+              <StatCard
+                icon={<AttachMoneyIcon sx={{ fontSize: 20, color: "#10b981" }} />}
+                label="Total Value"
+                value={`$${totalValue.toLocaleString()}`}
+                color="#10b981"
+                loading={loading}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {/* Filter */}
+        <Grid className="filter-wrapper" item xs={12}>
           <Paper
             sx={{
               display: "flex",
@@ -173,7 +290,9 @@ function Dashboard() {
             />
           </Paper>
         </Grid>
-        <Grid item xs={12} md={12} lg={12}>
+
+        {/* Table */}
+        <Grid item xs={12}>
           <Paper
             sx={{
               display: "flex",
@@ -183,6 +302,23 @@ function Dashboard() {
               border: "1px solid rgba(148, 163, 184, 0.12)",
             }}
           >
+            {!loading && filteredItems.length !== totalItems && (
+              <Box
+                sx={{
+                  px: 2,
+                  py: 1,
+                  background: "rgba(99, 102, 241, 0.05)",
+                  borderBottom: "1px solid rgba(148, 163, 184, 0.08)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                <Typography variant="caption" sx={{ color: "text.secondary" }}>
+                  Showing {filteredItems.length} of {totalItems} items
+                </Typography>
+              </Box>
+            )}
             {tableComp}
           </Paper>
         </Grid>

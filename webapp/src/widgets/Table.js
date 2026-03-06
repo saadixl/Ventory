@@ -9,47 +9,94 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DateTimeLabel from "./DateTimeLabel";
 import ItemMenu from "../widgets/ItemMenu";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
+import InboxIcon from "@mui/icons-material/Inbox";
+import PlaceIcon from "@mui/icons-material/Place";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#0a0f1a",
-    color: "#f1f5f9",
+    backgroundColor: "rgba(10, 15, 26, 0.95)",
+    color: "rgba(148, 163, 184, 0.8)",
     fontWeight: 600,
-    fontSize: "0.875rem",
+    fontSize: "0.68rem",
     textTransform: "uppercase",
-    letterSpacing: "0.05em",
-    borderBottom: "2px solid rgba(99, 102, 241, 0.2)",
+    letterSpacing: "0.08em",
+    borderBottom: "none",
     padding: theme.spacing(1.5, 2),
+    position: "sticky",
+    top: 0,
+    zIndex: 1,
+    "&:first-of-type": {
+      borderTopLeftRadius: 12,
+    },
+    "&:last-of-type": {
+      borderTopRightRadius: 12,
+    },
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    borderBottom: "1px solid rgba(148, 163, 184, 0.08)",
-    padding: theme.spacing(1.5, 2),
-    overflow: "hidden",
-    textOverflow: "ellipsis",
+    borderBottom: "none",
+    padding: theme.spacing(2, 2),
+    verticalAlign: "top",
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  transition: "all 0.2s ease-in-out",
+  transition: "all 0.2s ease",
+  position: "relative",
+  "& td, & th": {
+    borderBottom: "1px solid rgba(148, 163, 184, 0.06)",
+  },
   "&:hover": {
-    backgroundColor: "rgba(99, 102, 241, 0.05)",
-    transform: "scale(1.001)",
+    backgroundColor: "rgba(99, 102, 241, 0.04)",
+    "& td:first-of-type, & th:first-of-type": {
+      boxShadow: "inset 3px 0 0 0 #6366f1",
+    },
   },
-  "&:nth-of-type(even)": {
-    backgroundColor: "rgba(148, 163, 184, 0.02)",
-  },
-  // hide last border
   "&:last-child td, &:last-child th": {
-    border: 0,
+    borderBottom: 0,
   },
 }));
+
+const EmptyState = () => (
+  <Box
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      py: 10,
+      px: 3,
+    }}
+  >
+    <Box
+      sx={{
+        width: 72,
+        height: 72,
+        borderRadius: "20px",
+        background: "linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        mb: 3,
+      }}
+    >
+      <InboxIcon sx={{ fontSize: 36, color: "#6366f1", opacity: 0.5 }} />
+    </Box>
+    <Typography variant="h6" sx={{ color: "text.primary", fontWeight: 600, mb: 0.5 }}>
+      No items found
+    </Typography>
+    <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.6 }}>
+      Try adjusting your filters or add some items
+    </Typography>
+  </Box>
+);
 
 export default function CustomizedTables(props) {
   const [showPrice, setShowPrice] = useState(false);
@@ -59,6 +106,11 @@ export default function CustomizedTables(props) {
   };
 
   const { data, setDirtyUpdate } = props;
+
+  if (!data.length) {
+    return <EmptyState />;
+  }
+
   const renderTableRows = data.map((row) => {
     const {
       name,
@@ -76,97 +128,252 @@ export default function CustomizedTables(props) {
       config,
       tags,
     } = row;
-    const configComp = config ? (
-      <span className="config-text">{config}</span>
-    ) : null;
-    const tagsComp = tags ? (
-      <div className="tags-on-table">
-        {tags.map((tag) => {
-          return <Chip label={tag.label} color="primary" size="small" />;
-        })}
-      </div>
-    ) : null;
+
     return (
-      <StyledTableRow 
-        key={id} 
-        className={quantity < 1 ? "out-of-stock" : ""}
+      <StyledTableRow
+        key={id}
         sx={{
           ...(quantity < 1 && {
-            opacity: 0.6,
-            backgroundColor: "rgba(108, 117, 125, 0.1)",
+            opacity: 0.45,
           }),
         }}
       >
+        {/* Brand */}
         <StyledTableCell component="th" scope="row">
-          <Typography variant="body2" sx={{ fontWeight: 500 }}>
-            {brandId}
-          </Typography>
-        </StyledTableCell>
-        <StyledTableCell 
-          component="th"
-          sx={{ 
-            wordWrap: "break-word",
-            overflowWrap: "break-word",
-          }}
-        >
-          <Typography variant="body2" sx={{ fontWeight: 500, mb: 0.5 }}>
-            {name}
-          </Typography>
-          <Typography
-            component="p"
+          <Box
             sx={{
-              color: "text.secondary",
-              fontSize: 12,
-              lineHeight: 1.5,
-              wordWrap: "break-word",
+              display: "inline-flex",
+              alignItems: "center",
+              px: 1.5,
+              py: 0.5,
+              borderRadius: "8px",
+              backgroundColor: "rgba(99, 102, 241, 0.08)",
+              border: "1px solid rgba(99, 102, 241, 0.12)",
             }}
           >
-            {configComp}
-            {description}
-            {tagsComp}
-          </Typography>
-        </StyledTableCell>
-        <StyledTableCell>
-          <Typography variant="body2" sx={{ fontWeight: 500 }}>
-            {categoryId}
-          </Typography>
-          <Typography variant="caption" sx={{ color: "text.secondary" }}>
-            {subCategoryId}
-          </Typography>
-        </StyledTableCell>
-        <StyledTableCell align="center">
-          {isGift ? <CheckCircleIcon sx={{ color: "#6366f1" }} /> : null}
-        </StyledTableCell>
-        <StyledTableCell align="center">
-          {showPrice ? (
-            <Typography variant="body2" sx={{ fontWeight: 500 }}>
-              ${price}
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: 600,
+                fontSize: "0.78rem",
+                color: "#c7d2fe",
+                letterSpacing: "0.01em",
+              }}
+            >
+              {brandId}
             </Typography>
-          ) : (
-            <VisibilityOffIcon sx={{ color: "text.secondary", fontSize: 18 }} />
+          </Box>
+        </StyledTableCell>
+
+        {/* Item */}
+        <StyledTableCell
+          component="th"
+          sx={{ wordWrap: "break-word", overflowWrap: "break-word" }}
+        >
+          <Typography
+            variant="body2"
+            sx={{ fontWeight: 600, color: "#f1f5f9", lineHeight: 1.4 }}
+          >
+            {name}
+          </Typography>
+          {config && (
+            <Box
+              sx={{
+                mt: 0.5,
+                px: 1,
+                py: 0.3,
+                borderRadius: "6px",
+                backgroundColor: "rgba(167, 139, 250, 0.08)",
+                border: "1px solid rgba(167, 139, 250, 0.12)",
+                display: "inline-block",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: "0.7rem",
+                  fontFamily: "'SF Mono', 'Monaco', 'Consolas', monospace",
+                  color: "#a78bfa",
+                  fontWeight: 500,
+                  lineHeight: 1.5,
+                }}
+              >
+                {config}
+              </Typography>
+            </Box>
+          )}
+          {description && (
+            <Typography
+              sx={{
+                color: "rgba(148, 163, 184, 0.7)",
+                fontSize: "0.75rem",
+                lineHeight: 1.5,
+                mt: 0.5,
+                wordWrap: "break-word",
+              }}
+            >
+              {description}
+            </Typography>
+          )}
+          {tags && tags.length > 0 && (
+            <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+              {tags.map((tag, idx) => (
+                <Chip
+                  key={idx}
+                  label={tag.label}
+                  size="small"
+                  sx={{
+                    height: 22,
+                    fontSize: "0.65rem",
+                    fontWeight: 600,
+                    borderRadius: "6px",
+                    background: "linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%)",
+                    border: "1px solid rgba(99, 102, 241, 0.2)",
+                    color: "#a5b4fc",
+                    "& .MuiChip-label": { px: 1 },
+                  }}
+                />
+              ))}
+            </Box>
           )}
         </StyledTableCell>
-        <StyledTableCell align="right">
-          <Typography 
-            variant="body2" 
-            sx={{ 
-              fontWeight: 600,
-              color: quantity < 1 ? "error.main" : "primary.main",
+
+        {/* Category */}
+        <StyledTableCell>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+            <Typography
+              variant="body2"
+              sx={{ fontWeight: 500, fontSize: "0.82rem" }}
+            >
+              {categoryId}
+            </Typography>
+            {subCategoryId && (
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "rgba(148, 163, 184, 0.6)",
+                  fontSize: "0.7rem",
+                }}
+              >
+                {subCategoryId}
+              </Typography>
+            )}
+          </Box>
+        </StyledTableCell>
+
+        {/* Gift */}
+        <StyledTableCell align="center">
+          {isGift ? (
+            <Box
+              sx={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 28,
+                height: 28,
+                borderRadius: "8px",
+                backgroundColor: "rgba(139, 92, 246, 0.1)",
+              }}
+            >
+              <CardGiftcardIcon sx={{ color: "#a78bfa", fontSize: 16 }} />
+            </Box>
+          ) : null}
+        </StyledTableCell>
+
+        {/* Price */}
+        <StyledTableCell align="center">
+          {showPrice ? (
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: 600,
+                fontFeatureSettings: "'tnum'",
+                fontSize: "0.82rem",
+                color: "#10b981",
+              }}
+            >
+              <span style={{ opacity: 0.5, fontSize: "0.7rem" }}>$</span>
+              {price}
+            </Typography>
+          ) : (
+            <VisibilityOffIcon sx={{ color: "rgba(148, 163, 184, 0.3)", fontSize: 16 }} />
+          )}
+        </StyledTableCell>
+
+        {/* Quantity */}
+        <StyledTableCell align="center">
+          <Box
+            sx={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              minWidth: 36,
+              height: 28,
+              borderRadius: "10px",
+              px: 1.2,
+              fontWeight: 700,
+              fontSize: "0.82rem",
+              fontFeatureSettings: "'tnum'",
+              ...(quantity < 1
+                ? {
+                    backgroundColor: "rgba(239, 68, 68, 0.12)",
+                    color: "#f87171",
+                    border: "1px solid rgba(239, 68, 68, 0.2)",
+                  }
+                : quantity <= 2
+                ? {
+                    backgroundColor: "rgba(245, 158, 11, 0.1)",
+                    color: "#fbbf24",
+                    border: "1px solid rgba(245, 158, 11, 0.2)",
+                  }
+                : {
+                    backgroundColor: "rgba(99, 102, 241, 0.1)",
+                    color: "#818cf8",
+                    border: "1px solid rgba(99, 102, 241, 0.15)",
+                  }),
             }}
           >
             {quantity}
-          </Typography>
+          </Box>
         </StyledTableCell>
+
+        {/* Location */}
         <StyledTableCell align="right">
-          <Typography variant="body2">{locationId}</Typography>
+          {locationId && (
+            <Box
+              sx={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 0.5,
+                px: 1,
+                py: 0.3,
+                borderRadius: "8px",
+                backgroundColor: "rgba(148, 163, 184, 0.06)",
+                border: "1px solid rgba(148, 163, 184, 0.08)",
+              }}
+            >
+              <PlaceIcon sx={{ fontSize: 13, color: "rgba(148, 163, 184, 0.5)" }} />
+              <Typography
+                variant="body2"
+                sx={{ fontSize: "0.75rem", color: "rgba(148, 163, 184, 0.8)" }}
+              >
+                {locationId}
+              </Typography>
+            </Box>
+          )}
         </StyledTableCell>
+
+        {/* Bought at */}
         <StyledTableCell align="right">
           <DateTimeLabel timestamp={createdTimestamp} />
         </StyledTableCell>
+
+        {/* Last used */}
         <StyledTableCell align="right">
           <DateTimeLabel timestamp={lastUsedTimestamp} />
         </StyledTableCell>
-        <StyledTableCell align="right">
+
+        {/* Actions */}
+        <StyledTableCell align="right" sx={{ verticalAlign: "middle" }}>
           <ItemMenu
             data={row}
             quantity={quantity}
@@ -179,51 +386,51 @@ export default function CustomizedTables(props) {
   });
 
   return (
-    <TableContainer 
+    <TableContainer
       component={Paper}
       sx={{
         borderRadius: 3,
         overflowX: "auto",
         overflowY: "hidden",
-        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-        border: "1px solid rgba(148, 163, 184, 0.12)",
+        boxShadow: "none",
+        border: "none",
+        background: "transparent",
       }}
     >
-      <Table 
-        sx={{ 
+      <Table
+        sx={{
           minWidth: 1200,
           width: "100%",
-        }} 
-        aria-label="customized table"
+          borderCollapse: "separate",
+          borderSpacing: 0,
+        }}
+        aria-label="inventory table"
       >
         <colgroup>
           <col style={{ width: "10%" }} />
-          <col style={{ width: "22%" }} />
-          <col style={{ width: "12%" }} />
-          <col style={{ width: "6%" }} />
-          <col style={{ width: "10%" }} />
+          <col style={{ width: "24%" }} />
+          <col style={{ width: "11%" }} />
+          <col style={{ width: "5%" }} />
+          <col style={{ width: "8%" }} />
           <col style={{ width: "8%" }} />
           <col style={{ width: "10%" }} />
           <col style={{ width: "11%" }} />
           <col style={{ width: "11%" }} />
-          <col style={{ width: "2%" }} />
+          <col style={{ width: "3%" }} />
         </colgroup>
-        <TableHead className="ventory-table-head">
+        <TableHead>
           <TableRow>
             <StyledTableCell>Brand</StyledTableCell>
             <StyledTableCell>Item</StyledTableCell>
-            <StyledTableCell>
-              Category
-              <br />
-              <span className="muted">Subcategory</span>
-            </StyledTableCell>
+            <StyledTableCell>Category</StyledTableCell>
             <StyledTableCell sx={{ textAlign: "center" }}>Gift</StyledTableCell>
-            <StyledTableCell align="right">
+            <StyledTableCell align="center">
               <FormControlLabel
                 control={
-                  <Switch 
-                    checked={showPrice} 
+                  <Switch
+                    checked={showPrice}
                     onChange={handleShowPrice}
+                    size="small"
                     sx={{
                       "& .MuiSwitch-switchBase.Mui-checked": {
                         color: "#6366f1",
@@ -236,12 +443,12 @@ export default function CustomizedTables(props) {
                 }
                 label="Price"
                 labelPlacement="start"
-                sx={{ margin: 0 }}
+                sx={{ margin: 0, "& .MuiFormControlLabel-label": { fontSize: "0.68rem" } }}
               />
             </StyledTableCell>
-            <StyledTableCell align="right">Quantity</StyledTableCell>
+            <StyledTableCell align="center">Qty</StyledTableCell>
             <StyledTableCell align="right">Location</StyledTableCell>
-            <StyledTableCell align="right">Bought at</StyledTableCell>
+            <StyledTableCell align="right">Bought</StyledTableCell>
             <StyledTableCell align="right">Last used</StyledTableCell>
             <StyledTableCell align="right"></StyledTableCell>
           </TableRow>

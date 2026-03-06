@@ -247,7 +247,11 @@ export default function BasicLayout(props) {
               variant="h6"
               color="inherit"
               noWrap
-              sx={{ flexGrow: 1 }}
+              sx={{
+                flexGrow: 1,
+                fontWeight: 600,
+                letterSpacing: "-0.01em",
+              }}
             >
               {screenName}
             </Typography>
@@ -261,12 +265,11 @@ export default function BasicLayout(props) {
         <Box
           component="main"
           sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === "light" ? theme.palette.grey[50] : "#020617",
+            backgroundColor: "#020617",
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",
-            backgroundImage: "radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.03) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.03) 0px, transparent 50%)",
+            backgroundImage: "radial-gradient(ellipse at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(139, 92, 246, 0.05) 0px, transparent 50%)",
           }}
         >
           <Toolbar />
@@ -278,16 +281,13 @@ export default function BasicLayout(props) {
           position="top-right"
           autoClose={3000}
           hideProgressBar={false}
-          newestOnTop={false}
+          newestOnTop
           closeOnClick
           rtl={false}
           pauseOnFocusLoss
           draggable
           pauseOnHover
           theme="dark"
-          style={{
-            borderRadius: "12px",
-          }}
         />
       </Box>
     </ThemeProvider>

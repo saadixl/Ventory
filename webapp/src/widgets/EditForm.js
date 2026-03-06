@@ -6,8 +6,11 @@ import Datepicker from "../widgets/Datepicker";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import SaveIcon from "@mui/icons-material/Save";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import {
   LocationDropdown,
@@ -16,6 +19,22 @@ import {
   SubCategoryDropdown,
   TagsDropdown,
 } from "./Dropdowns";
+
+const SectionTitle = ({ children }) => (
+  <Typography
+    variant="overline"
+    sx={{
+      color: "text.secondary",
+      fontSize: "0.7rem",
+      fontWeight: 600,
+      letterSpacing: "0.1em",
+      mb: 2,
+      display: "block",
+    }}
+  >
+    {children}
+  </Typography>
+);
 
 export default function EditForm(props) {
   const navigate = useNavigate();
@@ -65,8 +84,9 @@ export default function EditForm(props) {
   };
 
   return (
-    <Grid item xs={12} md={12} lg={12}>
+    <Grid item xs={12}>
       <Paper
+        className="animate-fade-in"
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -74,190 +94,204 @@ export default function EditForm(props) {
           backdropFilter: "blur(8px)",
           border: "1px solid rgba(148, 163, 184, 0.08)",
           borderRadius: 3,
-          p: 3,
+          p: { xs: 2, sm: 3, md: 4 },
           boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
         }}
       >
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "45ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            onChange={(e) => handleFieldChange(e.target.value, "name")}
-            id="outlined-basic"
-            label="Name"
-            variant="outlined"
-            size="small"
-            defaultValue={name}
-          />
-          <BrandDropdown
-            defaultValue={brandId}
-            onChange={(value) => handleFieldChange(value, "brandId")}
-          />
-        </Box>
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "92ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
+        {/* Basic Info */}
+        <SectionTitle>Basic Information</SectionTitle>
+        <Grid container spacing={2} sx={{ mb: 3 }}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              onChange={(e) => handleFieldChange(e.target.value, "name")}
+              label="Name"
+              variant="outlined"
+              size="small"
+              defaultValue={name}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <BrandDropdown
+              defaultValue={brandId}
+              onChange={(value) => handleFieldChange(value, "brandId")}
+            />
+          </Grid>
+        </Grid>
+
+        {/* Config & Description */}
+        <SectionTitle>Details</SectionTitle>
+        <Box sx={{ mb: 2 }}>
           <TextField
             defaultValue={config}
             multiline
             rows={1}
-            id="outlined-basic"
             label="Config"
             variant="outlined"
             size="small"
             onChange={(e) => handleFieldChange(e.target.value, "config")}
+            fullWidth
           />
         </Box>
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "92ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
+        <Box sx={{ mb: 3 }}>
           <TextField
             defaultValue={description}
             multiline
             rows={2}
-            id="outlined-basic"
             label="Description"
             variant="outlined"
             size="small"
             onChange={(e) => handleFieldChange(e.target.value, "description")}
+            fullWidth
           />
         </Box>
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "92ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <p className="tags-label">Tags</p>
+
+        {/* Tags */}
+        <SectionTitle>Tags</SectionTitle>
+        <Box sx={{ mb: 3 }}>
           <TagsDropdown
             defaultValue={tags}
             onChange={(value) => handleFieldChange(value, "tags")}
           />
         </Box>
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "30ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            defaultValue={quantity}
-            size="small"
-            id="outlined-basic"
-            label="Quantity"
-            variant="outlined"
-            type="number"
-            onChange={(e) => handleFieldChange(e.target.value, "quantity")}
-          />
-          <TextField
-            defaultValue={price}
-            size="small"
-            onChange={(e) => handleFieldChange(e.target.value, "price")}
-            id="outlined-basic"
-            label="Price"
-            variant="outlined"
-            type="number"
-          />
-          <FormControlLabel
-            control={
-              <Switch
-                checked={isGift || formData.isGift}
-                onChange={(e) => handleFieldChange(e.target.checked, "isGift")}
+
+        {/* Quantity, Price, Gift */}
+        <SectionTitle>Stock & Pricing</SectionTitle>
+        <Grid container spacing={2} sx={{ mb: 3, alignItems: "center" }}>
+          <Grid item xs={6} sm={3}>
+            <TextField
+              defaultValue={quantity}
+              size="small"
+              label="Quantity"
+              variant="outlined"
+              type="number"
+              onChange={(e) => handleFieldChange(e.target.value, "quantity")}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={6} sm={3}>
+            <TextField
+              defaultValue={price}
+              size="small"
+              onChange={(e) => handleFieldChange(e.target.value, "price")}
+              label="Price"
+              variant="outlined"
+              type="number"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isGift || formData.isGift}
+                  onChange={(e) => handleFieldChange(e.target.checked, "isGift")}
+                  sx={{
+                    "& .MuiSwitch-switchBase.Mui-checked": {
+                      color: "#6366f1",
+                    },
+                    "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                      backgroundColor: "#6366f1",
+                    },
+                  }}
+                />
+              }
+              label="Is gift"
+              labelPlacement="end"
+            />
+          </Grid>
+        </Grid>
+
+        {/* Category */}
+        <SectionTitle>Categorization</SectionTitle>
+        <Grid container spacing={2} sx={{ mb: 3 }}>
+          <Grid item xs={12} sm={6}>
+            <CategoryDropdown
+              defaultValue={categoryId}
+              onChange={(value) => handleFieldChange(value, "categoryId")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <SubCategoryDropdown
+              defaultValue={subCategoryId}
+              onChange={(value) => handleFieldChange(value, "subCategoryId")}
+            />
+          </Grid>
+        </Grid>
+
+        {/* Location & Dates */}
+        <SectionTitle>Location & Dates</SectionTitle>
+        <Grid container spacing={2} sx={{ mb: 4, alignItems: "flex-start" }}>
+          <Grid item xs={12} sm={4}>
+            <LocationDropdown
+              defaultValue={locationId}
+              onChange={(value) => handleFieldChange(value, "locationId")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Box className="ventory-datepicker">
+              <Datepicker
+                defaultValue={createdTimestamp}
+                onChange={(e) => {
+                  handleDatePickerChange(e, "createdTimestamp");
+                }}
+                className="ventory-datepicker"
+                label="Created at"
               />
-            }
-            label="Is gift"
-            labelPlacement="end"
-          />
-        </Box>
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Box className="ventory-datepicker">
+              <Datepicker
+                defaultValue={lastUsedTimestamp}
+                onChange={(e) => {
+                  handleDatePickerChange(e, "lastUsedTimestamp");
+                }}
+                label="Last used at"
+              />
+            </Box>
+          </Grid>
+        </Grid>
+
+        {/* Actions */}
         <Box
-          component="form"
           sx={{
-            "& > :not(style)": { m: 1, width: "45ch" },
+            display: "flex",
+            gap: 2,
+            pt: 3,
+            borderTop: "1px solid rgba(148, 163, 184, 0.08)",
           }}
-          noValidate
-          autoComplete="off"
-        >
-          <CategoryDropdown
-            defaultValue={categoryId}
-            onChange={(value) => handleFieldChange(value, "categoryId")}
-          />
-          <SubCategoryDropdown
-            defaultValue={subCategoryId}
-            onChange={(value) => handleFieldChange(value, "subCategoryId")}
-          />
-        </Box>
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "30ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <LocationDropdown
-            defaultValue={locationId}
-            onChange={(value) => handleFieldChange(value, "locationId")}
-          />
-          <Box className="ventory-datepicker">
-            <Datepicker
-              defaultValue={createdTimestamp}
-              onChange={(e) => {
-                handleDatePickerChange(e, "createdTimestamp");
-              }}
-              className="ventory-datepicker"
-              label="Created at"
-            />
-          </Box>
-          <Box className="ventory-datepicker">
-            <Datepicker
-              defaultValue={lastUsedTimestamp}
-              onChange={(e) => {
-                handleDatePickerChange(e, "lastUsedTimestamp");
-              }}
-              label="Last used at"
-            />
-          </Box>
-        </Box>
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "15ch" },
-          }}
-          noValidate
-          autoComplete="off"
         >
           <Button
             onClick={handleSubmitClick}
             variant="contained"
-            size="small"
-            color="primary"
+            startIcon={<SaveIcon />}
+            sx={{
+              px: 4,
+              py: 1,
+              background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+              "&:hover": {
+                background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)",
+                boxShadow: "0 4px 12px rgba(99, 102, 241, 0.4)",
+              },
+            }}
           >
             Submit
           </Button>
           <Button
             onClick={handleBackClick}
             variant="outlined"
-            size="small"
-            color="primary"
+            startIcon={<ArrowBackIcon />}
+            sx={{
+              px: 3,
+              py: 1,
+              borderColor: "rgba(148, 163, 184, 0.2)",
+              color: "text.secondary",
+              "&:hover": {
+                borderColor: "rgba(148, 163, 184, 0.4)",
+                backgroundColor: "rgba(148, 163, 184, 0.05)",
+              },
+            }}
           >
             Back
           </Button>
