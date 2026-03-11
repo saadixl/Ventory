@@ -53,6 +53,22 @@ function DropdownCore(props) {
       label={label}
       defaultValue={defaultValue}
       value={value}
+      slotProps={{
+        select: {
+          MenuProps: {
+            PaperProps: {
+              sx: {
+                maxHeight: 300,
+                backgroundColor: "rgba(10, 15, 26, 0.95)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(148, 163, 184, 0.1)",
+                borderRadius: 2,
+                boxShadow: "0 12px 32px rgba(0, 0, 0, 0.4)",
+              },
+            },
+          },
+        },
+      }}
     >
       {options}
     </TextField>
@@ -179,13 +195,24 @@ export function TagsDropdown(props) {
 
   return (
     <Select
-      styles={customSelectStyle}
+      styles={{
+        ...customSelectStyle,
+        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+        menu: (base) => ({
+          ...base,
+          backgroundColor: "#0a0f1a",
+          border: "1px solid rgba(148, 163, 184, 0.1)",
+          borderRadius: 8,
+          boxShadow: "0 12px 32px rgba(0, 0, 0, 0.4)",
+        }),
+      }}
+      menuPortalTarget={document.body}
       defaultValue={props.defaultValue}
       isMulti
       name="Tags"
       options={tagList}
       className="basic-multi-select"
-      classNamePrefix="select"
+      classNamePrefix="react-select"
       onChange={(newTag) => {
         props.onChange(newTag);
       }}

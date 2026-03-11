@@ -5,7 +5,6 @@ import TextField from "@mui/material/TextField";
 import Datepicker from "../widgets/Datepicker";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
@@ -34,6 +33,26 @@ const SectionTitle = ({ children }) => (
   >
     {children}
   </Typography>
+);
+
+const Row = ({ children, ...props }) => (
+  <Box
+    sx={{
+      display: "flex",
+      gap: 2,
+      mb: 3,
+      flexWrap: "wrap",
+      ...props.sx,
+    }}
+  >
+    {children}
+  </Box>
+);
+
+const Field = ({ flex = 1, minWidth = 200, children }) => (
+  <Box sx={{ flex, minWidth }}>
+    {children}
+  </Box>
 );
 
 export default function EditForm(props) {
@@ -84,7 +103,7 @@ export default function EditForm(props) {
   };
 
   return (
-    <Grid item xs={12}>
+    <Box>
       <Paper
         className="animate-fade-in"
         sx={{
@@ -100,8 +119,8 @@ export default function EditForm(props) {
       >
         {/* Basic Info */}
         <SectionTitle>Basic Information</SectionTitle>
-        <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6}>
+        <Row>
+          <Field>
             <TextField
               onChange={(e) => handleFieldChange(e.target.value, "name")}
               label="Name"
@@ -110,14 +129,14 @@ export default function EditForm(props) {
               defaultValue={name}
               fullWidth
             />
-          </Grid>
-          <Grid item xs={12} sm={6}>
+          </Field>
+          <Field>
             <BrandDropdown
               defaultValue={brandId}
               onChange={(value) => handleFieldChange(value, "brandId")}
             />
-          </Grid>
-        </Grid>
+          </Field>
+        </Row>
 
         {/* Config & Description */}
         <SectionTitle>Details</SectionTitle>
@@ -157,8 +176,8 @@ export default function EditForm(props) {
 
         {/* Quantity, Price, Gift */}
         <SectionTitle>Stock & Pricing</SectionTitle>
-        <Grid container spacing={2} sx={{ mb: 3, alignItems: "center" }}>
-          <Grid item xs={6} sm={3}>
+        <Row sx={{ alignItems: "center" }}>
+          <Field minWidth={120}>
             <TextField
               defaultValue={quantity}
               size="small"
@@ -168,8 +187,8 @@ export default function EditForm(props) {
               onChange={(e) => handleFieldChange(e.target.value, "quantity")}
               fullWidth
             />
-          </Grid>
-          <Grid item xs={6} sm={3}>
+          </Field>
+          <Field minWidth={120}>
             <TextField
               defaultValue={price}
               size="small"
@@ -179,8 +198,8 @@ export default function EditForm(props) {
               type="number"
               fullWidth
             />
-          </Grid>
-          <Grid item xs={12} sm={3}>
+          </Field>
+          <Field minWidth={100}>
             <FormControlLabel
               control={
                 <Switch
@@ -199,36 +218,36 @@ export default function EditForm(props) {
               label="Is gift"
               labelPlacement="end"
             />
-          </Grid>
-        </Grid>
+          </Field>
+        </Row>
 
         {/* Category */}
         <SectionTitle>Categorization</SectionTitle>
-        <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6}>
+        <Row>
+          <Field>
             <CategoryDropdown
               defaultValue={categoryId}
               onChange={(value) => handleFieldChange(value, "categoryId")}
             />
-          </Grid>
-          <Grid item xs={12} sm={6}>
+          </Field>
+          <Field>
             <SubCategoryDropdown
               defaultValue={subCategoryId}
               onChange={(value) => handleFieldChange(value, "subCategoryId")}
             />
-          </Grid>
-        </Grid>
+          </Field>
+        </Row>
 
         {/* Location & Dates */}
         <SectionTitle>Location & Dates</SectionTitle>
-        <Grid container spacing={2} sx={{ mb: 4, alignItems: "flex-start" }}>
-          <Grid item xs={12} sm={4}>
+        <Row sx={{ mb: 4, alignItems: "flex-start" }}>
+          <Field>
             <LocationDropdown
               defaultValue={locationId}
               onChange={(value) => handleFieldChange(value, "locationId")}
             />
-          </Grid>
-          <Grid item xs={12} sm={4}>
+          </Field>
+          <Field>
             <Box className="ventory-datepicker">
               <Datepicker
                 defaultValue={createdTimestamp}
@@ -239,8 +258,8 @@ export default function EditForm(props) {
                 label="Created at"
               />
             </Box>
-          </Grid>
-          <Grid item xs={12} sm={4}>
+          </Field>
+          <Field>
             <Box className="ventory-datepicker">
               <Datepicker
                 defaultValue={lastUsedTimestamp}
@@ -250,8 +269,8 @@ export default function EditForm(props) {
                 label="Last used at"
               />
             </Box>
-          </Grid>
-        </Grid>
+          </Field>
+        </Row>
 
         {/* Actions */}
         <Box
@@ -297,6 +316,6 @@ export default function EditForm(props) {
           </Button>
         </Box>
       </Paper>
-    </Grid>
+    </Box>
   );
 }

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -19,26 +18,27 @@ const StatCard = ({ icon, label, value, color, loading }) => (
     sx={{
       display: "flex",
       alignItems: "center",
-      gap: 2,
-      p: 2,
+      gap: 1.25,
+      px: 1.5,
+      py: 1,
       width: "100%",
       height: "100%",
-      borderRadius: 2.5,
-      background: "rgba(10, 15, 26, 0.6)",
-      border: "1px solid rgba(148, 163, 184, 0.08)",
-      transition: "all 0.2s ease",
+      borderRadius: 2,
+      background: "rgba(10, 15, 26, 0.5)",
+      border: "1px solid rgba(148, 163, 184, 0.06)",
+      transition: "all 0.15s ease",
       "&:hover": {
-        borderColor: `${color}33`,
-        background: "rgba(10, 15, 26, 0.8)",
+        borderColor: `${color}25`,
+        background: "rgba(10, 15, 26, 0.7)",
       },
     }}
   >
     <Box
       sx={{
-        width: 40,
-        height: 40,
-        borderRadius: "12px",
-        background: `${color}15`,
+        width: 32,
+        height: 32,
+        borderRadius: "8px",
+        background: `${color}10`,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -49,15 +49,14 @@ const StatCard = ({ icon, label, value, color, loading }) => (
     </Box>
     <Box>
       <Typography
-        variant="caption"
-        sx={{ color: "text.secondary", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.05em" }}
+        sx={{ color: "rgba(148, 163, 184, 0.5)", fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.06em", lineHeight: 1.2 }}
       >
         {label}
       </Typography>
       {loading ? (
-        <Skeleton width={40} height={28} sx={{ bgcolor: "rgba(148, 163, 184, 0.1)" }} />
+        <Skeleton width={32} height={20} sx={{ bgcolor: "rgba(148, 163, 184, 0.1)" }} />
       ) : (
-        <Typography variant="h6" sx={{ fontWeight: 700, color, lineHeight: 1.2 }}>
+        <Typography sx={{ fontWeight: 700, color, lineHeight: 1.2, fontSize: "1rem" }}>
           {value}
         </Typography>
       )}
@@ -221,76 +220,66 @@ function Dashboard() {
 
   return (
     <AuthenticatedLayout screenName="Dashboard" activeScreen="dashboard">
-      <Grid container spacing={3} className="animate-fade-in">
-        {/* Stats Row – 4 cards as direct items so they occupy one row; filter is next item and wraps below */}
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            icon={<InventoryIcon sx={{ fontSize: 20, color: "#6366f1" }} />}
-            label="Total Items"
-            value={totalItems}
-            color="#6366f1"
-            loading={loading}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            icon={<CategoryIcon sx={{ fontSize: 20, color: "#8b5cf6" }} />}
-            label="Categories"
-            value={uniqueCategories}
-            color="#8b5cf6"
-            loading={loading}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            icon={<WarningAmberIcon sx={{ fontSize: 20, color: "#f59e0b" }} />}
-            label="Out of Stock"
-            value={outOfStock}
-            color={outOfStock > 0 ? "#f59e0b" : "#10b981"}
-            loading={loading}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            icon={<AttachMoneyIcon sx={{ fontSize: 20, color: "#10b981" }} />}
-            label="Total Value"
-            value={`$${totalValue.toLocaleString()}`}
-            color="#10b981"
-            loading={loading}
-          />
-        </Grid>
-
-        {/* Filter – full width, always on its own row below the 4 cards */}
-        <Grid className="filter-wrapper" item xs={12} sx={{ flexBasis: "100%", width: "100%", maxWidth: "100%" }}>
-          <Paper
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              background: "rgba(10, 15, 26, 0.7)",
-              backdropFilter: "blur(8px)",
-              border: "1px solid rgba(148, 163, 184, 0.08)",
-              borderRadius: 3,
-              p: 2,
-            }}
-          >
+      <Box className="animate-fade-in" sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        {/* Stats + Filter Toggle Row */}
+        <Box sx={{ display: "flex", alignItems: "stretch", gap: 1.5, flexWrap: "wrap" }}>
+          <Box sx={{ flex: "1 1 0", minWidth: 140 }}>
+            <StatCard
+              icon={<InventoryIcon sx={{ fontSize: 16, color: "#6366f1" }} />}
+              label="Total Items"
+              value={totalItems}
+              color="#6366f1"
+              loading={loading}
+            />
+          </Box>
+          <Box sx={{ flex: "1 1 0", minWidth: 140 }}>
+            <StatCard
+              icon={<CategoryIcon sx={{ fontSize: 16, color: "#8b5cf6" }} />}
+              label="Categories"
+              value={uniqueCategories}
+              color="#8b5cf6"
+              loading={loading}
+            />
+          </Box>
+          <Box sx={{ flex: "1 1 0", minWidth: 140 }}>
+            <StatCard
+              icon={<WarningAmberIcon sx={{ fontSize: 16, color: "#f59e0b" }} />}
+              label="Out of Stock"
+              value={outOfStock}
+              color={outOfStock > 0 ? "#f59e0b" : "#10b981"}
+              loading={loading}
+            />
+          </Box>
+          <Box sx={{ flex: "1 1 0", minWidth: 140 }}>
+            <StatCard
+              icon={<AttachMoneyIcon sx={{ fontSize: 16, color: "#10b981" }} />}
+              label="Total Value"
+              value={`$${totalValue.toLocaleString()}`}
+              color="#10b981"
+              loading={loading}
+            />
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
             <FilterToggle
               filterVisible={filterVisible}
               setFilterVisible={setFilterVisible}
             />
-            <Filter
-              filterVisible={filterVisible}
-              filterOption={filterOption}
-              setFilterOption={setFilterOption}
-              clearFilter={() => {
-                setFilterOption(initialFilterOption);
-                localStorage.removeItem("filterOption");
-              }}
-            />
-          </Paper>
-        </Grid>
+          </Box>
+        </Box>
+
+        {/* Filter Panel (expands below) */}
+        <Filter
+          filterVisible={filterVisible}
+          filterOption={filterOption}
+          setFilterOption={setFilterOption}
+          clearFilter={() => {
+            setFilterOption(initialFilterOption);
+            localStorage.removeItem("filterOption");
+          }}
+        />
 
         {/* Table */}
-        <Grid item xs={12}>
+        <Box>
           <Paper
             sx={{
               display: "flex",
@@ -319,8 +308,8 @@ function Dashboard() {
             )}
             {tableComp}
           </Paper>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </AuthenticatedLayout>
   );
 }
