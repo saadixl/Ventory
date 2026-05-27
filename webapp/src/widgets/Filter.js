@@ -1,19 +1,16 @@
-import React, { useCallback } from "react";
-import Grid from "@mui/material/Grid";
+import { useCallback, useState } from "react";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
+import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Chip from "@mui/material/Chip";
+import IconButton from "@mui/material/IconButton";
+import Collapse from "@mui/material/Collapse";
 import SearchIcon from "@mui/icons-material/Search";
-import CategoryIcon from "@mui/icons-material/Category";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ClearIcon from "@mui/icons-material/Clear";
+import TuneIcon from "@mui/icons-material/Tune";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Sorter from "./Sorter";
 
 import {
@@ -23,61 +20,37 @@ import {
   SubCategoryDropdown,
 } from "./Dropdowns";
 
-const FilterSection = ({ title, icon, children, ...props }) => (
-  <Card
-    sx={{
-      height: "100%",
-      background: "rgba(10, 15, 26, 0.6)",
-      border: "1px solid rgba(148, 163, 184, 0.08)",
-      borderRadius: 2,
-      transition: "all 0.2s ease-in-out",
-      "&:hover": {
-        borderColor: "rgba(99, 102, 241, 0.3)",
-        boxShadow: "0 4px 12px rgba(99, 102, 241, 0.1)",
-      },
-    }}
-    {...props}
-  >
-    <CardContent sx={{ p: 2, "&:last-child": { pb: 2 } }}>
-      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-        {icon}
-        <Typography
-          variant="subtitle2"
-          sx={{
-            ml: 1,
-            fontWeight: 600,
-            color: "text.primary",
-            textTransform: "uppercase",
-            letterSpacing: "0.5px",
-            fontSize: "0.75rem",
-          }}
-        >
-          {title}
-        </Typography>
-      </Box>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-        {children}
-      </Box>
-    </CardContent>
-  </Card>
-);
-
 export default function Filter(props) {
   const { filterOption, setFilterOption, clearFilter, filterVisible } = props;
-  
-  const updateFilterOptions = useCallback((newFilterOption) => {
-    setFilterOption(newFilterOption);
-    localStorage.setItem("filterOption", JSON.stringify(newFilterOption));
-  }, [setFilterOption]);
+  const [showAdvanced, setShowAdvanced] = useState(false);
+
+  const updateFilterOptions = useCallback(
+    (newFilterOption) => {
+      setFilterOption(newFilterOption);
+      localStorage.setItem("filterOption", JSON.stringify(newFilterOption));
+    },
+    [setFilterOption]
+  );
 
   if (!filterVisible) {
     return null;
   }
-  
-  const { keyword, brandId, categoryId, subCategoryId, locationId, sortId, fromYear, toYear, minPrice, maxPrice, minQty, maxQty } =
-    filterOption;
 
-  // Count active filters
+  const {
+    keyword,
+    brandId,
+    categoryId,
+    subCategoryId,
+    locationId,
+    sortId,
+    fromYear,
+    toYear,
+    minPrice,
+    maxPrice,
+    minQty,
+    maxQty,
+  } = filterOption;
+
   const activeFiltersCount = [
     keyword,
     brandId !== "ALL" && brandId,
@@ -93,101 +66,230 @@ export default function Filter(props) {
     sortId !== "default" && sortId,
   ].filter(Boolean).length;
 
+  const advancedActive = [fromYear, toYear, minPrice, maxPrice, minQty, maxQty].filter(Boolean).length;
+
   return (
-    <Box className="ventory-filter" sx={{ mt: 2 }}>
-      {activeFiltersCount > 0 && (
-        <Box sx={{ mb: 2, display: "flex", alignItems: "center", gap: 1 }}>
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Active filters:
-          </Typography>
-          <Chip
-            label={activeFiltersCount}
-            size="small"
+    <Paper
+      className="ventory-filter"
+      sx={{
+        background: "rgba(10, 15, 26, 0.5)",
+        backdropFilter: "blur(8px)",
+        border: "1px solid rgba(148, 163, 184, 0.08)",
+        borderRadius: 3,
+        overflow: "hidden",
+      }}
+    >
+      {/* Header */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          px: 2.5,
+          py: 1.5,
+          borderBottom: "1px solid rgba(148, 163, 184, 0.06)",
+        }}
+      >
+        <TuneIcon sx={{ fontSize: 16, color: "#6366f1" }} />
+        <Typography
+          sx={{
+            fontSize: "0.78rem",
+            fontWeight: 600,
+            color: "#f1f5f9",
+            letterSpacing: "0.02em",
+          }}
+        >
+          Filters
+        </Typography>
+        {activeFiltersCount > 0 && (
+          <Box
             sx={{
-              backgroundColor: "rgba(99, 102, 241, 0.2)",
-              color: "#6366f1",
-              fontWeight: 600,
+              px: 0.8,
+              py: 0.1,
+              borderRadius: "6px",
+              background: "rgba(99, 102, 241, 0.15)",
+              border: "1px solid rgba(99, 102, 241, 0.25)",
             }}
-          />
+          >
+            <Typography
+              sx={{
+                fontSize: "0.65rem",
+                fontWeight: 700,
+                color: "#818cf8",
+              }}
+            >
+              {activeFiltersCount}
+            </Typography>
+          </Box>
+        )}
+        <Box sx={{ flex: 1 }} />
+        {activeFiltersCount > 0 && (
           <Button
             onClick={clearFilter}
             size="small"
-            startIcon={<ClearIcon />}
+            startIcon={<ClearIcon sx={{ fontSize: 14 }} />}
             sx={{
-              ml: "auto",
               textTransform: "none",
-              color: "text.secondary",
+              fontSize: "0.72rem",
+              color: "rgba(148, 163, 184, 0.5)",
+              px: 1,
+              py: 0.25,
+              minHeight: 0,
               "&:hover": {
-                backgroundColor: "rgba(239, 68, 68, 0.1)",
+                backgroundColor: "rgba(239, 68, 68, 0.08)",
                 color: "#ef4444",
               },
             }}
           >
             Clear all
           </Button>
+        )}
+      </Box>
+
+      {/* Main filters */}
+      <Box sx={{ px: 2.5, pt: 2, pb: 2.5 }}>
+        {/* Search row */}
+        <TextField
+          onChange={(e) => {
+            updateFilterOptions({ ...filterOption, keyword: e.target.value });
+          }}
+          label="Search items"
+          variant="outlined"
+          size="small"
+          value={keyword || ""}
+          fullWidth
+          InputProps={{
+            startAdornment: (
+              <SearchIcon
+                sx={{ mr: 1, fontSize: 18, color: "rgba(148, 163, 184, 0.4)" }}
+              />
+            ),
+          }}
+          sx={{ mb: 2 }}
+        />
+
+        {/* Dropdowns row */}
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "1fr 1fr",
+              md: "1fr 1fr 1fr 1fr 1fr",
+            },
+            gap: 1.5,
+          }}
+        >
+          <BrandDropdown
+            value={brandId}
+            showAll={true}
+            onChange={(brandId) => {
+              updateFilterOptions({ ...filterOption, brandId });
+            }}
+          />
+          <CategoryDropdown
+            value={categoryId}
+            showAll={true}
+            onChange={(categoryId) => {
+              updateFilterOptions({ ...filterOption, categoryId });
+            }}
+          />
+          <SubCategoryDropdown
+            value={subCategoryId}
+            showAll={true}
+            onChange={(subCategoryId) => {
+              updateFilterOptions({ ...filterOption, subCategoryId });
+            }}
+          />
+          <LocationDropdown
+            value={locationId}
+            showAll={true}
+            onChange={(locationId) => {
+              updateFilterOptions({ ...filterOption, locationId });
+            }}
+          />
+          <Sorter
+            value={sortId}
+            onChange={(s) => {
+              updateFilterOptions({ ...filterOption, sortId: s });
+            }}
+          />
         </Box>
-      )}
-      <Grid container spacing={2}>
-        {/* Search & Brand */}
-        <Grid item xs={12} sm={6} md={4} lg={2}>
-          <FilterSection
-            title="Search & Brand"
-            icon={<SearchIcon sx={{ fontSize: 18, color: "#6366f1" }} />}
-          >
-            <TextField
-              onChange={(e) => {
-                updateFilterOptions({
-                  ...filterOption,
-                  keyword: e.target.value,
-                });
-              }}
-              label="Search items"
-              variant="outlined"
-              size="small"
-              value={keyword || ""}
-              fullWidth
-              InputProps={{
-                startAdornment: <SearchIcon sx={{ mr: 1, fontSize: 18, color: "text.secondary" }} />,
-              }}
-            />
-            <BrandDropdown
-              value={brandId}
-              showAll={true}
-              onChange={(brandId) => {
-                updateFilterOptions({ ...filterOption, brandId });
-              }}
-            />
-          </FilterSection>
-        </Grid>
 
-        {/* Category */}
-        <Grid item xs={12} sm={6} md={4} lg={2}>
-          <FilterSection
-            title="Category"
-            icon={<CategoryIcon sx={{ fontSize: 18, color: "#6366f1" }} />}
+        {/* Advanced toggle */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            mt: 2,
+            pt: 1.5,
+            borderTop: "1px solid rgba(148, 163, 184, 0.05)",
+          }}
+        >
+          <IconButton
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            size="small"
+            sx={{
+              borderRadius: "8px",
+              color: "rgba(148, 163, 184, 0.45)",
+              p: 0.5,
+              "&:hover": {
+                backgroundColor: "rgba(99, 102, 241, 0.08)",
+                color: "#818cf8",
+              },
+            }}
           >
-            <CategoryDropdown
-              value={categoryId}
-              showAll={true}
-              onChange={(categoryId) => {
-                updateFilterOptions({ ...filterOption, categoryId });
+            {showAdvanced ? (
+              <ExpandLessIcon sx={{ fontSize: 16 }} />
+            ) : (
+              <ExpandMoreIcon sx={{ fontSize: 16 }} />
+            )}
+          </IconButton>
+          <Typography
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            sx={{
+              fontSize: "0.7rem",
+              color: "rgba(148, 163, 184, 0.4)",
+              cursor: "pointer",
+              userSelect: "none",
+              "&:hover": { color: "rgba(148, 163, 184, 0.6)" },
+            }}
+          >
+            Range filters
+          </Typography>
+          {advancedActive > 0 && (
+            <Box
+              sx={{
+                ml: 0.75,
+                px: 0.6,
+                py: 0.1,
+                borderRadius: "5px",
+                background: "rgba(245, 158, 11, 0.12)",
+                border: "1px solid rgba(245, 158, 11, 0.2)",
               }}
-            />
-            <SubCategoryDropdown
-              value={subCategoryId}
-              showAll={true}
-              onChange={(subCategoryId) => {
-                updateFilterOptions({ ...filterOption, subCategoryId });
-              }}
-            />
-          </FilterSection>
-        </Grid>
+            >
+              <Typography
+                sx={{ fontSize: "0.6rem", fontWeight: 700, color: "#f59e0b" }}
+              >
+                {advancedActive}
+              </Typography>
+            </Box>
+          )}
+        </Box>
 
-        {/* Date Range */}
-        <Grid item xs={12} sm={6} md={4} lg={2}>
-          <FilterSection
-            title="Date Range"
-            icon={<CalendarTodayIcon sx={{ fontSize: 18, color: "#6366f1" }} />}
+        {/* Advanced filters */}
+        <Collapse in={showAdvanced}>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr 1fr",
+                sm: "1fr 1fr 1fr",
+                md: "repeat(6, 1fr)",
+              },
+              gap: 1.5,
+              mt: 1.5,
+            }}
           >
             <TextField
               onChange={(e) => {
@@ -217,15 +319,6 @@ export default function Filter(props) {
               value={toYear || ""}
               fullWidth
             />
-          </FilterSection>
-        </Grid>
-
-        {/* Price Range */}
-        <Grid item xs={12} sm={6} md={4} lg={2}>
-          <FilterSection
-            title="Price Range"
-            icon={<AttachMoneyIcon sx={{ fontSize: 18, color: "#6366f1" }} />}
-          >
             <TextField
               onChange={(e) => {
                 updateFilterOptions({
@@ -240,7 +333,11 @@ export default function Filter(props) {
               value={minPrice || ""}
               fullWidth
               InputProps={{
-                startAdornment: <Typography sx={{ mr: 0.5, color: "text.secondary" }}>$</Typography>,
+                startAdornment: (
+                  <Typography sx={{ mr: 0.5, color: "text.secondary" }}>
+                    $
+                  </Typography>
+                ),
               }}
             />
             <TextField
@@ -257,18 +354,13 @@ export default function Filter(props) {
               value={maxPrice || ""}
               fullWidth
               InputProps={{
-                startAdornment: <Typography sx={{ mr: 0.5, color: "text.secondary" }}>$</Typography>,
+                startAdornment: (
+                  <Typography sx={{ mr: 0.5, color: "text.secondary" }}>
+                    $
+                  </Typography>
+                ),
               }}
             />
-          </FilterSection>
-        </Grid>
-
-        {/* Quantity Range */}
-        <Grid item xs={12} sm={6} md={4} lg={2}>
-          <FilterSection
-            title="Quantity"
-            icon={<InventoryIcon sx={{ fontSize: 18, color: "#6366f1" }} />}
-          >
             <TextField
               onChange={(e) => {
                 updateFilterOptions({
@@ -277,7 +369,7 @@ export default function Filter(props) {
                 });
               }}
               type="number"
-              label="Min quantity"
+              label="Min qty"
               variant="outlined"
               size="small"
               value={minQty || ""}
@@ -291,37 +383,15 @@ export default function Filter(props) {
                 });
               }}
               type="number"
-              label="Max quantity"
+              label="Max qty"
               variant="outlined"
               size="small"
               value={maxQty || ""}
               fullWidth
             />
-          </FilterSection>
-        </Grid>
-
-        {/* Location & Sort */}
-        <Grid item xs={12} sm={6} md={4} lg={2}>
-          <FilterSection
-            title="Location & Sort"
-            icon={<LocationOnIcon sx={{ fontSize: 18, color: "#6366f1" }} />}
-          >
-            <LocationDropdown
-              value={locationId}
-              showAll={true}
-              onChange={(locationId) => {
-                updateFilterOptions({ ...filterOption, locationId });
-              }}
-            />
-            <Sorter
-              value={sortId}
-              onChange={(s) => {
-                updateFilterOptions({ ...filterOption, sortId: s });
-              }}
-            />
-          </FilterSection>
-        </Grid>
-      </Grid>
-    </Box>
+          </Box>
+        </Collapse>
+      </Box>
+    </Paper>
   );
 }

@@ -24,7 +24,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: "rgba(15, 23, 42, 0.6)",
     color: "rgba(148, 163, 184, 0.55)",
     fontWeight: 500,
-    fontSize: "0.65rem",
+    fontSize: "0.75rem",
     textTransform: "uppercase",
     letterSpacing: "0.08em",
     borderBottom: "1px solid rgba(148, 163, 184, 0.06)",
@@ -37,7 +37,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     zIndex: 1,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: "0.78rem",
+    fontSize: "0.9rem",
     borderBottom: "1px solid rgba(148, 163, 184, 0.05)",
     padding: theme.spacing(0.9, 1.5),
     verticalAlign: "middle",
@@ -136,7 +136,7 @@ export default function CustomizedTables(props) {
           <Typography
             sx={{
               fontWeight: 600,
-              fontSize: "0.7rem",
+              fontSize: "0.8rem",
               color: "#a5b4fc",
               letterSpacing: "0.02em",
             }}
@@ -150,14 +150,14 @@ export default function CustomizedTables(props) {
           <Box sx={{ display: "flex", flexDirection: "column", gap: 0.15 }}>
             <Box sx={{ display: "flex", alignItems: "baseline", gap: 1, flexWrap: "wrap" }}>
               <Typography
-                sx={{ fontWeight: 600, color: "#f1f5f9", fontSize: "0.8rem", lineHeight: 1.3 }}
+                sx={{ fontWeight: 600, color: "#f1f5f9", fontSize: "0.92rem", lineHeight: 1.3 }}
               >
                 {name}
               </Typography>
               {hasConfig && (
                 <Typography
                   sx={{
-                    fontSize: "0.65rem",
+                    fontSize: "0.75rem",
                     fontFamily: "'SF Mono', 'Monaco', 'Consolas', monospace",
                     color: "rgba(167, 139, 250, 0.6)",
                     fontWeight: 500,
@@ -171,7 +171,7 @@ export default function CustomizedTables(props) {
               <Typography
                 sx={{
                   color: "rgba(148, 163, 184, 0.5)",
-                  fontSize: "0.68rem",
+                  fontSize: "0.78rem",
                   lineHeight: 1.3,
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -191,7 +191,7 @@ export default function CustomizedTables(props) {
                     size="small"
                     sx={{
                       height: 18,
-                      fontSize: "0.58rem",
+                      fontSize: "0.66rem",
                       fontWeight: 600,
                       borderRadius: "4px",
                       backgroundColor: "rgba(99, 102, 241, 0.08)",
@@ -208,11 +208,11 @@ export default function CustomizedTables(props) {
 
         {/* Category */}
         <StyledTableCell>
-          <Typography sx={{ fontWeight: 500, fontSize: "0.75rem", color: "rgba(241, 245, 249, 0.8)", lineHeight: 1.2 }}>
+          <Typography sx={{ fontWeight: 500, fontSize: "0.85rem", color: "rgba(241, 245, 249, 0.8)", lineHeight: 1.2 }}>
             {categoryId}
           </Typography>
           {subCategoryId && (
-            <Typography sx={{ color: "rgba(148, 163, 184, 0.4)", fontSize: "0.65rem" }}>
+            <Typography sx={{ color: "rgba(148, 163, 184, 0.4)", fontSize: "0.75rem" }}>
               {subCategoryId}
             </Typography>
           )}
@@ -232,13 +232,13 @@ export default function CustomizedTables(props) {
               sx={{
                 fontWeight: 600,
                 fontFeatureSettings: "'tnum'",
-                fontSize: "0.75rem",
+                fontSize: "0.85rem",
                 color: "#6ee7b7",
               }}
             >
               {typeof price === "number" && !Number.isNaN(price) ? (
                 <>
-                  <span style={{ opacity: 0.4, fontSize: "0.65rem" }}>$</span>
+                  <span style={{ opacity: 0.4, fontSize: "0.75rem" }}>$</span>
                   {price}
                 </>
               ) : (
@@ -262,7 +262,7 @@ export default function CustomizedTables(props) {
               borderRadius: "6px",
               px: 0.8,
               fontWeight: 700,
-              fontSize: "0.72rem",
+              fontSize: "0.82rem",
               fontFeatureSettings: "'tnum'",
               ...(quantity < 1
                 ? { backgroundColor: "rgba(239, 68, 68, 0.1)", color: "#fca5a5" }
@@ -280,7 +280,7 @@ export default function CustomizedTables(props) {
           {locationId && (
             <Box sx={{ display: "inline-flex", alignItems: "center", gap: 0.3 }}>
               <PlaceIcon sx={{ fontSize: 11, color: "rgba(148, 163, 184, 0.3)" }} />
-              <Typography sx={{ fontSize: "0.68rem", color: "rgba(148, 163, 184, 0.55)" }}>
+              <Typography sx={{ fontSize: "0.78rem", color: "rgba(148, 163, 184, 0.55)" }}>
                 {locationId}
               </Typography>
             </Box>
@@ -366,7 +366,7 @@ export default function CustomizedTables(props) {
                 }
                 label="Price"
                 labelPlacement="start"
-                sx={{ margin: 0, gap: 0, "& .MuiFormControlLabel-label": { fontSize: "0.62rem" } }}
+                sx={{ margin: 0, gap: 0, "& .MuiFormControlLabel-label": { fontSize: "0.7rem" } }}
               />
             </StyledTableCell>
             <StyledTableCell align="center">Qty</StyledTableCell>

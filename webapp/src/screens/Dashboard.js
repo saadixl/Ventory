@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
@@ -7,7 +6,7 @@ import InventoryIcon from "@mui/icons-material/Inventory2";
 import CategoryIcon from "@mui/icons-material/Category";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import Table from "../widgets/Table";
+import ItemCardGrid from "../widgets/ItemCard";
 import Filter from "../widgets/Filter";
 import { getInventoryItems } from "../services/api";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
@@ -200,24 +199,6 @@ function Dashboard() {
   const outOfStock = inventoryItems.filter((i) => (i.quantity || 0) < 1).length;
   const totalValue = inventoryItems.reduce((sum, i) => sum + (i.price || 0) * (i.quantity || 0), 0);
 
-  const tableComp = loading ? (
-    <Box sx={{ p: 3 }}>
-      {[...Array(5)].map((_, i) => (
-        <Skeleton
-          key={i}
-          height={52}
-          sx={{
-            bgcolor: "rgba(148, 163, 184, 0.06)",
-            borderRadius: 1,
-            mb: 1,
-          }}
-        />
-      ))}
-    </Box>
-  ) : (
-    <Table data={filteredItems} setDirtyUpdate={setDirtyUpdate} />
-  );
-
   return (
     <AuthenticatedLayout screenName="Dashboard" activeScreen="dashboard">
       <Box className="animate-fade-in" sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -267,7 +248,7 @@ function Dashboard() {
           </Box>
         </Box>
 
-        {/* Filter Panel (expands below) */}
+        {/* Filter Panel */}
         <Filter
           filterVisible={filterVisible}
           filterOption={filterOption}
@@ -278,37 +259,39 @@ function Dashboard() {
           }}
         />
 
-        {/* Table */}
-        <Box>
-          <Paper
+        {/* Results count */}
+        {!loading && filteredItems.length !== totalItems && (
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <Typography variant="caption" sx={{ color: "text.secondary" }}>
+              Showing {filteredItems.length} of {totalItems} items
+            </Typography>
+          </Box>
+        )}
+
+        {/* Card Grid */}
+        {loading ? (
+          <Box
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              borderRadius: 3,
-              overflow: "hidden",
-              border: "1px solid rgba(148, 163, 184, 0.12)",
+              display: "grid",
+              gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)", lg: "repeat(4, 1fr)" },
+              gap: 2,
             }}
           >
-            {!loading && filteredItems.length !== totalItems && (
-              <Box
+            {[...Array(8)].map((_, i) => (
+              <Skeleton
+                key={i}
+                variant="rounded"
+                height={220}
                 sx={{
-                  px: 2,
-                  py: 1,
-                  background: "rgba(99, 102, 241, 0.05)",
-                  borderBottom: "1px solid rgba(148, 163, 184, 0.08)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
+                  bgcolor: "rgba(148, 163, 184, 0.06)",
+                  borderRadius: "16px",
                 }}
-              >
-                <Typography variant="caption" sx={{ color: "text.secondary" }}>
-                  Showing {filteredItems.length} of {totalItems} items
-                </Typography>
-              </Box>
-            )}
-            {tableComp}
-          </Paper>
-        </Box>
+              />
+            ))}
+          </Box>
+        ) : (
+          <ItemCardGrid data={filteredItems} setDirtyUpdate={setDirtyUpdate} />
+        )}
       </Box>
     </AuthenticatedLayout>
   );
