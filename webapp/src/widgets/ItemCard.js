@@ -104,7 +104,7 @@ function ItemDetailModal({ item, open, onClose, setDirtyUpdate }) {
       fullWidth
       PaperProps={{
         sx: {
-          background: "rgba(10, 15, 26, 0.97)",
+          background: "rgba(30, 41, 59, 0.97)",
           backdropFilter: "blur(20px)",
           border: "1px solid rgba(148, 163, 184, 0.1)",
           borderRadius: 4,
@@ -127,7 +127,7 @@ function ItemDetailModal({ item, open, onClose, setDirtyUpdate }) {
             position: "relative",
           }}
         >
-          <Box sx={{ position: "absolute", top: 8, right: 8, display: "flex", gap: 0.5 }}>
+          <Box sx={{ position: "absolute", top: 16, right: 16, display: "flex", gap: 0.5 }}>
             <ItemMenu data={item} quantity={quantity} setDirtyUpdate={setDirtyUpdate} id={id} />
             <IconButton onClick={onClose} size="small" sx={{ color: "rgba(148, 163, 184, 0.5)" }}>
               <CloseIcon sx={{ fontSize: 18 }} />
@@ -355,8 +355,8 @@ function ItemCard({ item, setDirtyUpdate, onOpenDetail }) {
         display: "flex",
         flexDirection: "column",
         borderRadius: "16px",
-        background: "rgba(10, 15, 26, 0.6)",
-        border: "1px solid rgba(148, 163, 184, 0.08)",
+        background: "rgba(30, 41, 59, 0.5)",
+        border: "1px solid rgba(148, 163, 184, 0.1)",
         overflow: "hidden",
         transition: "all 0.2s ease",
         opacity: quantity < 1 ? 0.5 : 1,
@@ -383,7 +383,6 @@ function ItemCard({ item, setDirtyUpdate, onOpenDetail }) {
           cursor: "pointer",
           "&:hover .category-icon-box": {
             transform: "scale(1.08)",
-            boxShadow: "0 4px 16px rgba(99, 102, 241, 0.2)",
           },
         }}
       >

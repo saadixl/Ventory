@@ -1,69 +1,41 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
-import InventoryIcon from "@mui/icons-material/Inventory2";
-import CategoryIcon from "@mui/icons-material/Category";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import SortIcon from "@mui/icons-material/Sort";
+import CheckIcon from "@mui/icons-material/Check";
+import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/Add";
 import ItemCardGrid from "../widgets/ItemCard";
 import Filter from "../widgets/Filter";
 import { getInventoryItems } from "../services/api";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
 import FilterToggle from "../widgets/FilterToggle";
 
-const StatCard = ({ icon, label, value, color, loading }) => (
-  <Box
-    sx={{
-      display: "flex",
-      alignItems: "center",
-      gap: 1.25,
-      px: 1.5,
-      py: 1,
-      width: "100%",
-      height: "100%",
-      borderRadius: 2,
-      background: "rgba(10, 15, 26, 0.5)",
-      border: "1px solid rgba(148, 163, 184, 0.06)",
-      transition: "all 0.15s ease",
-      "&:hover": {
-        borderColor: `${color}25`,
-        background: "rgba(10, 15, 26, 0.7)",
-      },
-    }}
-  >
-    <Box
-      sx={{
-        width: 32,
-        height: 32,
-        borderRadius: "8px",
-        background: `${color}10`,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexShrink: 0,
-      }}
-    >
-      {icon}
-    </Box>
-    <Box>
-      <Typography
-        sx={{ color: "rgba(148, 163, 184, 0.5)", fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.06em", lineHeight: 1.2 }}
-      >
-        {label}
-      </Typography>
-      {loading ? (
-        <Skeleton width={32} height={20} sx={{ bgcolor: "rgba(148, 163, 184, 0.1)" }} />
-      ) : (
-        <Typography sx={{ fontWeight: 700, color, lineHeight: 1.2, fontSize: "1rem" }}>
-          {value}
-        </Typography>
-      )}
-    </Box>
-  </Box>
-);
+const SORT_OPTIONS = [
+  { value: "default", label: "Default" },
+  { value: "newest-to-oldest", label: "Newest to oldest" },
+  { value: "oldest-to-newest", label: "Oldest to newest" },
+  { value: "price-hi-low", label: "Price high to low" },
+  { value: "price-low-hi", label: "Price low to high" },
+  { value: "qty-hi-low", label: "Qty high to low" },
+  { value: "qty-low-hi", label: "Qty low to high" },
+];
 
 function Dashboard() {
+  const navigate = useNavigate();
+  const searchRef = useRef(null);
   const initialFilterOption = {
     keyword: "",
     brandId: "ALL",
@@ -80,9 +52,9 @@ function Dashboard() {
   const [filterOption, setFilterOption] = useState(cachedFilterOptions);
   const [dirtyUpdate, setDirtyUpdate] = useState(Date.now());
   const [loading, setLoading] = useState(true);
-  const [filterVisible, setFilterVisible] = useState(
-    false || localStorage.getItem("filterVisible"),
-  );
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [sortAnchor, setSortAnchor] = useState(null);
+  const [searchOpen, setSearchOpen] = useState(!!cachedFilterOptions.keyword);
 
   async function fetchInventoryItems() {
     setLoading(true);
@@ -95,15 +67,32 @@ function Dashboard() {
     fetchInventoryItems();
   }, [dirtyUpdate]);
 
+  const updateFilterOptions = (updated) => {
+    setFilterOption(updated);
+    localStorage.setItem("filterOption", JSON.stringify(updated));
+  };
+
+  const handleSearchToggle = () => {
+    if (searchOpen) {
+      const updated = { ...filterOption, keyword: "" };
+      updateFilterOptions(updated);
+      setSearchOpen(false);
+    } else {
+      setSearchOpen(true);
+      setTimeout(() => searchRef.current?.focus(), 100);
+    }
+  };
+
   const filterData = (inventoryItems) => {
     const filteredData = inventoryItems.filter((item) => {
       const createdAtYear = new Date(item.createdTimestamp).getFullYear();
-      if (
-        filterOption.keyword &&
-        filterOption.keyword.trim() !== "" &&
-        !item.name.toLowerCase().includes(filterOption.keyword.toLowerCase().trim())
-      ) {
-        return false;
+      if (filterOption.keyword && filterOption.keyword.trim() !== "") {
+        const kw = filterOption.keyword.toLowerCase().trim();
+        const searchable = [item.name, item.categoryId, item.subCategoryId, item.brandId, item.description, item.config]
+          .map((v) => String(v || "").toLowerCase());
+        if (!searchable.some((s) => s.includes(kw))) {
+          return false;
+        }
       }
       if (
         filterOption.brandId &&
@@ -199,74 +188,208 @@ function Dashboard() {
   const outOfStock = inventoryItems.filter((i) => (i.quantity || 0) < 1).length;
   const totalValue = inventoryItems.reduce((sum, i) => sum + (i.price || 0) * (i.quantity || 0), 0);
 
+  const isFiltered = filteredItems.length !== totalItems;
+
   return (
     <AuthenticatedLayout screenName="Dashboard" activeScreen="dashboard">
       <Box className="animate-fade-in" sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        {/* Stats + Filter Toggle Row */}
-        <Box sx={{ display: "flex", alignItems: "stretch", gap: 1.5, flexWrap: "wrap" }}>
-          <Box sx={{ flex: "1 1 0", minWidth: 140 }}>
-            <StatCard
-              icon={<InventoryIcon sx={{ fontSize: 16, color: "#6366f1" }} />}
-              label="Total Items"
-              value={totalItems}
-              color="#6366f1"
-              loading={loading}
+        {/* Toolbar */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          {/* Left: add button + item count */}
+          <Button
+            onClick={() => navigate("/add-new-item")}
+            size="small"
+            startIcon={<AddIcon sx={{ fontSize: 16 }} />}
+            sx={{
+              textTransform: "none",
+              fontSize: "0.78rem",
+              fontWeight: 600,
+              color: "#818cf8",
+              px: 1.5,
+              py: 0.5,
+              borderRadius: "10px",
+              border: "1px solid rgba(99, 102, 241, 0.25)",
+              backgroundColor: "rgba(99, 102, 241, 0.08)",
+              minHeight: 0,
+              "&:hover": {
+                backgroundColor: "rgba(99, 102, 241, 0.15)",
+                borderColor: "rgba(99, 102, 241, 0.4)",
+              },
+            }}
+          >
+            Add item
+          </Button>
+          {!loading && (
+            <Typography
+              sx={{
+                fontSize: "0.82rem",
+                color: "rgba(148, 163, 184, 0.6)",
+                fontWeight: 500,
+              }}
+            >
+              {isFiltered
+                ? `${filteredItems.length} of ${totalItems} items`
+                : `${totalItems} items`}
+            </Typography>
+          )}
+
+          <Box sx={{ flex: 1 }} />
+
+          {/* Search expandable */}
+          {searchOpen && (
+            <TextField
+              inputRef={searchRef}
+              value={filterOption.keyword || ""}
+              onChange={(e) =>
+                updateFilterOptions({ ...filterOption, keyword: e.target.value })
+              }
+              placeholder="Search items..."
+              variant="outlined"
+              size="small"
+              sx={{
+                width: 220,
+                transition: "width 0.2s ease",
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "10px",
+                  height: 36,
+                  fontSize: "0.82rem",
+                },
+              }}
+              InputProps={{
+                endAdornment: filterOption.keyword ? (
+                  <InputAdornment position="end">
+                    <IconButton
+                      size="small"
+                      onClick={() =>
+                        updateFilterOptions({ ...filterOption, keyword: "" })
+                      }
+                      sx={{ p: 0.25 }}
+                    >
+                      <CloseIcon sx={{ fontSize: 14, color: "rgba(148,163,184,0.4)" }} />
+                    </IconButton>
+                  </InputAdornment>
+                ) : null,
+              }}
             />
-          </Box>
-          <Box sx={{ flex: "1 1 0", minWidth: 140 }}>
-            <StatCard
-              icon={<CategoryIcon sx={{ fontSize: 16, color: "#8b5cf6" }} />}
-              label="Categories"
-              value={uniqueCategories}
-              color="#8b5cf6"
-              loading={loading}
-            />
-          </Box>
-          <Box sx={{ flex: "1 1 0", minWidth: 140 }}>
-            <StatCard
-              icon={<WarningAmberIcon sx={{ fontSize: 16, color: "#f59e0b" }} />}
-              label="Out of Stock"
-              value={outOfStock}
-              color={outOfStock > 0 ? "#f59e0b" : "#10b981"}
-              loading={loading}
-            />
-          </Box>
-          <Box sx={{ flex: "1 1 0", minWidth: 140 }}>
-            <StatCard
-              icon={<AttachMoneyIcon sx={{ fontSize: 16, color: "#10b981" }} />}
-              label="Total Value"
-              value={`$${totalValue.toLocaleString()}`}
-              color="#10b981"
-              loading={loading}
-            />
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
-            <FilterToggle
-              filterVisible={filterVisible}
-              setFilterVisible={setFilterVisible}
-            />
-          </Box>
+          )}
+
+          {/* Search icon */}
+          <Tooltip title={searchOpen ? "Close search" : "Search"} arrow>
+            <IconButton
+              onClick={handleSearchToggle}
+              sx={{
+                width: 36,
+                height: 36,
+                borderRadius: "10px",
+                backgroundColor: (searchOpen || filterOption.keyword)
+                  ? "rgba(99, 102, 241, 0.15)"
+                  : "rgba(148, 163, 184, 0.06)",
+                border: (searchOpen || filterOption.keyword)
+                  ? "1px solid rgba(99, 102, 241, 0.3)"
+                  : "1px solid rgba(148, 163, 184, 0.08)",
+                color: (searchOpen || filterOption.keyword) ? "#818cf8" : "rgba(148, 163, 184, 0.5)",
+                transition: "all 0.15s ease",
+                "&:hover": {
+                  backgroundColor: "rgba(99, 102, 241, 0.2)",
+                  borderColor: "rgba(99, 102, 241, 0.4)",
+                  color: "#a5b4fc",
+                },
+              }}
+            >
+              <SearchIcon sx={{ fontSize: 18 }} />
+            </IconButton>
+          </Tooltip>
+
+          {/* Sort icon */}
+          <Tooltip title="Sort" arrow>
+            <IconButton
+              onClick={(e) => setSortAnchor(e.currentTarget)}
+              sx={{
+                width: 36,
+                height: 36,
+                borderRadius: "10px",
+                backgroundColor: filterOption.sortId !== "default"
+                  ? "rgba(99, 102, 241, 0.15)"
+                  : "rgba(148, 163, 184, 0.06)",
+                border: filterOption.sortId !== "default"
+                  ? "1px solid rgba(99, 102, 241, 0.3)"
+                  : "1px solid rgba(148, 163, 184, 0.08)",
+                color: filterOption.sortId !== "default" ? "#818cf8" : "rgba(148, 163, 184, 0.5)",
+                transition: "all 0.15s ease",
+                "&:hover": {
+                  backgroundColor: "rgba(99, 102, 241, 0.2)",
+                  borderColor: "rgba(99, 102, 241, 0.4)",
+                  color: "#a5b4fc",
+                },
+              }}
+            >
+              <SortIcon sx={{ fontSize: 18 }} />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            anchorEl={sortAnchor}
+            open={Boolean(sortAnchor)}
+            onClose={() => setSortAnchor(null)}
+            PaperProps={{
+              sx: {
+                backgroundColor: "rgba(30, 41, 59, 0.97)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(148, 163, 184, 0.1)",
+                borderRadius: 2,
+                boxShadow: "0 12px 32px rgba(0, 0, 0, 0.4)",
+                minWidth: 200,
+              },
+            }}
+          >
+            {SORT_OPTIONS.map((opt) => (
+              <MenuItem
+                key={opt.value}
+                selected={filterOption.sortId === opt.value}
+                onClick={() => {
+                  updateFilterOptions({ ...filterOption, sortId: opt.value });
+                  setSortAnchor(null);
+                }}
+                sx={{
+                  fontSize: "0.82rem",
+                  py: 0.75,
+                  "&.Mui-selected": {
+                    backgroundColor: "rgba(99, 102, 241, 0.1)",
+                  },
+                }}
+              >
+                {filterOption.sortId === opt.value && (
+                  <ListItemIcon sx={{ minWidth: 28 }}>
+                    <CheckIcon sx={{ fontSize: 16, color: "#818cf8" }} />
+                  </ListItemIcon>
+                )}
+                <ListItemText
+                  inset={filterOption.sortId !== opt.value}
+                  primary={opt.label}
+                />
+              </MenuItem>
+            ))}
+          </Menu>
+
+          {/* Filter icon */}
+          <FilterToggle
+            filterVisible={filterVisible}
+            setFilterVisible={setFilterVisible}
+          />
         </Box>
 
-        {/* Filter Panel */}
+        {/* Filter Modal */}
         <Filter
           filterVisible={filterVisible}
+          setFilterVisible={setFilterVisible}
           filterOption={filterOption}
           setFilterOption={setFilterOption}
           clearFilter={() => {
             setFilterOption(initialFilterOption);
             localStorage.removeItem("filterOption");
           }}
+          stats={{ totalItems, uniqueCategories, outOfStock, totalValue }}
+          loading={loading}
         />
-
-        {/* Results count */}
-        {!loading && filteredItems.length !== totalItems && (
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <Typography variant="caption" sx={{ color: "text.secondary" }}>
-              Showing {filteredItems.length} of {totalItems} items
-            </Typography>
-          </Box>
-        )}
 
         {/* Card Grid */}
         {loading ? (

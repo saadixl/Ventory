@@ -6,8 +6,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import TuneIcon from "@mui/icons-material/Tune";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import SettingsIcon from "@mui/icons-material/Settings";
 import Toolbar from "@mui/material/Toolbar";
 import MuiDrawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -137,34 +136,18 @@ const NavItems = (props) => {
 
       <StyledListItemButton
         component={Link}
-        to="/inventory-settings"
-        active={isActive("inventorysettings")}
+        to="/settings"
+        active={isActive("settings")}
         open={open}
       >
         <ListItemIcon
           sx={{
-            color: !open && isActive("inventorysettings") ? "#6366f1" : "inherit",
+            color: !open && isActive("settings") ? "#6366f1" : "inherit",
           }}
         >
-          <TuneIcon />
+          <SettingsIcon />
         </ListItemIcon>
-        <ListItemText primary="Inventory settings" />
-      </StyledListItemButton>
-
-      <StyledListItemButton
-        component={Link}
-        to="/account-settings"
-        active={isActive("accountsettings")}
-        open={open}
-      >
-        <ListItemIcon
-          sx={{
-            color: !open && isActive("accountsettings") ? "#6366f1" : "inherit",
-          }}
-        >
-          <ManageAccountsIcon />
-        </ListItemIcon>
-        <ListItemText primary="Account settings" />
+        <ListItemText primary="Settings" />
       </StyledListItemButton>
     </React.Fragment>
   );

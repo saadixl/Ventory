@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Dashboard from "./screens/Dashboard";
 import AddNewItem from "./screens/AddNewItem";
-import InventorySettings from "./screens/InventorySettings";
-import AccountSettings from "./screens/AccountSettings";
+import Settings from "./screens/Settings";
 import EditItem from "./screens/EditItem";
 
 function App() {
@@ -18,12 +17,8 @@ function App() {
       component: AddNewItem,
     },
     {
-      path: "/inventory-settings",
-      component: InventorySettings,
-    },
-    {
-      path: "/account-settings",
-      component: AccountSettings,
+      path: "/settings",
+      component: Settings,
     },
     {
       path: "/edit-item/:id",
