@@ -347,7 +347,7 @@ function ItemDetailModal({ item, open, onClose, setDirtyUpdate }) {
 // ── Simplified Card ──
 
 function ItemCard({ item, setDirtyUpdate, onOpenDetail }) {
-  const { name, categoryId, locationId, createdTimestamp, quantity = 0, id } = item;
+  const { name, categoryId, createdTimestamp, quantity = 0, id, brandId } = item;
 
   return (
     <Box
@@ -392,7 +392,7 @@ function ItemCard({ item, setDirtyUpdate, onOpenDetail }) {
         </Box>
       </Box>
 
-      {/* Name */}
+      {/* Name + Brand */}
       <Box sx={{ px: 2, pb: 1 }}>
         <Typography
           sx={{
@@ -410,6 +410,21 @@ function ItemCard({ item, setDirtyUpdate, onOpenDetail }) {
         >
           {name}
         </Typography>
+        {isValidText(brandId) && (
+          <Typography
+            sx={{
+              fontSize: "0.68rem",
+              fontWeight: 600,
+              color: "#a5b4fc",
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              textAlign: "center",
+              mt: 0.5,
+            }}
+          >
+            {brandId}
+          </Typography>
+        )}
       </Box>
 
       {/* Spacer */}
@@ -443,28 +458,22 @@ function ItemCard({ item, setDirtyUpdate, onOpenDetail }) {
           <Box />
         )}
 
-        {isValidText(locationId) && (
-          <Box sx={{ display: "inline-flex", alignItems: "center", gap: 0.3 }}>
-            <PlaceIcon sx={{ fontSize: 10, color: "rgba(148, 163, 184, 0.3)" }} />
-            <Typography sx={{ fontSize: "0.65rem", color: "rgba(148, 163, 184, 0.4)" }}>
-              {locationId}
-            </Typography>
-          </Box>
+        {createdTimestamp && (
+          <Typography
+            sx={{
+              fontSize: "0.65rem",
+              fontWeight: 500,
+              color: "rgba(148, 163, 184, 0.4)",
+              fontFeatureSettings: "'tnum'",
+            }}
+          >
+            {new Date(createdTimestamp).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </Typography>
         )}
-      </Box>
-
-      {/* Date row */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          px: 2,
-          py: 0.75,
-          borderTop: "1px solid rgba(148, 163, 184, 0.04)",
-          background: "rgba(2, 6, 23, 0.2)",
-        }}
-      >
-        <DateTimeLabel timestamp={createdTimestamp} />
       </Box>
     </Box>
   );
