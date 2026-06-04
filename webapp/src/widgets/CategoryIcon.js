@@ -22,8 +22,10 @@ import LaptopIcon from "@mui/icons-material/Laptop";
 import BackpackIcon from "@mui/icons-material/Backpack";
 import HomeIcon from "@mui/icons-material/Home";
 import DiamondIcon from "@mui/icons-material/Diamond";
+import EditIcon from "@mui/icons-material/Edit";
 
 const CATEGORY_MAP = [
+  { keywords: ["pen", "fountain pen", "ballpoint", "stationery", "writing"], icon: EditIcon, color: "#64748b" },
   { keywords: ["watch", "timepiece", "horology"], icon: WatchIcon, color: "#f59e0b" },
   { keywords: ["photo", "camera", "lens", "tripod"], icon: CameraAltIcon, color: "#06b6d4" },
   { keywords: ["audio", "headphone", "speaker", "earphone", "earbuds"], icon: HeadphonesIcon, color: "#a855f7" },
@@ -49,19 +51,27 @@ const CATEGORY_MAP = [
   { keywords: ["personal", "care", "beauty", "hygiene"], icon: SelfImprovementIcon, color: "#14b8a6" },
 ];
 
-function resolveIcon(categoryName) {
-  if (!categoryName) return { Icon: Inventory2Icon, color: "#6366f1" };
-  const lower = categoryName.toLowerCase();
+function matchCategory(name) {
+  if (!name) return null;
+  const lower = name.toLowerCase();
   for (const entry of CATEGORY_MAP) {
     if (entry.keywords.some((kw) => lower.includes(kw))) {
       return { Icon: entry.icon, color: entry.color };
     }
   }
-  return { Icon: Inventory2Icon, color: "#6366f1" };
+  return null;
 }
 
-export default function CategoryIcon({ categoryName, size = "md" }) {
-  const { Icon: DisplayIcon, color: displayColor } = resolveIcon(categoryName);
+function resolveIcon(categoryName, subCategoryName) {
+  return (
+    matchCategory(subCategoryName) ||
+    matchCategory(categoryName) ||
+    { Icon: Inventory2Icon, color: "#6366f1" }
+  );
+}
+
+export default function CategoryIcon({ categoryName, subCategoryName, size = "md" }) {
+  const { Icon: DisplayIcon, color: displayColor } = resolveIcon(categoryName, subCategoryName);
 
   const sizes = {
     sm: { box: 40, icon: 20, radius: "12px" },

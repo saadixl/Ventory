@@ -15,6 +15,7 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import CategoryIcon from "./CategoryIcon";
 import DateTimeLabel from "./DateTimeLabel";
 import ItemMenu from "./ItemMenu";
@@ -77,6 +78,7 @@ function ItemDetailModal({ item, open, onClose, setDirtyUpdate }) {
     description,
     price,
     quantity = 0,
+    subCategoryId,
     brandId,
     id,
     isGift,
@@ -134,7 +136,7 @@ function ItemDetailModal({ item, open, onClose, setDirtyUpdate }) {
             </IconButton>
           </Box>
 
-          <CategoryIcon categoryName={categoryId} size="xl" />
+          <CategoryIcon categoryName={categoryId} subCategoryName={subCategoryId} size="xl" />
 
           {isValidText(brandId) && (
             <Typography
@@ -195,7 +197,7 @@ function ItemDetailModal({ item, open, onClose, setDirtyUpdate }) {
             </>
           )}
 
-          {/* Category & Location row */}
+          {/* Category, Sub-category & Location row */}
           <Box sx={{ display: "flex", gap: 3 }}>
             {isValidText(categoryId) && (
               <Box sx={{ flex: 1 }}>
@@ -205,6 +207,18 @@ function ItemDetailModal({ item, open, onClose, setDirtyUpdate }) {
                 >
                   <Typography sx={{ fontSize: "0.85rem", color: "#f1f5f9", fontWeight: 500 }}>
                     {categoryId}
+                  </Typography>
+                </DetailRow>
+              </Box>
+            )}
+            {isValidText(subCategoryId) && (
+              <Box sx={{ flex: 1 }}>
+                <DetailRow
+                  icon={<AccountTreeIcon sx={{ fontSize: 16, color: "rgba(148, 163, 184, 0.5)" }} />}
+                  label="Sub-category"
+                >
+                  <Typography sx={{ fontSize: "0.85rem", color: "#f1f5f9", fontWeight: 500 }}>
+                    {subCategoryId}
                   </Typography>
                 </DetailRow>
               </Box>
@@ -347,7 +361,7 @@ function ItemDetailModal({ item, open, onClose, setDirtyUpdate }) {
 // ── Simplified Card ──
 
 function ItemCard({ item, setDirtyUpdate, onOpenDetail }) {
-  const { name, categoryId, createdTimestamp, quantity = 0, id, brandId } = item;
+  const { name, categoryId, subCategoryId, createdTimestamp, quantity = 0, id, brandId } = item;
 
   return (
     <Box
@@ -387,7 +401,7 @@ function ItemCard({ item, setDirtyUpdate, onOpenDetail }) {
         }}
       >
         <Box className="category-icon-box" sx={{ transition: "all 0.2s ease" }}>
-          <CategoryIcon categoryName={categoryId} size="xl" />
+          <CategoryIcon categoryName={categoryId} subCategoryName={subCategoryId} size="xl" />
         </Box>
       </Box>
 
